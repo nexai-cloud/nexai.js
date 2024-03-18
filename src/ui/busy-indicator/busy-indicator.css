@@ -1,0 +1,48 @@
+.typing-busy-indicator {
+  display: inline-block;
+}
+
+.typing-text {
+  display: inline-block;
+  vertical-align: middle;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0.2;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.2;
+  }
+}
+
+.dot-1, .dot-2, .dot-3 {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background-color: #fff;
+  border-radius: 50%;
+  margin-left: 4px;
+  animation: dot-animation 1.5s infinite;
+}
+
+.dot-2 {
+  animation-delay: 0.5s;
+}
+
+.dot-3 {
+  animation-delay: 1s;
+}
+
+@keyframes dot-animation {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}

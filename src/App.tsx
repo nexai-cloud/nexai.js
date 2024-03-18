@@ -3,6 +3,7 @@ import './App.css'
 import { getSocket } from './lib/socket'
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
+import { NexaiChatBubble } from './chat-bubble'
 
 const msgs = observable<string>([])
 
@@ -73,6 +74,8 @@ export const App = observer(() => {
           Send
         </button>
       </div>
+
+      <NexaiChatBubble />
     </div>
   )
 })
