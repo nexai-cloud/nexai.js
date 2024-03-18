@@ -12,9 +12,12 @@ const addMsg = action((msg: string) => {
 
 export const App = observer(() => {
   const [input, setInput] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const loaded = useRef(false)
   const socket = getSocket()
+
+  useEffect(() => inputRef.current?.focus())
 
   const onChat = (msg: string) => {
     console.log('msg', msg, msgs)
@@ -44,23 +47,32 @@ export const App = observer(() => {
   }
 
   return (
-    <>
-      <h1>Chat</h1>
-      <div className="card">
+    <div className='flex-col align-middle items-center'>
+      <h1 className="text-3xl font-bold">
+        Chat
+      </h1>
+      <div className='flex-col space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
+          {
+            msgs.map((msg, index) => (
+              <p key={index} className='p-2 border rounded-xl'>{msg}</p>
+            ))
+          }
+        </div>
+      <div className="flex space-x-2 w-full">
         <input
+          ref={inputRef}
           value={input}
           onChange={onInputChange}
           onKeyDown={onInputKey}
+          className='border p-2 rounded-lg flex-1'
         />
-        <button onClick={onClick}>
+        <button
+          className='px-4 py-2 border shadow rounded-lg'
+          onClick={onClick}
+        >
           Send
         </button>
-        {
-          msgs.map((msg, index) => (
-            <p key={index}>{msg}</p>
-          ))
-        }
       </div>
-    </>
+    </div>
   )
 })
