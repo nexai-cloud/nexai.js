@@ -19,7 +19,11 @@ import { getEnv } from './lib/env';
 
 const nexaiApiKey = getEnv('NEXT_PUBLIC_NEXAI_API_KEY')
 
-export const NexaiChatBubble = observer(() => {
+export const NexaiChatBubble = observer(({
+  width = 340
+}: {
+  width?: number
+}) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
   )
@@ -234,7 +238,7 @@ export const NexaiChatBubble = observer(() => {
     <div
       className="max-w-[100wh] nexai-chat-bubble pt-0 flex flex-col gap-4 rounded-lg"
       style={{
-        width: 340
+        width
       }}
     >
       {

@@ -8,7 +8,7 @@ export const NexaiChatThread = ({
   thread: ChatThread
 }) => {
   return (
-    <div className={`chat-thread ${thread.userUid === 'bot' ? 'bg-gradient-to-bl from-sky-100 to-white border-t-sky-300' : ' bg-white border-t-green-300'} ${thread.hide ? 'opacity-0' : ''} opacity-1 transition-opacity duration-300 pb-4 mt-4 relative font-medium subpixel-antialiased border rounded-lg rounded-bl-none shadow-lg p-1 `}
+    <div className={`chat-thread text-left ${thread.userUid === 'bot' ? 'bg-gradient-to-bl from-sky-100 to-white border-t-sky-300' : ' bg-white border-t-green-300'} ${thread.hide ? 'opacity-0' : ''} opacity-1 transition-opacity duration-300 pb-4 mt-4 relative font-medium subpixel-antialiased border rounded-lg rounded-bl-none shadow-lg p-1 `}
       style={{
         fontSize: 14
       }}

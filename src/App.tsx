@@ -75,7 +75,13 @@ export const App = observer(() => {
         </button>
       </div>
 
-      <NexaiChatBubble />
+      <div className="fixed bottom-50 right-10 z-50"
+        style={{
+          bottom: 140
+        }}
+      >
+        <NexaiChatBubble width={400} />
+      </div>
     </div>
   )
 })

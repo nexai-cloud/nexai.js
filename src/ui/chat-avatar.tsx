@@ -12,7 +12,7 @@ export const ChatAvatar = ({ src = undefined, name = '' }) => (
 export const BotAvatar = () => (
   <div className="transform scale-x-[-1]">
     <img
-      src={'/logo/round.png'}
+      src={'/logo/nexai-logo-round.svg'}
       width={50}
       height={50}
       alt="Logo Chat Assistant"
