@@ -28,6 +28,7 @@ export const NexaiChatBubble = observer(({
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
   )
   const [isSpeechInput, setIsSpeechInut] = useState(false)
+  const chatInputRef = useRef<HTMLInputElement>(null)
   const [chatInput, setChatInput] = useState('')
   const [talking, setTalking] = useState(false)
   const [hasRecognition, setHasRecognition] = useState(false)
@@ -73,6 +74,9 @@ export const NexaiChatBubble = observer(({
   const toggleChat = () => {
     setIsShowChat(!isShowChat)
     localStorage.setItem('isShowChat', !isShowChat ? '1' : '')
+    if (!isShowChat) {
+      setTimeout(() => chatInputRef.current?.focus(), 50)
+    }
   }
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChatInput(event.target.value)
@@ -188,12 +192,13 @@ export const NexaiChatBubble = observer(({
     speechSynthesis.speak(utter)
     console.log('utter', text)
   }
+  synthVoice; // @todo
 
   const startSpeechRecognition = () => {
     if (hasSpeechRecognition()) {
       const recognition = getSpeechRecognition()
 
-      // recognition.continuous = true
+      // recognition.continuous = true // @todo
 
       recognition.addEventListener('speechstart', () => {
         console.log('Speech started...:');
@@ -256,7 +261,14 @@ export const NexaiChatBubble = observer(({
                 }
               </div>
             </div>
-            <div className="bubble-input text-slate-800">
+            <div className="bubble-input relative text-slate-800">
+            <div className="top-1 absolute"
+              style={{ left: -75 }}
+            >
+              {
+                getChatUser().avatar
+              }
+            </div>
               <div className="flex align-middle border rounded-lg shadow-lg p-1 bg-white">
                 {
                   !isSpeechInput ? (
@@ -267,6 +279,7 @@ export const NexaiChatBubble = observer(({
                         onChange={onInputChange}
                         onKeyDown={onInputKeyDown}
                         value={chatInput}
+                        ref={chatInputRef}
                       />
                       <div className="flex">
                         {
