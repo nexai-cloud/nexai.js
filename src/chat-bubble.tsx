@@ -17,7 +17,7 @@ import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests
 import { getClientSession } from './lib/session/chat-session';
 import { getEnv } from './lib/env';
 
-const nexaiApiKey = getEnv('NEXT_PUBLIC_NEXAI_API_KEY')
+const nexaiApiKey = getEnv('VITE_NEXAI_API_KEY')
 
 export const NexaiChatBubble = observer(({
   width = 340

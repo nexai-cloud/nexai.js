@@ -1,6 +1,6 @@
 import { getEnv } from "~/lib/env";
 
-const apiBase = getEnv('NEXAI_API_URL')
+const apiBase = getEnv('VITE_NEXAI_API_URL')
 
 export const sendAiChat = async ({
   message,
@@ -15,7 +15,7 @@ export const sendAiChat = async ({
 }) => {
   try {
 
-    const apiUrl = `${apiBase}/${projectId}/chat`
+    const apiUrl = `${apiBase}/chat/`
 
     console.log('send', {
       message,
@@ -24,21 +24,24 @@ export const sendAiChat = async ({
       name
     })
     
-
     const resp = await fetch(apiUrl, {
       method: 'POST',
+      mode: "cors",
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         message,
-        session_id: sessionId,
-        app_id: projectId
+        sessionId,
+        projectId,
+        name
       })
     });
     console.log('fetch', apiUrl, {
       message,
-      session_id: sessionId
+      sessionId,
+      projectId,
+      name
     })
     if (resp.ok) {
       const data = await resp.json();
