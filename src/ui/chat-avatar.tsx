@@ -1,10 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 
+const getInitials = (name: string) => {
+  return name.split(' ').map(c => c[0]).join('').substring(0, 2)
+}
+
 export const ChatAvatar = ({ src = undefined, name = '' }) => (
   <div className="rounded-full shadow border">
     <Avatar>
       <AvatarImage src={src} alt={name} />
-      <AvatarFallback>{name}</AvatarFallback>
+      <AvatarFallback>{getInitials(name)}</AvatarFallback>
     </Avatar>
   </div>
 )

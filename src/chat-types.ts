@@ -18,3 +18,17 @@ export type ChatMessage = {
   message: React.ReactNode;
   sources?: string[];
 }
+
+export type NexaiChatMessage = {
+  id: string;
+  sessionId: string;
+  fromName: string;
+  toName: string;
+  message: string;
+  projectId: string;
+  appId: string;
+  createdAt: string;
+  updatedAt: string;
+  fromAvatar: string;
+  fromType: string;
+}

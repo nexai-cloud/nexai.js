@@ -4,9 +4,9 @@ import "./ui/busy-indicator/busy-indicator.css"
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircleHeartIcon, MicIcon, SendIcon, } from "lucide-react";
 import { NexaiChatThread } from "./ui/chat-thread";
-import { type ChatMessage, type ChatUser } from "./chat-types";
+import { NexaiChatMessage, type ChatMessage, type ChatUser } from "./chat-types";
 import { aiThreads, aiUser } from "./chat-data";
-import { ChatAvatar } from "./ui/chat-avatar";
+import { BotAvatar, ChatAvatar } from "./ui/chat-avatar";
 import { sendAiChat } from "./server/query";
 import { ChatThreads } from "./models/chat-threads";
 import { ChatBusyIndicator } from './ui/busy-indicator/busy-indicator';
@@ -16,8 +16,11 @@ import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recogni
 import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests';
 import { getClientSession } from './lib/session/chat-session';
 import { getEnv } from './lib/env';
+import { listenSSE } from './lib/sse/listen-sse';
 
 const nexaiApiKey = getEnv('VITE_NEXAI_API_KEY')
+const nexaiApiUrl = getEnv('VITE_NEXAI_API_URL')
+
 
 export const NexaiChatBubble = observer(({
   width = 340
@@ -35,11 +38,48 @@ export const NexaiChatBubble = observer(({
   const [suggests, setSuggests] = useState<string[]>([])
   
   const isSuggestLoaded = useRef(false)
+  const isSSELoaded = useRef(false)
 
   const threadsRef = useRef<HTMLDivElement>(null)
   const sessionRef = useRef(getClientSession())
 
   const threads = ChatThreads
+
+  useEffect(() => {
+    if (isSSELoaded.current) return
+    isSSELoaded.current = true
+
+    const addChatMessageToThread = async (data: NexaiChatMessage) => {
+      if (data.fromType === 'support') {
+        addChat({
+          message: data.message,
+          sources: [] // @todo
+        }, {
+          name: data.fromName,
+          userUid: data.sessionId,
+          avatar: data.fromName === 'nexai' ? (
+            <BotAvatar />
+          ) : (
+            <ChatAvatar name={data.fromName} />
+          )
+        })
+      }
+    }
+
+    const listen = async () => {
+      console.log('listening sse')
+      listenSSE(
+        `${nexaiApiUrl}/sse/?projectId=${nexaiApiKey}&sessionKey=${sessionRef.current.sessionId}`, 
+        (event) => {
+          const data = event.data
+          console.log('sse data', data)
+          addChatMessageToThread(data as NexaiChatMessage)
+        }
+      )
+    }
+    listen()
+    
+  })
 
   useEffect(() => {
     setHasRecognition(hasSpeechRecognition())
@@ -63,11 +103,10 @@ export const NexaiChatBubble = observer(({
 
   const getChatUser = useCallback(() => {
     const { name, sessionId } = sessionRef.current
-    const initials = name.split(' ')[0][0]
     return {
       name,
       userUid: sessionId,
-      avatar: <ChatAvatar name={initials} />,
+      avatar: <ChatAvatar name={name} />,
     }
   }, [sessionRef])
 
@@ -111,7 +150,7 @@ export const NexaiChatBubble = observer(({
       message: text,
       sessionId: sessionRef.current.sessionId,
       projectId: nexaiApiKey!,
-      name: sessionRef.current.name
+      name: sessionRef.current.name,
     })
     console.log('apiResp', apiResp)
     const prevThread = threads.find(thread => thread.uid === uid)
@@ -127,6 +166,25 @@ export const NexaiChatBubble = observer(({
     console.log('resp', resp)
     return resp
   }, [threads, scrollToBottom])
+
+  const addChat = (chatMessage: ChatMessage, user: ChatUser) => {
+    const existingThreads = [ ...threads ]
+      const prevThread = existingThreads[threads.length-1]
+      if (prevThread?.userUid !== user.userUid || prevThread?.messages.length > 3) {
+        const thread = {
+          ...user,
+          uid: String(Date.now()),
+          hide: false,
+          date: new Date(),
+          messages: [
+            chatMessage
+          ]
+        }
+        threads.push(thread)
+      } else {
+        prevThread.messages.push(chatMessage)
+      }
+  }
   
   const sendChat = useCallback((chatMessage: ChatMessage, user: ChatUser) => {
     try {
@@ -144,22 +202,7 @@ export const NexaiChatBubble = observer(({
           }), aiUser)
         }, 500)
       }
-      const existingThreads = [ ...threads ]
-      const prevThread = existingThreads[threads.length-1]
-      if (prevThread?.userUid !== user.userUid || prevThread?.messages.length > 3) {
-        const thread = {
-          ...user,
-          uid: String(Date.now()),
-          hide: false,
-          date: new Date(),
-          messages: [
-            chatMessage
-          ]
-        }
-        threads.push(thread)
-      } else {
-        prevThread.messages.push(chatMessage)
-      }
+      addChat(chatMessage, user)
       if (user.userUid !== 'bot') {
         setChatInput('')
       }
