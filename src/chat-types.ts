@@ -29,6 +29,6 @@ export type NexaiChatMessage = {
   appId: string;
   createdAt: string;
   updatedAt: string;
-  fromAvatar: string;
+  avatarUrl: string;
   fromType: string;
 }

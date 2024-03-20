@@ -60,7 +60,10 @@ export const NexaiChatBubble = observer(({
           avatar: data.fromName === 'nexai' ? (
             <BotAvatar />
           ) : (
-            <ChatAvatar name={data.fromName} />
+            <ChatAvatar
+              src={data.avatarUrl}
+              name={data.fromName}
+            />
           )
         })
       }
