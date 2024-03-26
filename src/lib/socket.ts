@@ -1,7 +1,6 @@
-import { type Socket } from "socket.io";
 import io from 'socket.io-client'
 
-let socket: Socket
+let socket: ReturnType<typeof io>
 
 export const getSocket = () => {
   if (!socket) {
