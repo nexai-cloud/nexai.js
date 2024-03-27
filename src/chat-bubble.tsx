@@ -15,17 +15,17 @@ import './ui/wave-form/wave-form.css'
 import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recognition';
 import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests';
 import { getClientSession } from './lib/session/chat-session';
-import { getEnv } from './lib/env';
 import { listenSSE } from './lib/sse/listen-sse';
-
-const nexaiApiKey = getEnv('VITE_NEXAI_API_KEY')
-const nexaiApiUrl = getEnv('VITE_NEXAI_API_URL')
 
 
 export const NexaiChatBubble = observer(({
-  width = 340
+  width = 340,
+  nexaiApiKey,
+  nexaiApiUrl,
 }: {
-  width?: number
+  width?: number;
+  nexaiApiKey: string;
+  nexaiApiUrl: string;
 }) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
@@ -150,6 +150,7 @@ export const NexaiChatBubble = observer(({
     threads.push(thread)
     scrollToBottom()
     const apiResp = await sendAiChat({
+      nexaiApiUrl,
       message: text,
       sessionId: sessionRef.current.sessionId,
       projectId: nexaiApiKey!,

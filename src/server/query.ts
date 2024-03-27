@@ -1,13 +1,12 @@
-import { getEnv } from "~/lib/env";
-
-const apiBase = getEnv('VITE_NEXAI_API_URL')
 
 export const sendAiChat = async ({
+  nexaiApiUrl,
   message,
   sessionId,
   projectId,
   name,
 }: {
+  nexaiApiUrl: string;
   message: string,
   sessionId: string,
   projectId: string,
@@ -15,7 +14,7 @@ export const sendAiChat = async ({
 }) => {
   try {
 
-    const apiUrl = `${apiBase}/chat/`
+    const apiUrl = `${nexaiApiUrl}/chat/`
 
     console.log('send', {
       message,

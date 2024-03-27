@@ -11,6 +11,9 @@ const addMsg = action((msg: string) => {
   msgs.push(msg)
 })
 
+const nexaiApiKey = 'http://localhost:3000/api/nexai'
+const nexaiApiUrl = 'clt7dknjo0003nn519ik7ia2g'
+
 export const App = observer(() => {
   const [input, setInput] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
@@ -80,7 +83,11 @@ export const App = observer(() => {
           bottom: 140
         }}
       >
-        <NexaiChatBubble width={400} />
+        <NexaiChatBubble
+          width={400}
+          nexaiApiKey={nexaiApiKey}
+          nexaiApiUrl={nexaiApiUrl}
+        />
       </div>
     </div>
   )
