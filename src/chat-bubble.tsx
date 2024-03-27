@@ -214,7 +214,7 @@ export const NexaiChatBubble = observer(({
     } catch(e) {
       alert('Failed to send your chat')
     }
-  }, [threads, scrollToBottom, addAIChat, isSpeechInput])
+  }, [scrollToBottom, addAIChat, isSpeechInput, addChat])
 
   const onClickSuggest = useCallback((message: string) => {
     sendChat({ message }, getChatUser())
@@ -417,3 +417,6 @@ export const NexaiChatBubble = observer(({
     </div>
   )
 });
+
+// @ts-expect-error global
+window.NexaiChatBubble = NexaiChatBubble
