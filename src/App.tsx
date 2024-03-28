@@ -12,7 +12,7 @@ const addMsg = action((msg: string) => {
 })
 
 const nexaiApiUrl = 'http://localhost:3000/api/nexai'
-const nexaiApiKey = 'clt7dknjo0003nn519ik7ia2g'
+const nexaiApiKey = 'clu8hm40800004vzfocfds9xa'
 
 export const App = observer(() => {
   const [input, setInput] = useState('')
