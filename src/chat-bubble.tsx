@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import "./chat-bubble.css"
+import "./index.css"
 import "./ui/busy-indicator/busy-indicator.css"
 import { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircleHeartIcon, MicIcon, SendIcon, } from "lucide-react";

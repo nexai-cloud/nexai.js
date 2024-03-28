@@ -20,7 +20,7 @@ const ResizablePanelGroup = ({
 
 const ResizablePanel = ResizablePrimitive.Panel
 
-const ResizableHandle = ({
+const ResizableHandle: React.FC = ({
   withHandle,
   className,
   ...props

@@ -5,15 +5,29 @@
     <link rel="icon" type="image/svg+xml" href="/logo/nexai-logo-round.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Nexai Chat</title>
-    <link rel="stylesheet" type="text/css" href="/dist/style.css" />
+    
   </head>
   <body>
-    <div id="root"></div>
-    <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/mobx@6.12.1/dist/mobx.umd.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/mobx-react-lite@3.4.1/dist/mobxreactlite.umd.production.min.js"></script>
+      <div id="nexai-chat-bubble" style="position: absolute;bottom:15px;right:15px;"></div>
+      <div id="root"></div>
+
+      <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+      <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+      <script crossorigin src="https://unpkg.com/mobx@6.12.1/dist/mobx.umd.production.min.js"></script>
+      <script crossorigin src="https://unpkg.com/mobx-react-lite@3.4.1/dist/mobxreactlite.umd.production.min.js"></script>
     
-    <script type="module" src="/dist/chat-bubble.umd.js"></script>
+      <script src="/dist/chat-bubble.umd.js"></script>
+      <script>
+        const nexaiApiUrl = 'http://localhost:3000/api/nexai'
+        const nexaiApiKey = 'clt7dknjo0003nn519ik7ia2g'
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const props = { width: 380, nexaiApiUrl, nexaiApiKey }
+          ReactDOM.render(
+            React.createElement(NexaiChatBubble, props), 
+            document.querySelector('#nexai-chat-bubble')
+          )
+        })
+      </script>
   </body>
 </html>

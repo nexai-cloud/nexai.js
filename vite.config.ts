@@ -2,44 +2,52 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { resolve } from 'path'
 import tsconfigPaths from "vite-tsconfig-paths";
+import { libInjectCss } from 'vite-plugin-lib-inject-css';
+import tailwindcss from 'tailwindcss';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  define: {global: 'window'},
-  plugins: [react(), tsconfigPaths()],
+  define: {
+    global: 'window',
+    'process.env.NODE_ENV': '"production"', 
+  },
+  plugins: [
+    react(), 
+    tsconfigPaths(),
+    libInjectCss(),
+  ],
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: [
-        resolve(__dirname, 'src/chat-bubble.tsx')
+        resolve(__dirname, 'src/chat-bubble.tsx'),
+        // resolve(__dirname, 'src/App.tsx')
       ],
       name: 'nexai-chat',
       // the proper extensions will be added
       fileName: (type: string, name: string) => {
-        return type === 'es' ? `${name}.js` : `${name}.${type}.js`
+        return `${name}.${type}.js`
       },
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
       external: [
+        // 'react/jsx-runtime',
         'react',
+        'react-dom',
         'mobx',
         'mobx-react-lite'
-      ],
-      output: {
-        globals: {
-          react: 'React',
-          mobx: 'Mobx',
-          'mobx-react-lite': 'MobxReactLite'
-        }
-      }
+      ]
     },
   },
   server: {
     port: Number(process.env.PORT) || 8080
   },
   css: {
+    postcss: {
+      plugins: [tailwindcss],
+    },
     modules: {
       localsConvention: 'camelCase' // Enable CSS Modules
     }
