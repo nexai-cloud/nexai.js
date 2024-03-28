@@ -6,12 +6,12 @@ type NexaiSession = {
   isShowChat: boolean;
 }
 
-export const getClientSession = (): NexaiSession => {
+export const getClientSession = (apiKey: string): NexaiSession => {
   if (typeof window !== "undefined") {
-    let session =  fetchSession()
+    let session =  fetchSession(apiKey)
     if (!session) {
       session = createSession()
-      setClientSession(session)
+      setClientSession(apiKey, session)
     }
     return session
   } else {
@@ -27,14 +27,14 @@ export const createSession = (): NexaiSession => {
   }
 }
 
-export const fetchSession = (): NexaiSession|undefined => {
-  const session =  window.localStorage.nexaiSession
+export const fetchSession = (apiKey: string): NexaiSession|undefined => {
+  const session =  window.localStorage.getItem('nexai-session-' + apiKey)
   if (session) {
     return JSON.parse(session)
   }
 }
 
-export const setClientSession = (session: NexaiSession) => {
+export const setClientSession = (apiKey: string, session: NexaiSession) => {
   const json = JSON.stringify(session)
-  window.localStorage.setItem('nexaiSession', json)
+  window.localStorage.setItem('nexai-session-' + apiKey, json)
 }
