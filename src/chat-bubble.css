@@ -9,6 +9,7 @@
 
 .bubble-thread-box {
   max-height: calc(100vh - 182px);
+  mask-image: linear-gradient(to top,white 60%, transparent);
 }
 
 .nexai-chat-bubble .chat-thread:first-child {
