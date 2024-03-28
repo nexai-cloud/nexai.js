@@ -78,6 +78,7 @@ export const NexaiChatBubble = observer(({
           const data = event.data
           console.log('sse data', data)
           addChatMessageToThread(data as NexaiChatMessage)
+          setTimeout(() => scrollToBottom(), 50)
         }
       )
     }
@@ -118,7 +119,10 @@ export const NexaiChatBubble = observer(({
     setIsShowChat(!isShowChat)
     localStorage.setItem('isShowChat', !isShowChat ? '1' : '')
     if (!isShowChat) {
-      setTimeout(() => chatInputRef.current?.focus(), 50)
+      setTimeout(() => {
+        chatInputRef.current?.focus()
+        scrollToBottom()
+      }, 50)
     }
   }
   const onInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -170,9 +174,9 @@ export const NexaiChatBubble = observer(({
     }
     console.log('resp', resp)
     return resp
-  }, [threads, scrollToBottom])
+  }, [threads, scrollToBottom, nexaiApiKey, nexaiApiUrl])
 
-  const addChat = (chatMessage: ChatMessage, user: ChatUser) => {
+  const addChat = useCallback((chatMessage: ChatMessage, user: ChatUser) => {
     const existingThreads = [ ...threads ]
       const prevThread = existingThreads[threads.length-1]
       if (prevThread?.userUid !== user.userUid || prevThread?.messages.length > 3) {
@@ -189,7 +193,7 @@ export const NexaiChatBubble = observer(({
       } else {
         prevThread.messages.push(chatMessage)
       }
-  }
+  }, [threads])
   
   const sendChat = useCallback((chatMessage: ChatMessage, user: ChatUser) => {
     try {
@@ -310,7 +314,7 @@ export const NexaiChatBubble = observer(({
               </div>
             </div>
             <div className="bubble-input relative text-slate-800">
-            <div className="top-1 absolute"
+            <div className="top-1 absolute text-sm text-slate-500"
               style={{ left: -75 }}
             >
               {
