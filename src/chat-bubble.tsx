@@ -42,7 +42,7 @@ export const NexaiChatBubble = observer(({
   const isSSELoaded = useRef(false)
 
   const threadsRef = useRef<HTMLDivElement>(null)
-  const sessionRef = useRef(getClientSession())
+  const sessionRef = useRef(getClientSession(nexaiApiKey))
 
   const threads = ChatThreads
 
