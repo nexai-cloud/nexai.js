@@ -8,21 +8,37 @@
     
   </head>
   <body>
-      <div id="nexai-chat-bubble" style="position: absolute;bottom:15px;right:15px;"></div>
       <div id="root"></div>
 
+      <!-- nexai chat bubble root element -->
+      <div id="nexai-chat-bubble"></div>
+
+      <style type="text/css">
+        /* editable styles of chat bubble */
+        #nexai-chat-bubble {
+          position: absolute;
+          bottom:15px;
+          right:15px;
+        }
+      </style>
+      
+      <!-- required libraries. Remove any library below that you may already include -->
       <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
       <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
       <script crossorigin src="https://unpkg.com/mobx@6.12.1/dist/mobx.umd.production.min.js"></script>
       <script crossorigin src="https://unpkg.com/mobx-react-lite@3.4.1/dist/mobxreactlite.umd.production.min.js"></script>
     
+      <!-- nexai chat bubble -->
       <script src="/dist/chat-bubble.umd.js"></script>
       <script>
+        // editable configuration options
         const nexaiApiUrl = 'http://localhost:3000/api/nexai'
         const nexaiApiKey = 'clt7dknjo0003nn519ik7ia2g'
+        const width = 380
 
+        // render nexai chat bubble
         document.addEventListener('DOMContentLoaded', function() {
-          const props = { width: 380, nexaiApiUrl, nexaiApiKey }
+          const props = { width, nexaiApiUrl, nexaiApiKey }
           ReactDOM.render(
             React.createElement(NexaiChatBubble, props), 
             document.querySelector('#nexai-chat-bubble')
