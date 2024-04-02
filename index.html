@@ -8,29 +8,16 @@
     
   </head>
   <body>
-      <div id="root"></div>
-
-      <!-- nexai chat bubble root element -->
-      <div id="nexai-chat-bubble"></div>
-
-      <style type="text/css">
-        /* editable styles of chat bubble */
-        #nexai-chat-bubble {
-          position: absolute;
-          bottom:15px;
-          right:15px;
-        }
-      </style>
-
-      <!-- nexai chat bubble -->
-      <script src="/dist/chat-bubble.umd.js"></script>
-      <script>
-        // render nexai chat bubble
-        NexaiChatBubble.render({
-          width: 400,
-          // nexaiApiUrl: 'http://localhost:3000/api/nexai',
-          nexaiApiKey: 'clu8hm40800004vzfocfds9xa'
-        })
-      </script>
+<!-- nexai chat bubble javascript -->
+<script src="/dist/chat-bubble.umd.js"></script>
+<script>
+  NexaiChatBubble.render({
+    bottom: 20,
+    right: 20,
+    width: 400,
+    nexaiApiKey: 'clu8h3eg60000haaadp65lyeb'
+  })
+</script>
+<!-- end nexai ai chat bubble --->
   </body>
 </html>

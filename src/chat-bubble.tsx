@@ -18,6 +18,7 @@ import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests
 import { getClientSession } from './lib/session/chat-session';
 import { listenSSE } from './lib/sse/listen-sse';
 import { render } from 'react-dom';
+import { cn } from './lib/utils';
 
 export type NexaiChatBubbleProps = {
   width?: number;
@@ -26,7 +27,7 @@ export type NexaiChatBubbleProps = {
 }
 
 export const NexaiChatBubble = observer(({
-  width = 340,
+  width = 380,
   nexaiApiKey,
   nexaiApiUrl = 'https://nexai.site/api/nexai',
 }: NexaiChatBubbleProps) => {
@@ -400,9 +401,11 @@ export const NexaiChatBubble = observer(({
         <button
           onClick={toggleChat}
           className={
-            `ml-auto flex align-middle items-center rounded-full  
-            ${isShowChat ? ' text-blue-600' : `bg-blue-600 text-white shadow`}
-          `}
+            cn(
+              `ml-auto flex align-middle items-center rounded-full`,
+              isShowChat ? ` text-blue-600` : `bg-blue-600 text-white shadow`
+            )
+          }
           style={{
             width: '3.3rem',
             height: '3.3rem'
@@ -425,12 +428,23 @@ export const NexaiChatBubble = observer(({
   )
 });
 
+export type ChatRenderProps = NexaiChatBubbleProps & {
+  bottom?: number;
+  right?: number;
+}
+
 // @ts-expect-error no render prop
-NexaiChatBubble.render = async (props: NexaiChatBubbleProps) => {
-  document.addEventListener('DOMContentLoaded', function() {
+NexaiChatBubble.render = async (props: ChatRenderProps) => {
+  const el = document.createElement('div')
+  el.setAttribute('id', '#nexai-chat-bubble')
+  el.style.position = 'absolute'
+  el.style.bottom = (props.bottom || 30) + 'px'
+  el.style.right = (props.right || 30) + 'px'
+  document.body.appendChild(el)
+  document.addEventListener('DOMContentLoaded', () => {
     render(
       React.createElement(NexaiChatBubble, props), 
-      document.querySelector('#nexai-chat-bubble')
+      el
     )
   })
 }
