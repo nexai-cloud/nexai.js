@@ -22,13 +22,13 @@ import { render } from 'react-dom';
 export type NexaiChatBubbleProps = {
   width?: number;
   nexaiApiKey: string;
-  nexaiApiUrl: string;
+  nexaiApiUrl?: string;
 }
 
 export const NexaiChatBubble = observer(({
   width = 340,
   nexaiApiKey,
-  nexaiApiUrl,
+  nexaiApiUrl = 'https://nexai.site/api/nexai',
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
