@@ -15,7 +15,7 @@
     "prepublishOnly": "npm run tsc",
     "start": "vite --host",
     "dev": "vite",
-    "dev:lib": "nodemon -w ./src -e 'ts, js'  -x npm run build",
+    "dev:lib": "nodemon -w ./src -e 'ts,tsx'  -x npm run build",
     "build": "vite build",
     "build:copy": "cp dist/*.js ./lib/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

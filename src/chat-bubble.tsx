@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite'
 import "./chat-bubble.css"
 import "./index.css"
 import "./ui/busy-indicator/busy-indicator.css"
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircleHeartIcon, MicIcon, SendIcon, } from "lucide-react";
 import { NexaiChatThread } from "./ui/chat-thread";
 import { NexaiChatMessage, type ChatMessage, type ChatUser } from "./chat-types";
@@ -17,17 +17,19 @@ import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recogni
 import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests';
 import { getClientSession } from './lib/session/chat-session';
 import { listenSSE } from './lib/sse/listen-sse';
+import { render } from 'react-dom';
 
+export type NexaiChatBubbleProps = {
+  width?: number;
+  nexaiApiKey: string;
+  nexaiApiUrl: string;
+}
 
 export const NexaiChatBubble = observer(({
   width = 340,
   nexaiApiKey,
   nexaiApiUrl,
-}: {
-  width?: number;
-  nexaiApiKey: string;
-  nexaiApiUrl: string;
-}) => {
+}: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
   )
@@ -422,6 +424,16 @@ export const NexaiChatBubble = observer(({
     </div>
   )
 });
+
+// @ts-expect-error no render prop
+NexaiChatBubble.render = async (props: NexaiChatBubbleProps) => {
+  document.addEventListener('DOMContentLoaded', function() {
+    render(
+      React.createElement(NexaiChatBubble, props), 
+      document.querySelector('#nexai-chat-bubble')
+    )
+  })
+}
 
 // @ts-expect-error global
 window.NexaiChatBubble = NexaiChatBubble

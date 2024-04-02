@@ -21,7 +21,7 @@ export default defineConfig({
       // Could also be a dictionary or array of multiple entry points
       entry: [
         resolve(__dirname, 'src/chat-bubble.tsx'),
-        // resolve(__dirname, 'src/App.tsx')
+        // resolve(__dirname, 'src/lib/nexai.ts')
       ],
       name: 'nexai-chat',
       // the proper extensions will be added
@@ -34,10 +34,10 @@ export default defineConfig({
       // into your library
       external: [
         // 'react/jsx-runtime',
-        'react',
-        'react-dom',
-        'mobx',
-        'mobx-react-lite'
+        // 'react',
+        // 'react-dom',
+        // 'mobx',
+        // 'mobx-react-lite'
       ]
     },
   },
