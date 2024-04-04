@@ -42,7 +42,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: Number(process.env.PORT) || 8080
+    port: Number(process.env.PORT) || 3000
   },
   css: {
     postcss: {
