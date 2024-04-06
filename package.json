@@ -15,6 +15,7 @@
     "prepublishOnly": "npm run tsc",
     "start": "vite --host",
     "dev": "vite",
+    "dev:server": "nodemon -x npx tsx server.ts",
     "dev:lib": "nodemon -w ./src -e 'ts,tsx'  -x npm run build",
     "build": "vite build",
     "build:copy": "cp dist/*.js ./lib/",
