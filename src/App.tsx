@@ -37,8 +37,12 @@ export const App = observer(() => {
 
   const loaded = useRef(false)
   const clientSession = getClientSession(nexaiApiKey)
-  const session = getSessionSocket(clientSession.sessionId)
-  const project = getProjectSocket(nexaiApiKey)
+  const session = getSessionSocket({
+    sessionKey: clientSession.sessionId
+  })
+  const project = getProjectSocket({
+    projectId: nexaiApiKey
+  })
 
   const sendSessionChatMsg = (message: string) => {
     const chatMsg = {

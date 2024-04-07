@@ -23,12 +23,13 @@ import { IoChatMsg } from '../server';
 export type NexaiChatBubbleProps = {
   width?: number;
   nexaiApiKey: string;
-  nexaiApiUrl?: string;
+  nexaiIoUrl?: string;
 }
 
 export const NexaiChatBubble = observer(({
   width = 380,
   nexaiApiKey,
+  nexaiIoUrl = 'http://localhost:8080'
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
@@ -48,7 +49,10 @@ export const NexaiChatBubble = observer(({
 
   const threads = ChatThreads
 
-  const socket = getSessionSocket(sessionRef.current.sessionId)
+  const socket = getSessionSocket({
+    sessionKey: sessionRef.current.sessionId,
+    ioUrl: nexaiIoUrl
+  })
 
   useEffect(() => {
     if (isChatListening.current) return
