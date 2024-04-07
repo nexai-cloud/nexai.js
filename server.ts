@@ -98,18 +98,22 @@ sessions.on("connection", socket => {
     console.log('session received chat', msg)
     session.emit('chat', msg)
     io.of('/project/' + msg.projectId).emit('chat', msg)
-    const resp = await sendChatToAi(msg)
-    console.log('ai resp', resp)
-    const aiMsg = {
-      sessionKey: session.name,
-      projectId: msg.projectId,
-      fromName: 'nexai',
-      toName: msg.fromName,
-      message: resp.message,
-      sources: resp.sources
-    } as ChatMsg
-    session.emit('chat', aiMsg)
-    io.of('/project/' + msg.projectId).emit('chat', aiMsg)
+    try {
+      const resp = await sendChatToAi(msg)
+      console.log('ai resp', resp)
+      const aiMsg = {
+        sessionKey: session.name,
+        projectId: msg.projectId,
+        fromName: 'nexai',
+        toName: msg.fromName,
+        message: resp.message,
+        sources: resp.sources
+      } as ChatMsg
+      session.emit('chat', aiMsg)
+      io.of('/project/' + msg.projectId).emit('chat', aiMsg)
+    } catch(e) {
+      console.error(e)
+    }
   })
 });
 
@@ -129,8 +133,12 @@ projects.on("connection", socket => {
     project.emit('chat', msg)
     console.log('emit', '/session/' + msg.sessionKey, msg)
     io.of('/session/' + msg.sessionKey).emit('chat', msg)
-    const resp = await sendSupportChat(msg)
-    console.log('resp', resp)
+    try {
+      const resp = await sendSupportChat(msg)
+      console.log('resp', resp)
+    } catch(e) {
+      console.error(e)
+    }
   })
 });
 
