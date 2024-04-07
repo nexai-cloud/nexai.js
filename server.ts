@@ -50,7 +50,7 @@ const sendChatToAi = async (msg: ChatMsg) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      name: msg.fromName,
+      fromName: msg.fromName,
       message: msg.message,
       sessionId: msg.sessionKey,
       projectId: msg.projectId
@@ -64,20 +64,23 @@ const sendChatToAi = async (msg: ChatMsg) => {
 }
 
 const sendSupportChat = async (msg: ChatMsg) => {
-  const resp = await fetch(`${apiUrl}/chat`, {
+  const resp = await fetch(`${apiUrl}/chat/support`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      name: msg.fromName,
+      fromName: msg.fromName,
       message: msg.message,
       sessionId: msg.sessionKey,
       projectId: msg.projectId
     })
   })
-  console.log('resp', `${apiUrl}/chat`, resp.ok)
-  return resp
+  if (resp.ok) {
+    return await resp.json()
+  } else {
+    throw new Error('Failed to get support chat response')
+  }
 }
 
 const sessions = io.of(/^\/session\/\w+$/);
@@ -126,8 +129,8 @@ projects.on("connection", socket => {
     project.emit('chat', msg)
     console.log('emit', '/session/' + msg.sessionKey, msg)
     io.of('/session/' + msg.sessionKey).emit('chat', msg)
-    // const resp = await sendChatToAi(msg)
-    // console.log('resp', await resp.json())
+    const resp = await sendSupportChat(msg)
+    console.log('resp', resp)
   })
 });
 
