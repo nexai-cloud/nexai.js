@@ -20,46 +20,22 @@ const adjective = [
   "Quintessential", "Effulgent", "Resplendent", "Beaming", "Effervescent", "Coruscating", 
   "Lustrous", "Vivid", "Dynamic", "Electrifying", "Radiating", "Efflorescent", 
   "Incandescent", "Refulgent", "Scintillating", "Vivid", "Vibrant", "Zesty", "Exotic", 
-  "Captivating", "Rhapsodic", "Ineffable", "Unforgettable", "Irreplaceable"
-];
-const object = [
-  "Sunshine Smile", "Rainbow Umbrella", "Lemonade Stand", "Cherry Blossom", "Cupcake Castle", 
-  "Moonbeam Lullaby", "Bubblegum Dream", "Butterfly Kiss", "Starlight Symphony", 
-  "Laughter Lantern", "Petal Pillow", "Jubilant Jigsaw", "Giggly Gazebo", "Peppermint Palace", 
-  "Sparkle Sprinkle", "Candy Cane Carousel", "Honeybee Haven", "Peaches & Cream", 
-  "Whispering Willow", "Dreamy Delight", "Glowing Gratitude", "Breezy Bubbles", 
-  "Sunny Smiles", "Lollipop Lane", "Carousel Charm", "Fluffy Cloud", "Raindrop Ripple", 
-  "Cosmic Carousel", "Bouncing Bubble", "Twinkling Star", "Golden Glow", "Cuddle Cove", 
-  "Sweet Serenity", "Radiant Rainbow", "Gentle Breeze", "Moonlit Meadow", "Laughing Lily", 
-  "Wonderland Wish", "Serenading Songbird", "Velvet Vine", "Cotton Candy Cloud", 
-  "Whimsical Whirl", "Bubbly Brook", "Harmony Harbor", "Singing Swallow", "Enchanted Echo", 
-  "Giggling Glimpse", "Merry Melody", "Peachy Paradise", "Glistening Glade", "Zesty Zephyr", 
-  "Silly Symphony", "Sugarplum Spark", "Blissful Breeze", "Dreamy Dazzle", "Fancy Flutter", 
-  "Tranquil Treasure", "Sunny Side", "Moonbeam Magic", "Pleasant Plume", "Wishing Well", 
-  "Sapphire Skies", "Radiant Rapture", "Whispering Wind", "Lavender Lullaby", "Merry Mirage", 
-  "Delightful Drizzle", "Starlit Symphony", "Lemonade Lagoon", "Blossom Breeze", 
-  "Twinkle Twirl", "Butterfly Bliss", "Sunflower Symphony", "Candyfloss Cloud", 
-  "Jolly Jigsaw", "Cherub Charm", "Merry Moonbeam", "Lullaby Lantern", "Jovial Jive", 
-  "Petal Parade", "Dreamy Dance", "Gleeful Gaze", "Blissful Bounce", "Wishing Well",
-  "Bubblegum Bliss", "Tropical Tango", "Lavender Lagoon", "Starlit Serenade", "Rainbow Rhapsody", 
-  "Whispering Waters", "Moonlight Melody", "Fairy Floss Fiesta", "Cherished Chime", 
-  "Serene Sanctuary", "Jubilant Jewel", "Giggly Gala", "Lemonade Luminary", 
-  "Charming Chorus", "Bountiful Blossom", "Enchanted Embrace", "Twinkling Tide", 
-  "Dreamy Dazzle", "Crimson Cascade", "Buttercup Boulevard", "Golden Glade", 
-  "Peachy Paradise", "Whimsical Waltz", "Sapphire Symphony", "Starry Spell", 
-  "Radiant Reef", "Mellow Melody", "Luminous Lagoon", "Blissful Breeze", 
-  "Tender Twilight", "Sunny Serenade", "Cherry Cheer", "Gentle Glow", 
-  "Harmonious Haven", "Tranquil Twist", "Delicate Dream", "Joyful Journey", 
-  "Velvet Voyage", "Bubbly Brook", "Lavish Lagoon", "Whispering Willow", 
-  "Zesty Zenith", "Pleasant Pasture", "Majestic Meadow", "Glowing Glade", 
-  "Whistling Wind", "Mirthful Mosaic", "Lavish Lagoon", "Serene Splash", 
-  "Gentle Gust", "Lush Lullaby", "Lustrous Lagoon", "Twinkling Tranquility", 
-  "Vibrant Vista", "Soothing Sanctuary", "Tropical Treasure", "Harmonious Haven",
-  "Merry Mirage", "Golden Grove", "Radiant Reef", "Velvet Valley", "Tranquil Treetop", 
-  "Luminous Land", "Whimsical Waterfall", "Dreamy Desert", "Peachy Peak", 
-  "Crimson Canyon", "Whispering Waters", "Majestic Mountain", "Mellow Meadow", 
-  "Bubbly Beach", "Glowing Glen", "Radiant Ravine", "Lush Lagoon", "Serene Summit"
-];
+  "Captivating", "Rhapsodic", "Ineffable", "Unforgettable", "Irreplaceable",
+  "Sunshine", "Rainbow", "Lemonade", "Cherry", "Cupcake",  "Moonbeam", "Bubblegum", 
+  "Butterfly", "Starlight",  "Laughter", "Petal", "Jubilant", "Giggly", "Peppermint",  
+  "Sparkle", "Candy Cane", "Honeybee", "Peaches &", "Whispering",  "Dreamy", "Glowing", 
+  "Breezy", "Sunny", "Lollipop",  "Carousel", "Fluffy", "Raindrop", "Cosmic", "Bouncing",  
+  "Twinkling", "Golden", "Cuddle", "Sweet", "Radiant",  "Gentle", "Moonlit", "Laughing", 
+  "Wonderland", "Serenading",  "Velvet", "Cotton Candy", "Whimsical", "Bubbly", "Harmony",  
+  "Singing", "Enchanted", "Giggling", "Merry", "Glistening",  "Zesty", "Silly", "Sugarplum", 
+  "Blissful", "Fancy",  "Tranquil", "Moonbeam", "Pleasant", "Wishing", "Sapphire",  "Radiant", 
+  "Whispering", "Lavender", "Merry", "Delightful",  "Starlit", "Lemonade", "Blossom", "Twinkle", 
+  "Butterfly",  "Sunflower", "Candyfloss", "Jolly", "Cherub", "Merry",  "Lullaby", "Jovial", "Petal", 
+  "Dreamy", "Gleeful",  "Blissful", "Wishing", "Bubblegum", "Tropical", "Lavender",  "Starlit", "Rainbow", "Whispering", "Moonlight", "Fairy",  "Cherished", "Serene", "Jubilant", "Giggly", "Lemonade",  "Charming", "Bountiful", "Enchanted", "Twinkling", "Dreamy",  "Crimson", "Buttercup", "Golden", "Peachy", "Whimsical",  "Sapphire", "Starry", "Radiant", "Mellow", "Luminous",  "Blissful", "Tender", "Sunny", "Cherry", "Gentle",  "Harmonious", "Tranquil", "Delicate", "Joyful", "Velvet",  "Bubbly", "Lavish", "Whispering", "Zesty", "Pleasant",  "Majestic", "Glowing", "Whistling", "Mirthful", "Lavish",  "Serene", "Gentle", "Lush", "Lustrous", "Twinkling",  "Vibrant", "Soothing", "Tropical", "Harmonious", "Merry",  "Golden", "Radiant", "Velvet", "Tranquil", "Luminous",  "Whimsical", "Dreamy", "Peachy", "Crimson", "Whispering",  "Majestic", "Mellow", "Bubbly", "Glowing", "Radiant",  "Lush", "Serene"
+]
+
+const object = ["Smile", "Umbrella", "Stand", "Blossom", "Castle",  "Lullaby", "Dream", "Kiss", "Symphony", "Lantern",  "Pillow", "Jigsaw", "Gazebo", "Palace", "Sprinkle",  "Carousel", "Haven", "Cream", "Willow", "Delight",  "Gratitude", "Bubbles", "Smiles", "Lane", "Charm",  "Cloud", "Ripple", "Carousel", "Bubble", "Star",  "Glow", "Cove", "Serenity", "Rainbow", "Breeze",  "Meadow", "Lily", "Wish", "Songbird", "Vine",  "Cloud", "Whirl", "Brook", "Harbor", "Swallow",  "Echo", "Glimpse", "Melody", "Paradise", "Glade",  "Zephyr", "Symphony", "Spark", "Breeze", "Dazzle",  "Flutter", "Treasure", "Side", "Magic", "Plume",  "Well", "Skies", "Rapture", "Wind", "Lullaby",  "Mirage", "Drizzle", "Symphony", "Lagoon", "Breeze",  "Twirl", "Bliss", "Symphony", "Cloud", "Jigsaw",  "Charm", "Moonbeam", "Lantern", "Jive", "Parade",  "Dance", "Gaze", "Bounce", "Well", "Bliss",  "Tango", "Lagoon", "Serenade", "Rhapsody", "Waters",  "Melody", "Floss", "Chime", "Sanctuary", "Jewel",  "Gala", "Luminary", "Chorus", "Blossom", "Embrace",  "Tide", "Dazzle", "Cascade", "Boulevard", "Glade",  "Paradise", "Waltz", "Symphony", "Spell", "Reef",  "Melody", "Lagoon", "Breeze", "Twilight", "Serenade",  "Cheer", "Glow", "Haven", "Twist", "Dream",  "Journey", "Voyage", "Brook", "Lagoon", "Willow",  "Zenith", "Pasture", "Meadow", "Glade", "Wind",  "Mosaic", "Lagoon", "Splash", "Gust", "Lullaby",  "Lagoon", "Tranquility", "Vista", "Sanctuary", "Treasure",  "Haven", "Mirage", "Grove", "Reef", "Valley",  "Treetop", "Land", "Waterfall", "Desert", "Peak",  "Canyon", "Waters", "Mountain", "Meadow", "Beach",  "Glen", "Ravine", "Lagoon", "Summit"]
+
 
 export function randomNameGenerator(sep: string = ' ') {
   return adjective[Math.floor(Math.random() * adjective.length)] 

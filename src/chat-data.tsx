@@ -2,7 +2,7 @@ import { type ChatThread } from "./chat-types";
 import { BotAvatar } from "./ui/chat-avatar";
 
 export const aiUser = {
-  userUid: 'bot',
+  userUid: 'nexai',
   name: 'Nexai',
   avatar: <BotAvatar />,
 }

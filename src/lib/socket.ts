@@ -4,6 +4,9 @@ let sessionSocket: ReturnType<typeof io>
 let projectSocket: ReturnType<typeof io>
 
 export const getSessionSocket = (sessionKey: string): ReturnType<typeof io> => {
+  if (!sessionKey) {
+    throw new TypeError('getSessionSocket(sessionKey) is required')
+  }
   if (!sessionSocket) {
     sessionSocket = io('http://localhost:8080/session/' + sessionKey)
   }

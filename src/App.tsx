@@ -8,6 +8,9 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './componen
 import { getClientSession } from './lib/session/chat-session'
 import { ChatInput } from './app/chat-input'
 import { config } from './lib/config'
+import logger from 'debug'
+
+const debug = logger('nexai:app')
 
 type ChatMsg = {
   projectId: string;
@@ -68,18 +71,18 @@ export const App = observer(() => {
   }
 
   const onChat = (msg: ChatMsg, ...args: string[]) => {
-    console.log('session chat msg', { msg, args })
+    debug('session chat msg', { msg, args })
     addMsg(msg)
   }
 
   const onProjectChat = (msg: ChatMsg, ...args: string[]) => {
-    console.log('project chat msg', { msg, args })
+    debug('project chat msg', { msg, args })
     addProjectMsg(msg)
   } 
 
   useEffect(() => {
     if (loaded.current) return
-    console.log('loaded session...')
+    debug('loaded session...')
     session.on('chat', onChat)
     project.on('chat', onProjectChat)
     loaded.current = true

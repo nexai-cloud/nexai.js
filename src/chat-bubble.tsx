@@ -8,7 +8,6 @@ import { NexaiChatThread } from "./ui/chat-thread";
 import { NexaiChatMessage, type ChatMessage, type ChatUser } from "./chat-types";
 import { aiThreads, aiUser } from "./chat-data";
 import { BotAvatar, ChatAvatar } from "./ui/chat-avatar";
-import { sendAiChat } from "./server/query";
 import { ChatThreads } from "./models/chat-threads";
 import { ChatBusyIndicator } from './ui/busy-indicator/busy-indicator';
 import { NexaiWaveForm } from './ui/wave-form/wave-form';
@@ -16,10 +15,10 @@ import './ui/wave-form/wave-form.css'
 import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recognition';
 import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests';
 import { getClientSession } from './lib/session/chat-session';
-import { listenSSE } from './lib/sse/listen-sse';
 import { render } from 'react-dom';
-import { cn } from './lib/utils';
-import { config } from './lib/config';
+import { cn, uuid } from './lib/utils';
+import { getSessionSocket } from './lib/socket';
+import { IoChatMsg } from '../server';
 
 export type NexaiChatBubbleProps = {
   width?: number;
@@ -30,7 +29,6 @@ export type NexaiChatBubbleProps = {
 export const NexaiChatBubble = observer(({
   width = 380,
   nexaiApiKey,
-  nexaiApiUrl = config.nexaiApiUrl,
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
@@ -43,50 +41,50 @@ export const NexaiChatBubble = observer(({
   const [suggests, setSuggests] = useState<string[]>([])
   
   const isSuggestLoaded = useRef(false)
-  const isSSELoaded = useRef(false)
+  const isChatListening = useRef(false)
 
   const threadsRef = useRef<HTMLDivElement>(null)
   const sessionRef = useRef(getClientSession(nexaiApiKey))
 
   const threads = ChatThreads
 
+  const socket = getSessionSocket(sessionRef.current.sessionId)
+
   useEffect(() => {
-    if (isSSELoaded.current) return
-    isSSELoaded.current = true
+    if (isChatListening.current) return
+    isChatListening.current = true
 
     const addChatMessageToThread = async (data: NexaiChatMessage) => {
-      if (data.fromType === 'support') {
-        addChat({
-          message: data.message,
-          sources: [] // @todo
-        }, {
-          name: data.fromName,
-          userUid: data.sessionId,
-          avatar: data.fromName === 'nexai' ? (
-            <BotAvatar />
-          ) : (
-            <ChatAvatar
-              src={data.avatarUrl}
-              name={data.fromName}
-            />
-          )
-        })
-      }
+      addChat({
+        uid: data.uid,
+        message: data.message,
+        sources: [] // @todo
+      }, {
+        name: data.fromName,
+        userUid: data.userUid,
+        avatar: data.fromName === 'nexai' ? (
+          <BotAvatar />
+        ) : (
+          <ChatAvatar
+            src={data.avatarUrl}
+            name={data.fromName}
+          />
+        )
+      })
     }
 
-    const listen = async () => {
-      console.log('listening sse')
-      listenSSE(
-        `${nexaiApiUrl}/sse/?projectId=${nexaiApiKey}&sessionKey=${sessionRef.current.sessionId}`, 
-        (event) => {
-          const data = event.data
-          console.log('sse data', data)
-          addChatMessageToThread(data as NexaiChatMessage)
-          setTimeout(() => scrollToBottom(), 50)
-        }
-      )
+    const handleChatMessage = (chatMsg: NexaiChatMessage) => {
+      console.log('handleChatMessage', chatMsg)
+      addChatMessageToThread(chatMsg)
+      setTimeout(() => scrollToBottom(), 50)
     }
-    listen()
+
+    const listen = () => {
+      console.log('listening socket', socket)
+      socket.on('chat', handleChatMessage)
+    }
+    
+    listen() 
     
   })
 
@@ -134,7 +132,7 @@ export const NexaiChatBubble = observer(({
   }
   const onInputKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      sendChat({ message: chatInput }, getChatUser())
+      sendChat({ uid: uuid(), message: chatInput }, getChatUser())
     }
   }
 
@@ -145,45 +143,61 @@ export const NexaiChatBubble = observer(({
     }
   }, []);
 
-  const addAIChat = useCallback(async (text: string) => {
+  const sendChatViaIo = useCallback((chatMsg: IoChatMsg) => {
+    socket.emit('chat', chatMsg)
+    console.log('ai chat send', chatMsg)
+  }, [socket])
+
+  const addAITyping = useCallback(async () => {
     const uid = String(Date.now())
     const thread = {
       ...aiUser,
       uid,
       hide: false,
       date: new Date(),
+      isTyping: true,
       messages: [{
+        uid: uuid(),
+        isTyping: true,
         message: <div key={Date.now()}><ChatBusyIndicator text={''} /></div>
       }]
     }
     threads.push(thread)
     scrollToBottom()
-    const apiResp = await sendAiChat({
-      nexaiApiUrl,
-      message: text,
-      sessionId: sessionRef.current.sessionId,
-      projectId: nexaiApiKey!,
-      name: sessionRef.current.name,
-    })
-    console.log('apiResp', apiResp)
-    const prevThread = threads.find(thread => thread.uid === uid)
-    if (prevThread) {
-      threads.splice(threads.indexOf(prevThread), 1)
-    }
-    const sources = apiResp.response[1]
-      .map((source: {url:string}[]) => source[1].url)
-    const resp = {
-      response: apiResp.response[0],
-      sources: sources.filter((source: string, i: number) => sources.indexOf(source) === i) 
-    }
-    console.log('resp', resp)
-    return resp
-  }, [threads, scrollToBottom, nexaiApiKey, nexaiApiUrl])
+    return thread
+  }, [threads, scrollToBottom])
 
   const addChat = useCallback((chatMessage: ChatMessage, user: ChatUser) => {
+    console.log('adding chat msg', { chatMessage, user })
+
+    const threadWithMsg = threads.find(thread => {
+      return thread.messages
+        .map(m => m.uid).includes(chatMessage.uid)
+    })
+
+    if (threadWithMsg) {
+      const existingChat = threadWithMsg.messages.find(m => {
+        return m.uid == chatMessage.uid
+      })
+      existingChat!.isReceived = true
+      return
+    }
+
     const existingThreads = [ ...threads ]
       const prevThread = existingThreads[threads.length-1]
-      if (prevThread?.userUid !== user.userUid || prevThread?.messages.length > 3) {
+      const typingThread = existingThreads.find(t => {
+        return t.isTyping && t.userUid === user.userUid
+      })
+      if (typingThread) {
+        const nonTyping = typingThread.messages.filter(msg => !msg.isTyping)
+        typingThread.messages.splice(0, typingThread.messages.length, ...nonTyping)
+        typingThread.messages.push(chatMessage)
+        typingThread.isTyping = false
+        console.log('added to typing thread', typingThread)
+      } else if (prevThread?.userUid === user.userUid) {
+        prevThread.messages.push(chatMessage)
+        console.log('added to prev thread', prevThread)
+      } else {
         const thread = {
           ...user,
           uid: String(Date.now()),
@@ -194,39 +208,43 @@ export const NexaiChatBubble = observer(({
           ]
         }
         threads.push(thread)
-      } else {
-        prevThread.messages.push(chatMessage)
+        console.log('pushed new thread', thread)
       }
   }, [threads])
   
   const sendChat = useCallback((chatMessage: ChatMessage, user: ChatUser) => {
     try {
       console.log('sendChat', { chatMessage, user })
-      if (user.userUid !== 'bot') {
+      if (user.userUid !== 'nexai') {
         const { message } = chatMessage
-        setTimeout(async () => {
-          const resp = await addAIChat(message as string)
+        setTimeout(() => {
+          addAITyping()
+
+          sendChatViaIo({
+            ...user,
+            message: message as string,
+            sessionKey: sessionRef.current.sessionId,
+            projectId: nexaiApiKey!,
+            fromName: sessionRef.current.name,
+            toName: 'nexai'
+          })
           if (isSpeechInput) {
             // synthVoice(resp.response)
           }
-          sendChat(({
-            message: resp.response,
-            sources: resp.sources
-          }), aiUser)
-        }, 500)
+        }, 50)
       }
       addChat(chatMessage, user)
-      if (user.userUid !== 'bot') {
+      if (user.userUid !== 'nexai') {
         setChatInput('')
       }
       setTimeout(() => scrollToBottom(), 100)
     } catch(e) {
       alert('Failed to send your chat')
     }
-  }, [scrollToBottom, addAIChat, isSpeechInput, addChat])
+  }, [scrollToBottom, sendChatViaIo, nexaiApiKey, addAITyping, isSpeechInput, addChat])
 
   const onClickSuggest = useCallback((message: string) => {
-    sendChat({ message }, getChatUser())
+    sendChat({ uid: uuid(), message }, getChatUser())
     setSuggests(nextSuggests())
   }, [sendChat, getChatUser])
 
@@ -271,7 +289,7 @@ export const NexaiChatBubble = observer(({
         const result = event.results[event.results.length - 1]
         const transcript: string = result[0].transcript;
         console.log('Speech Recognition Result:', transcript);
-        sendChat({ message: transcript }, getChatUser())
+        sendChat({ uid: uuid(), message: transcript }, getChatUser())
         setIsSpeechInut(false)
         setTimeout(() => {
           startSpeechRecognition()
@@ -350,7 +368,7 @@ export const NexaiChatBubble = observer(({
                         }
                         <button
                           className="flex text-slate-300 my-auto p-2"
-                          onClick={() => sendChat({ message: chatInput }, getChatUser())}  
+                          onClick={() => sendChat({ uid: uuid(), message: chatInput }, getChatUser())}  
                         >
                         <SendIcon />
                         </button>

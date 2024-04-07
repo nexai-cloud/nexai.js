@@ -6,6 +6,7 @@ export type ChatThread = {
   date: Date;
   messages: ChatMessage[];
   avatar: JSX.Element;
+  isTyping?: boolean;
 }
 
 export type ChatUser = {
@@ -15,12 +16,17 @@ export type ChatUser = {
 }
 
 export type ChatMessage = {
+  uid: string;
   message: React.ReactNode;
   sources?: string[];
+  isReceived?: boolean;
+  isTyping?: boolean;
 }
 
 export type NexaiChatMessage = {
-  id: string;
+  id?: string;
+  uid: string;
+  userUid: string;
   sessionId: string;
   fromName: string;
   toName: string;

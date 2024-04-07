@@ -1,10 +1,14 @@
-import express, { type Request, type Response } from 'express';
+import express from 'express';
 import { createServer, type Server as HTTPServer } from 'http';
-import { join } from 'path';
 import { Server as SocketIOServer } from 'socket.io';
 import { config } from '~/lib/config';
+import { uuid } from '~/lib/utils';
+import debug from 'debug'
 
-type ChatMsg = {
+const log = debug('nexai:server')
+
+export type IoChatMsg = {
+  userUid: string;
   projectId: string;
   sessionKey: string;
   message: string;
@@ -29,9 +33,9 @@ const io = new SocketIOServer(server, {
 
 const apiUrl = config.nexaiLocalApiUrl
 
-app.get('/', (_: Request, res: Response) => {
-  res.sendFile(join(process.cwd(), 'index.html'));
-});
+// app.get('/', (_: Request, res: Response) => {
+//   res.sendFile(join(process.cwd(), 'index.html'));
+// });
 
 const parseApiResp = (apiResp: ApiResponse) => {
   const sources = apiResp.response[1]
@@ -43,7 +47,7 @@ const parseApiResp = (apiResp: ApiResponse) => {
     return resp
 }
 
-const sendChatToAi = async (msg: ChatMsg) => {
+const sendChatToAi = async (msg: IoChatMsg) => {
   const resp = await fetch(`${apiUrl}/chat`, {
     method: 'POST',
     headers: {
@@ -63,13 +67,14 @@ const sendChatToAi = async (msg: ChatMsg) => {
   }
 }
 
-const sendSupportChat = async (msg: ChatMsg) => {
+const sendSupportChat = async (msg: IoChatMsg) => {
   const resp = await fetch(`${apiUrl}/chat/support`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      userUid: 'support',
       fromName: msg.fromName,
       message: msg.message,
       sessionId: msg.sessionKey,
@@ -88,27 +93,31 @@ const sessions = io.of(/^\/session\/\w+$/);
 sessions.on("connection", socket => {
   const session = socket.nsp;
 
-  console.log('session', session.name)
+  log('session', session.name)
 
   socket.emit('chat', {
+    uid: 'chat.hello',
     message: "hello from session " + session.name,
     fromName: "server"
   });
-  socket.on('chat', async (msg: ChatMsg) => {
-    console.log('session received chat', msg)
+  socket.on('chat', async (msg: IoChatMsg) => {
+    log('session received chat', msg)
     session.emit('chat', msg)
     io.of('/project/' + msg.projectId).emit('chat', msg)
     try {
       const resp = await sendChatToAi(msg)
-      console.log('ai resp', resp)
+      log('ai resp', resp)
       const aiMsg = {
-        sessionKey: session.name,
+        uid: uuid(),
+        userUid: 'nexai',
+        sessionKey: msg.sessionKey,
         projectId: msg.projectId,
         fromName: 'nexai',
         toName: msg.fromName,
         message: resp.message,
-        sources: resp.sources
-      } as ChatMsg
+        sources: resp.sources,
+        fromType: 'nexai'
+      } as IoChatMsg
       session.emit('chat', aiMsg)
       io.of('/project/' + msg.projectId).emit('chat', aiMsg)
     } catch(e) {
@@ -122,20 +131,21 @@ const projects = io.of(/^\/project\/\w+$/);
 projects.on("connection", socket => {
   const project = socket.nsp;
 
-  console.log('project', project.name)
+  log('project', project.name)
 
   socket.emit('chat', {
+    uid: 'project.hello',
     message: "hello from project " + project.name,
     fromName: "server"
   });
-  socket.on('chat', async (msg: ChatMsg) => {
-    console.log('project received chat', msg)
+  socket.on('chat', async (msg: IoChatMsg) => {
+    log('project received chat', msg)
     project.emit('chat', msg)
-    console.log('emit', '/session/' + msg.sessionKey, msg)
+    log('emit', '/session/' + msg.sessionKey, msg)
     io.of('/session/' + msg.sessionKey).emit('chat', msg)
     try {
       const resp = await sendSupportChat(msg)
-      console.log('resp', resp)
+      log('resp', resp)
     } catch(e) {
       console.error(e)
     }
@@ -143,5 +153,5 @@ projects.on("connection", socket => {
 });
 
 server.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  log(`Server running at http://localhost:${PORT}`);
 });

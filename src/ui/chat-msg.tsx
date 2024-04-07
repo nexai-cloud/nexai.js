@@ -3,8 +3,9 @@ import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { ExternalLinkIcon } from "lucide-react"
 import { CodeBlock } from "~/components/shared/prism/code-block"
+import { observer } from "mobx-react-lite"
 
-export const NexaiChatMsg = ({
+export const NexaiChatMsg = observer(({
   thread,
   chatMessage
 }: {
@@ -14,7 +15,7 @@ export const NexaiChatMsg = ({
 
   if (!chatMessage) return null
   const { message, sources } = chatMessage
-  const isAi = thread.userUid === 'bot'
+  const isAi = thread.userUid === 'nexai'
 
   return (
     <div
@@ -72,4 +73,4 @@ export const NexaiChatMsg = ({
       }
     </div>
   )
-}
+})
