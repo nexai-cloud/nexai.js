@@ -31,6 +31,7 @@ export const NexaiChatMsg = observer(({
                   components={{
                     code(props) {
                       const {children, className, node, ...rest} = props
+                      node; // fix unused error
                       const match = /language-(\w+)/.exec(className || '')
                       return match ? (
                         <CodeBlock

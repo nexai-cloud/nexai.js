@@ -17,6 +17,7 @@ export type ChatUser = {
 
 export type ChatMessage = {
   uid: string;
+  id?: string;
   message: React.ReactNode;
   sources?: string[];
   isReceived?: boolean;

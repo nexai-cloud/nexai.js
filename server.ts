@@ -95,15 +95,21 @@ sessions.on("connection", socket => {
 
   log('session', session.name)
 
-  socket.emit('chat', {
-    uid: 'chat.hello',
-    message: "hello from session " + session.name,
-    fromName: "server"
-  });
+  // socket.emit('chat', {
+  //   uid: 'chat.hello',
+  //   message: "hello from session " + session.name,
+  //   fromName: "server"
+  // });
   socket.on('chat', async (msg: IoChatMsg) => {
     log('session received chat', msg)
-    session.emit('chat', msg)
-    io.of('/project/' + msg.projectId).emit('chat', msg)
+    const chatMsg = {
+      ...msg,
+      sessionId: msg.sessionKey, // @todo fix
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+    session.emit('chat', chatMsg)
+    io.of('/project/' + msg.projectId).emit('chat', chatMsg)
     try {
       const resp = await sendChatToAi(msg)
       log('ai resp', resp)
@@ -111,12 +117,15 @@ sessions.on("connection", socket => {
         uid: uuid(),
         userUid: 'nexai',
         sessionKey: msg.sessionKey,
+        sessionId: msg.sessionKey, // @todo fix
         projectId: msg.projectId,
         fromName: 'nexai',
         toName: msg.fromName,
         message: resp.message,
         sources: resp.sources,
-        fromType: 'nexai'
+        fromType: 'nexai',
+        createdAt: new Date(),
+        updatedAt: new Date()
       } as IoChatMsg
       session.emit('chat', aiMsg)
       io.of('/project/' + msg.projectId).emit('chat', aiMsg)
@@ -133,18 +142,24 @@ projects.on("connection", socket => {
 
   log('project', project.name)
 
-  socket.emit('chat', {
-    uid: 'project.hello',
-    message: "hello from project " + project.name,
-    fromName: "server"
-  });
+  // socket.emit('chat', {
+  //   uid: 'project.hello',
+  //   message: "hello from project " + project.name,
+  //   fromName: "server"
+  // });
   socket.on('chat', async (msg: IoChatMsg) => {
-    log('project received chat', msg)
-    project.emit('chat', msg)
-    log('emit', '/session/' + msg.sessionKey, msg)
-    io.of('/session/' + msg.sessionKey).emit('chat', msg)
+    const chatMsg = {
+      ...msg,
+      sessionId: msg.sessionKey, // @todo fix
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+    log('project received chat', chatMsg)
+    project.emit('chat', chatMsg)
+    log('emit', '/session/' + msg.sessionKey, chatMsg)
+    io.of('/session/' + msg.sessionKey).emit('chat', chatMsg)
     try {
-      const resp = await sendSupportChat(msg)
+      const resp = await sendSupportChat(chatMsg)
       log('resp', resp)
     } catch(e) {
       console.error(e)
