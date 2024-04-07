@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import './App.css'
 import { getProjectSocket, getSessionSocket } from './lib/socket'
 import { action, observable } from 'mobx'
@@ -7,6 +7,7 @@ import { NexaiChatBubble } from './chat-bubble'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './components/ui/resizable'
 import { getClientSession } from './lib/session/chat-session'
 import { ChatInput } from './app/chat-input'
+import { config } from './lib/config'
 
 type ChatMsg = {
   projectId: string;
@@ -26,7 +27,7 @@ const addProjectMsg = action((msg: ChatMsg) => {
   projectMsgs.push(msg)
 })
 
-const nexaiApiUrl = 'http://localhost:3000/api/nexai'
+const nexaiApiUrl = config.nexaiLocalApiUrl
 const nexaiApiKey = 'clu8hm40800004vzfocfds9xa'
 
 export const App = observer(() => {

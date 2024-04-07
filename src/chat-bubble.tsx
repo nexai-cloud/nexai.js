@@ -19,6 +19,7 @@ import { getClientSession } from './lib/session/chat-session';
 import { listenSSE } from './lib/sse/listen-sse';
 import { render } from 'react-dom';
 import { cn } from './lib/utils';
+import { config } from './lib/config';
 
 export type NexaiChatBubbleProps = {
   width?: number;
@@ -29,7 +30,7 @@ export type NexaiChatBubbleProps = {
 export const NexaiChatBubble = observer(({
   width = 380,
   nexaiApiKey,
-  nexaiApiUrl = 'https://nexai.site/api/nexai',
+  nexaiApiUrl = config.nexaiApiUrl,
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
