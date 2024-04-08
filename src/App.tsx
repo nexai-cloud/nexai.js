@@ -7,7 +7,6 @@ import { NexaiChatBubble } from './chat-bubble'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './components/ui/resizable'
 import { getClientSession } from './lib/session/chat-session'
 import { ChatInput } from './app/chat-input'
-import { config } from './lib/config'
 import logger from 'debug'
 
 const debug = logger('nexai:app')
@@ -30,17 +29,16 @@ const addProjectMsg = action((msg: ChatMsg) => {
   projectMsgs.push(msg)
 })
 
-const nexaiApiUrl = config.nexaiLocalApiUrl
 const nexaiApiKey = 'clu8hm40800004vzfocfds9xa'
 
 export const App = observer(() => {
 
   const loaded = useRef(false)
   const clientSession = getClientSession(nexaiApiKey)
-  const session = getSessionSocket({
+  const sessionIo = getSessionSocket({
     sessionKey: clientSession.sessionId
   })
-  const project = getProjectSocket({
+  const projectIo = getProjectSocket({
     projectId: nexaiApiKey
   })
 
@@ -52,7 +50,7 @@ export const App = observer(() => {
       fromName: clientSession.name,
       toName: 'support'
     }
-    session.emit('chat', chatMsg)
+    sessionIo.emit('chat', chatMsg)
   }
 
   const sendSupportChatMsg = (message: string) => {
@@ -63,7 +61,7 @@ export const App = observer(() => {
       fromName: 'support',
       toName: clientSession.name
     }
-    project.emit('chat', chatMsg)
+    projectIo.emit('chat', chatMsg)
   }
 
   const onSendSessionChatMsg = (msg: string) => {
@@ -87,8 +85,8 @@ export const App = observer(() => {
   useEffect(() => {
     if (loaded.current) return
     debug('loaded session...')
-    session.on('chat', onChat)
-    project.on('chat', onProjectChat)
+    sessionIo.on('chat', onChat)
+    projectIo.on('chat', onProjectChat)
     loaded.current = true
     setTimeout(() => {
       sendSessionChatMsg('hello from client')
@@ -148,7 +146,6 @@ export const App = observer(() => {
         <NexaiChatBubble
           width={400}
           nexaiApiKey={nexaiApiKey}
-          nexaiApiUrl={nexaiApiUrl}
         />
       </div>
     </div>

@@ -2,7 +2,7 @@ import express from 'express';
 import { createServer, type Server as HTTPServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import { config } from '~/lib/config';
-import { uuid } from '~/lib/utils';
+import { randomUUID } from '~/lib/utils';
 import debug from 'debug'
 
 const log = debug('nexai:server')
@@ -114,7 +114,7 @@ sessions.on("connection", socket => {
       const resp = await sendChatToAi(msg)
       log('ai resp', resp)
       const aiMsg = {
-        uid: uuid(),
+        uid: randomUUID(),
         userUid: 'nexai',
         sessionKey: msg.sessionKey,
         sessionId: msg.sessionKey, // @todo fix

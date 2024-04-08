@@ -16,7 +16,7 @@ import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recogni
 import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests';
 import { getClientSession } from './lib/session/chat-session';
 import { render } from 'react-dom';
-import { cn, uuid } from './lib/utils';
+import { cn, randomUUID } from './lib/utils';
 import { getSessionSocket } from './lib/socket';
 import { IoChatMsg } from '../server';
 
@@ -136,7 +136,7 @@ export const NexaiChatBubble = observer(({
   }
   const onInputKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      sendChat({ uid: uuid(), message: chatInput }, getChatUser())
+      sendChat({ uid: randomUUID(), message: chatInput }, getChatUser())
     }
   }
 
@@ -161,7 +161,7 @@ export const NexaiChatBubble = observer(({
       date: new Date(),
       isTyping: true,
       messages: [{
-        uid: uuid(),
+        uid: randomUUID(),
         isTyping: true,
         message: <div key={Date.now()}><ChatBusyIndicator text={''} /></div>
       }]
@@ -248,7 +248,7 @@ export const NexaiChatBubble = observer(({
   }, [scrollToBottom, sendChatViaIo, nexaiApiKey, addAITyping, isSpeechInput, addChat])
 
   const onClickSuggest = useCallback((message: string) => {
-    sendChat({ uid: uuid(), message }, getChatUser())
+    sendChat({ uid: randomUUID(), message }, getChatUser())
     setSuggests(nextSuggests())
   }, [sendChat, getChatUser])
 
@@ -293,7 +293,7 @@ export const NexaiChatBubble = observer(({
         const result = event.results[event.results.length - 1]
         const transcript: string = result[0].transcript;
         console.log('Speech Recognition Result:', transcript);
-        sendChat({ uid: uuid(), message: transcript }, getChatUser())
+        sendChat({ uid: randomUUID(), message: transcript }, getChatUser())
         setIsSpeechInut(false)
         setTimeout(() => {
           startSpeechRecognition()
@@ -372,7 +372,7 @@ export const NexaiChatBubble = observer(({
                         }
                         <button
                           className="flex text-slate-300 my-auto p-2"
-                          onClick={() => sendChat({ uid: uuid(), message: chatInput }, getChatUser())}  
+                          onClick={() => sendChat({ uid: randomUUID(), message: chatInput }, getChatUser())}  
                         >
                         <SendIcon />
                         </button>
