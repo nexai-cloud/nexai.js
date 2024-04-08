@@ -15,14 +15,14 @@ export const NexaiChatMsg = observer(({
 
   if (!chatMessage) return null
   const { message, sources } = chatMessage
-  const isAi = thread.userUid === 'nexai'
+  // const isAi = thread.userUid === 'nexai'
 
   return (
     <div
       className="px-3 text-slate-800 text-wrap overflow-ellipsis overflow-clip"
     >
       {
-        typeof message === 'string' && isAi ? (
+        typeof message === 'string' ? (
           <div>
               <div>
                 {

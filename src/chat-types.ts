@@ -22,6 +22,7 @@ export type ChatMessage = {
   sources?: string[];
   isReceived?: boolean;
   isTyping?: boolean;
+  aiMuted?: boolean;
 }
 
 export type NexaiChatMessage = {
@@ -38,4 +39,6 @@ export type NexaiChatMessage = {
   updatedAt: string;
   avatarUrl: string;
   fromType: string;
+  sources?: string[];
+  aiMuted?: boolean;
 }

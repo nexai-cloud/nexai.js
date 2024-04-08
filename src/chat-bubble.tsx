@@ -62,7 +62,8 @@ export const NexaiChatBubble = observer(({
       addChat({
         uid: data.uid,
         message: data.message,
-        sources: [] // @todo
+        sources: data.sources || [],
+        aiMuted: data.aiMuted
       }, {
         name: data.fromName,
         userUid: data.userUid,
@@ -195,9 +196,15 @@ export const NexaiChatBubble = observer(({
       if (typingThread) {
         const nonTyping = typingThread.messages.filter(msg => !msg.isTyping)
         typingThread.messages.splice(0, typingThread.messages.length, ...nonTyping)
-        typingThread.messages.push(chatMessage)
+        if (!chatMessage.aiMuted) {
+          typingThread.messages.push(chatMessage)
+        }
         typingThread.isTyping = false
         console.log('added to typing thread', typingThread)
+        if (typingThread.messages.length === 0) {
+          threads.splice(threads.indexOf(typingThread), 1)
+          console.log('empty typing thread removed')
+        }
       } else if (prevThread?.userUid === user.userUid) {
         prevThread.messages.push(chatMessage)
         console.log('added to prev thread', prevThread)

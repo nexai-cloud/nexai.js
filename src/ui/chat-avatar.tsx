@@ -15,7 +15,7 @@ export const ChatAvatar = ({ src = '', name = '', className = '' }) => (
         >
           <Avatar>
             <AvatarImage src={src} alt={name} />
-            <AvatarFallback>{getInitials(name)}</AvatarFallback>
+            <AvatarFallback className="bg-white">{getInitials(name)}</AvatarFallback>
           </Avatar>
         </div>
       </TooltipTrigger>

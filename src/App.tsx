@@ -94,7 +94,7 @@ export const App = observer(() => {
   })
 
   return (
-    <div className='flex-col align-middle items-center'>
+    <div className='flex-col align-middle items-center bg-slate-50'>
     <ResizablePanelGroup direction="horizontal" className='gap-1'>
       <ResizablePanel>
         <h2 className="text-2xl font-bold">
