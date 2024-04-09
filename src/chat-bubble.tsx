@@ -25,6 +25,8 @@ export type NexaiChatBubbleProps = {
   nexaiApiKey: string;
   nexaiIoUrl?: string;
   nexaiAssetsUrl?: string;
+  aiName?: string;
+  aiAvatarUrl?: string;
 }
 
 export const NexaiChatBubble = observer(({
@@ -116,18 +118,18 @@ export const NexaiChatBubble = observer(({
   }, [isSuggestLoaded])
 
   const getChatUser = useCallback(() => {
-    const { name, sessionId, avatar } = sessionRef.current
+    const { name, sessionId, avatarUrl } = sessionRef.current
     return {
       name,
       userUid: sessionId,
       avatar: (
         <ChatAvatar
-          src={`${nexaiAssetsUrl}${avatar}`}
+          src={`${nexaiAssetsUrl}${avatarUrl}`}
           name={name}
         />
       ),
     }
-  }, [sessionRef])
+  }, [sessionRef, nexaiAssetsUrl])
 
   const toggleChat = () => {
     setIsShowChat(!isShowChat)

@@ -5,7 +5,7 @@ type NexaiSession = {
   name: string;
   sessionId: string;
   isShowChat: boolean;
-  avatar?: string;
+  avatarUrl?: string;
 }
 
 export const getClientSession = (apiKey: string): NexaiSession => {
@@ -28,7 +28,7 @@ export const createSession = (): NexaiSession => {
       object: avatar.name,
       sep: ' '
     }),
-    avatar: avatar.path,
+    avatarUrl: avatar.path,
     sessionId: Math.random().toString(36).substring(2),
     isShowChat: true
   }
