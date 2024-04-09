@@ -24,12 +24,14 @@ export type NexaiChatBubbleProps = {
   width?: number;
   nexaiApiKey: string;
   nexaiIoUrl?: string;
+  nexaiAssetsUrl?: string;
 }
 
 export const NexaiChatBubble = observer(({
   width = 380,
   nexaiApiKey,
-  nexaiIoUrl = 'http://localhost:8080'
+  nexaiIoUrl = 'http://localhost:8080',
+  nexaiAssetsUrl = ''
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
@@ -120,7 +122,7 @@ export const NexaiChatBubble = observer(({
       userUid: sessionId,
       avatar: (
         <ChatAvatar
-          src={avatar}
+          src={`${nexaiAssetsUrl}${avatar}`}
           name={name}
         />
       ),
