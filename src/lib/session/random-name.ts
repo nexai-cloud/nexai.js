@@ -1,4 +1,4 @@
-const adjective = [
+const adjectives = [
   "Gentle", "Graceful", "Radiant", "Serene", "Charming", "Tranquil", "Polite", "Kind", 
   "Courteous", "Amiable", "Eloquent", "Thoughtful", "Gracious", "Elegant", "Respectful", 
   "Sincere", "Genuine", "Compassionate", "Empathetic", "Affable", "Humble", "Modest", 
@@ -34,10 +34,19 @@ const adjective = [
   "Dreamy", "Gleeful",  "Blissful", "Wishing", "Bubblegum", "Tropical", "Lavender",  "Starlit", "Rainbow", "Whispering", "Moonlight", "Fairy",  "Cherished", "Serene", "Jubilant", "Giggly", "Lemonade",  "Charming", "Bountiful", "Enchanted", "Twinkling", "Dreamy",  "Crimson", "Buttercup", "Golden", "Peachy", "Whimsical",  "Sapphire", "Starry", "Radiant", "Mellow", "Luminous",  "Blissful", "Tender", "Sunny", "Cherry", "Gentle",  "Harmonious", "Tranquil", "Delicate", "Joyful", "Velvet",  "Bubbly", "Lavish", "Whispering", "Zesty", "Pleasant",  "Majestic", "Glowing", "Whistling", "Mirthful", "Lavish",  "Serene", "Gentle", "Lush", "Lustrous", "Twinkling",  "Vibrant", "Soothing", "Tropical", "Harmonious", "Merry",  "Golden", "Radiant", "Velvet", "Tranquil", "Luminous",  "Whimsical", "Dreamy", "Peachy", "Crimson", "Whispering",  "Majestic", "Mellow", "Bubbly", "Glowing", "Radiant",  "Lush", "Serene"
 ]
 
-const object = ["Smile", "Umbrella", "Stand", "Blossom", "Castle",  "Lullaby", "Dream", "Kiss", "Symphony", "Lantern",  "Pillow", "Jigsaw", "Gazebo", "Palace", "Sprinkle",  "Carousel", "Haven", "Cream", "Willow", "Delight",  "Gratitude", "Bubbles", "Smiles", "Lane", "Charm",  "Cloud", "Ripple", "Carousel", "Bubble", "Star",  "Glow", "Cove", "Serenity", "Rainbow", "Breeze",  "Meadow", "Lily", "Wish", "Songbird", "Vine",  "Cloud", "Whirl", "Brook", "Harbor", "Swallow",  "Echo", "Glimpse", "Melody", "Paradise", "Glade",  "Zephyr", "Symphony", "Spark", "Breeze", "Dazzle",  "Flutter", "Treasure", "Side", "Magic", "Plume",  "Well", "Skies", "Rapture", "Wind", "Lullaby",  "Mirage", "Drizzle", "Symphony", "Lagoon", "Breeze",  "Twirl", "Bliss", "Symphony", "Cloud", "Jigsaw",  "Charm", "Moonbeam", "Lantern", "Jive", "Parade",  "Dance", "Gaze", "Bounce", "Well", "Bliss",  "Tango", "Lagoon", "Serenade", "Rhapsody", "Waters",  "Melody", "Floss", "Chime", "Sanctuary", "Jewel",  "Gala", "Luminary", "Chorus", "Blossom", "Embrace",  "Tide", "Dazzle", "Cascade", "Boulevard", "Glade",  "Paradise", "Waltz", "Symphony", "Spell", "Reef",  "Melody", "Lagoon", "Breeze", "Twilight", "Serenade",  "Cheer", "Glow", "Haven", "Twist", "Dream",  "Journey", "Voyage", "Brook", "Lagoon", "Willow",  "Zenith", "Pasture", "Meadow", "Glade", "Wind",  "Mosaic", "Lagoon", "Splash", "Gust", "Lullaby",  "Lagoon", "Tranquility", "Vista", "Sanctuary", "Treasure",  "Haven", "Mirage", "Grove", "Reef", "Valley",  "Treetop", "Land", "Waterfall", "Desert", "Peak",  "Canyon", "Waters", "Mountain", "Meadow", "Beach",  "Glen", "Ravine", "Lagoon", "Summit"]
+const objects = ["Smile", "Umbrella", "Stand", "Blossom", "Castle",  "Lullaby", "Dream", "Kiss", "Symphony", "Lantern",  "Pillow", "Jigsaw", "Gazebo", "Palace", "Sprinkle",  "Carousel", "Haven", "Cream", "Willow", "Delight",  "Gratitude", "Bubbles", "Smiles", "Lane", "Charm",  "Cloud", "Ripple", "Carousel", "Bubble", "Star",  "Glow", "Cove", "Serenity", "Rainbow", "Breeze",  "Meadow", "Lily", "Wish", "Songbird", "Vine",  "Cloud", "Whirl", "Brook", "Harbor", "Swallow",  "Echo", "Glimpse", "Melody", "Paradise", "Glade",  "Zephyr", "Symphony", "Spark", "Breeze", "Dazzle",  "Flutter", "Treasure", "Side", "Magic", "Plume",  "Well", "Skies", "Rapture", "Wind", "Lullaby",  "Mirage", "Drizzle", "Symphony", "Lagoon", "Breeze",  "Twirl", "Bliss", "Symphony", "Cloud", "Jigsaw",  "Charm", "Moonbeam", "Lantern", "Jive", "Parade",  "Dance", "Gaze", "Bounce", "Well", "Bliss",  "Tango", "Lagoon", "Serenade", "Rhapsody", "Waters",  "Melody", "Floss", "Chime", "Sanctuary", "Jewel",  "Gala", "Luminary", "Chorus", "Blossom", "Embrace",  "Tide", "Dazzle", "Cascade", "Boulevard", "Glade",  "Paradise", "Waltz", "Symphony", "Spell", "Reef",  "Melody", "Lagoon", "Breeze", "Twilight", "Serenade",  "Cheer", "Glow", "Haven", "Twist", "Dream",  "Journey", "Voyage", "Brook", "Lagoon", "Willow",  "Zenith", "Pasture", "Meadow", "Glade", "Wind",  "Mosaic", "Lagoon", "Splash", "Gust", "Lullaby",  "Lagoon", "Tranquility", "Vista", "Sanctuary", "Treasure",  "Haven", "Mirage", "Grove", "Reef", "Valley",  "Treetop", "Land", "Waterfall", "Desert", "Peak",  "Canyon", "Waters", "Mountain", "Meadow", "Beach",  "Glen", "Ravine", "Lagoon", "Summit"]
 
 
-export function randomNameGenerator(sep: string = ' ') {
-  return adjective[Math.floor(Math.random() * adjective.length)] 
-    + sep + object[Math.floor(Math.random() * object.length)];
+export function randomNameGenerator({
+  object,
+  adjective,
+  sep = ' '
+}: {
+  adjective?: string,
+  object?: string;
+  sep?: string
+} = { sep: ' ' }): string {
+  return (adjective || adjectives[Math.floor(Math.random() * adjectives.length)]) 
+    + sep 
+    + (object || objects[Math.floor(Math.random() * objects.length)]);
 }

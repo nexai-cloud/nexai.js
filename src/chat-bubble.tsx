@@ -114,11 +114,16 @@ export const NexaiChatBubble = observer(({
   }, [isSuggestLoaded])
 
   const getChatUser = useCallback(() => {
-    const { name, sessionId } = sessionRef.current
+    const { name, sessionId, avatar } = sessionRef.current
     return {
       name,
       userUid: sessionId,
-      avatar: <ChatAvatar name={name} />,
+      avatar: (
+        <ChatAvatar
+          src={avatar}
+          name={name}
+        />
+      ),
     }
   }, [sessionRef])
 

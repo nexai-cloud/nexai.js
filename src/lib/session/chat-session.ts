@@ -1,9 +1,11 @@
+import { randomAvatarGenerator } from "../avatars/random-avatar";
 import { randomNameGenerator } from "./random-name"
 
 type NexaiSession = {
   name: string;
   sessionId: string;
   isShowChat: boolean;
+  avatar?: string;
 }
 
 export const getClientSession = (apiKey: string): NexaiSession => {
@@ -20,8 +22,13 @@ export const getClientSession = (apiKey: string): NexaiSession => {
 }
 
 export const createSession = (): NexaiSession => {
+  const avatar = randomAvatarGenerator()
   return {
-    name: randomNameGenerator(),
+    name: randomNameGenerator({
+      object: avatar.name,
+      sep: ' '
+    }),
+    avatar: avatar.path,
     sessionId: Math.random().toString(36).substring(2),
     isShowChat: true
   }
