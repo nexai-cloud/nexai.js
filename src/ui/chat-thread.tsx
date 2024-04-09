@@ -2,6 +2,7 @@ import { formatDistanceToNow } from "date-fns"
 import { type ChatThread } from "../chat-types"
 import { NexaiChatMsg } from "./chat-msg"
 import { observer } from "mobx-react-lite"
+import { cn } from "~/lib/utils"
 
 export const NexaiChatThread = observer(({
   thread
@@ -9,7 +10,11 @@ export const NexaiChatThread = observer(({
   thread: ChatThread
 }) => {
   return (
-    <div className={`chat-thread text-left ${thread.userUid === 'nexai' ? 'bg-gradient-to-bl from-sky-100 to-white border-t-sky-300' : ' bg-white border-t-green-300'} ${thread.hide ? 'opacity-0' : ''} opacity-1 transition-opacity duration-300 pb-4 mt-4 relative font-medium subpixel-antialiased border rounded-lg rounded-bl-none shadow-lg p-1 `}
+    <div className={cn(
+      `chat-thread text-left opacity-1 transition-opacity duration-300 p-1 pb-4 mt-4 relative font-medium subpixel-antialiased border rounded-lg rounded-bl-none shadow-lg`,
+      thread.userUid === 'nexai' ? 'bg-gradient-to-bl from-sky-100 to-white border-t-sky-300' : ' bg-white border-t-green-300',
+      thread.hide ? 'opacity-0' : '',
+    )}
       style={{
         fontSize: 14
       }}

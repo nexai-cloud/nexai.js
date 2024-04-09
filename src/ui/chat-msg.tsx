@@ -52,7 +52,7 @@ export const NexaiChatMsg = observer(({
                 }
               </div>
               {
-                sources && (
+                sources?.length ? (
                   <div className='mt-2'>
                     <h4 className='font-semibold'>Sources:</h4>
                     {
@@ -65,7 +65,7 @@ export const NexaiChatMsg = observer(({
                       ))
                     }
                   </div>
-                )
+                ) : null
               }
             </div>
         ) : (
