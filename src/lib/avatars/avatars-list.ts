@@ -1,3 +1,8 @@
+export type ChatAvatar = {
+  name: string
+  path: string
+}
+
 export const avatarsList = [
   {
     name: 'Observer',

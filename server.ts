@@ -38,7 +38,9 @@ const apiUrl = config.nexaiLocalApiUrl
 type AiApiResponse = { message: NexaiChatMessage, sources: string[] }
 
 const sendChatToAi = async (msg: IoChatMsg) => {
-  const resp = await fetch(`${apiUrl}/chat`, {
+  const url = `${apiUrl}/chat`
+  log('sendChattoAi', { url, msg })
+  const resp = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

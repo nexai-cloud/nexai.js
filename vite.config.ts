@@ -12,7 +12,9 @@ export default defineConfig({
     'process.env.NODE_ENV': '"production"', 
   },
   plugins: [
-    react(), 
+    react({
+      tsDecorators: true
+    }), 
     tsconfigPaths(),
     libInjectCss(),
   ],

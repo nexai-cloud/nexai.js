@@ -6,6 +6,7 @@ export type NexaiSession = {
   sessionId: string;
   isShowChat: boolean;
   avatarUrl?: string;
+  email?: string;
 }
 
 export const getClientSession = (apiKey: string): NexaiSession => {
@@ -13,7 +14,7 @@ export const getClientSession = (apiKey: string): NexaiSession => {
     let session =  fetchSession(apiKey)
     if (!session) {
       session = createSession()
-      setClientSession(apiKey, session)
+      saveClientSession(apiKey, session)
     }
     return session
   } else {
@@ -41,7 +42,7 @@ export const fetchSession = (apiKey: string): NexaiSession|undefined => {
   }
 }
 
-export const setClientSession = (apiKey: string, session: NexaiSession) => {
+export const saveClientSession = (apiKey: string, session: NexaiSession) => {
   const json = JSON.stringify(session)
   window.localStorage.setItem('nexai-session-' + apiKey, json)
 }

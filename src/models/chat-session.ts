@@ -1,10 +1,12 @@
 import { action, observable } from "mobx";
 import { FetchModel } from "~/models/fetch-model";
 import { Model, type ModelProps } from "~/models/model";
-import { getClientSession, setClientSession } from "../lib/session/chat-session";
+import { NexaiSession, getClientSession, saveClientSession } from "../lib/session/chat-session";
 
 // @todo use
-export class ChatSessionModel extends Model {
+export class ChatSessionModel 
+extends Model 
+implements NexaiSession {
 
   @observable nexaiApiKey = ''
 
@@ -13,6 +15,10 @@ export class ChatSessionModel extends Model {
   @observable name = ''
 
   @observable isShowChat = false
+
+  @observable avatarUrl = ''
+
+  @observable email = ''
 
   @observable fetchState = FetchModel.create()
 
@@ -27,17 +33,29 @@ export class ChatSessionModel extends Model {
 
   @action async save() {
     this.saveState.fetch(async () => {
-      setClientSession(this.nexaiApiKey, {
+      saveClientSession(this.nexaiApiKey, {
         sessionId: this.sessionId,
         name: this.name,
-        isShowChat:this.isShowChat
+        isShowChat: this.isShowChat,
+        avatarUrl: this.avatarUrl,
+        email: this.email
       })
     })
   }
 
 }
 
-const chatSessionModel = ChatSessionModel.create()
-export const useChatSessionModel = () => {
-  return chatSessionModel
+const map = new Map<string, ChatSessionModel>()
+export const useChatSessionModel = ({ nexaiApiKey }: {
+  nexaiApiKey: string;
+}): ChatSessionModel => {
+  if (!map.has(nexaiApiKey)) {
+    console.log('create new session', nexaiApiKey)
+    const chatSession = ChatSessionModel.create({ nexaiApiKey })
+    const props = getClientSession(nexaiApiKey)
+    chatSession.setProps(props)
+    map.set(nexaiApiKey, chatSession)
+  }
+  return map.get(nexaiApiKey) as ChatSessionModel
 }
+

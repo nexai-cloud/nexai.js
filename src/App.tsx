@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite'
 import { NexaiChatBubble } from './chat-bubble'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './components/ui/resizable'
 import { getClientSession } from './lib/session/chat-session'
-import { ChatInput } from './app/chat-input'
+import { ChatInput } from './ui/chat-input'
 import logger from 'debug'
 
 const debug = logger('nexai:app')
@@ -134,9 +134,6 @@ export const App = observer(() => {
         />
       </ResizablePanel>
     </ResizablePanelGroup>
-
-      
-      
 
       <div className="fixed bottom-50 right-10 z-50"
         style={{

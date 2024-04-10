@@ -6,7 +6,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircleHeartIcon, MicIcon, SendIcon, } from "lucide-react";
 import { NexaiChatThread } from "./ui/chat-thread";
 import { NexaiChatMessage, type ChatMessage, type ChatUser } from "./chat-types";
-import { aiThreads, aiUser } from "./chat-data";
+import { getAiThreads, aiUser } from "./data/chat-data";
 import { BotAvatar, ChatAvatar } from "./ui/chat-avatar";
 import { ChatThreads } from "./models/chat-threads";
 import { ChatBusyIndicator } from './ui/busy-indicator/busy-indicator';
@@ -14,12 +14,12 @@ import { NexaiWaveForm } from './ui/wave-form/wave-form';
 import './ui/wave-form/wave-form.css'
 import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recognition';
 import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests';
-import { getClientSession } from './lib/session/chat-session';
 import { render } from 'react-dom';
 import { cn, randomUUID } from './lib/utils';
 import { getSessionSocket } from './lib/socket';
 import { IoChatMsg } from '../server';
 import { getChatUser } from './lib/session/session-user';
+import { useChatSessionModel } from './models/chat-session';
 
 export type NexaiChatBubbleProps = {
   width?: number;
@@ -41,7 +41,7 @@ export const NexaiChatBubble = observer(({
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
   )
-  const [isSpeechInput, setIsSpeechInut] = useState(false)
+  const [isSpeechInput, setIsSpeechInput] = useState(false)
   const chatInputRef = useRef<HTMLInputElement>(null)
   const [chatInput, setChatInput] = useState('')
   const [talking, setTalking] = useState(false)
@@ -52,16 +52,18 @@ export const NexaiChatBubble = observer(({
   const isChatListening = useRef(false)
 
   const threadsRef = useRef<HTMLDivElement>(null)
-  const sessionRef = useRef(getClientSession(nexaiApiKey))
+  const chatSession = useChatSessionModel({ nexaiApiKey })
 
   const threads = ChatThreads
 
   const socket = getSessionSocket({
-    sessionKey: sessionRef.current.sessionId,
+    sessionKey: chatSession.sessionId,
     ioUrl: nexaiIoUrl
   })
 
-  const chatUser = getChatUser(sessionRef.current, nexaiAssetsUrl)
+  const aiThreads = getAiThreads(chatSession)
+
+  const chatUser = getChatUser(chatSession, nexaiAssetsUrl)
 
   useEffect(() => {
     if (isChatListening.current) return
@@ -237,9 +239,9 @@ export const NexaiChatBubble = observer(({
           sendChatViaIo({
             ...user,
             message: message as string,
-            sessionKey: sessionRef.current.sessionId,
+            sessionKey: chatSession.sessionId,
             projectId: nexaiApiKey!,
-            fromName: sessionRef.current.name,
+            fromName: chatSession.name,
             toName: 'nexai'
           })
           if (isSpeechInput) {
@@ -280,7 +282,7 @@ export const NexaiChatBubble = observer(({
       recognition.addEventListener('speechend', () => {
         console.log('Speech end.');
         setTalking(false)
-        setIsSpeechInut(false)
+        setIsSpeechInput(false)
       });
 
       recognition.onresult = function(event: SpeechRecognitionEvent) {
@@ -288,7 +290,7 @@ export const NexaiChatBubble = observer(({
         const transcript: string = result[0].transcript;
         console.log('Speech Recognition Result:', transcript);
         sendUserChat({ uid: randomUUID(), message: transcript })
-        setIsSpeechInut(false)
+        setIsSpeechInput(false)
         setTimeout(() => {
           startSpeechRecognition()
         }, 500)
@@ -296,10 +298,10 @@ export const NexaiChatBubble = observer(({
 
       recognition.onerror = (error) => {
         console.error('speech error', error)
-        setIsSpeechInut(false)
+        setIsSpeechInput(false)
       }
 
-      setIsSpeechInut(true)
+      setIsSpeechInput(true)
       recognition.start()
       console.log('listening...')
     }
