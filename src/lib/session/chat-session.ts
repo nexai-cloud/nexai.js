@@ -1,7 +1,7 @@
 import { randomAvatarGenerator } from "../avatars/random-avatar";
 import { randomNameGenerator } from "./random-name"
 
-type NexaiSession = {
+export type NexaiSession = {
   name: string;
   sessionId: string;
   isShowChat: boolean;

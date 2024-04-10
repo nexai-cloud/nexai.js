@@ -19,6 +19,7 @@ import { render } from 'react-dom';
 import { cn, randomUUID } from './lib/utils';
 import { getSessionSocket } from './lib/socket';
 import { IoChatMsg } from '../server';
+import { getChatUser } from './lib/session/session-user';
 
 export type NexaiChatBubbleProps = {
   width?: number;
@@ -33,7 +34,9 @@ export const NexaiChatBubble = observer(({
   width = 380,
   nexaiApiKey,
   nexaiIoUrl = 'http://localhost:8080',
-  nexaiAssetsUrl = ''
+  nexaiAssetsUrl = '',
+  aiName = 'Nexai',
+  aiAvatarUrl = '/assets/logo/nexai-logo-round.svg'
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
@@ -58,6 +61,8 @@ export const NexaiChatBubble = observer(({
     ioUrl: nexaiIoUrl
   })
 
+  const chatUser = getChatUser(sessionRef.current, nexaiAssetsUrl)
+
   useEffect(() => {
     if (isChatListening.current) return
     isChatListening.current = true
@@ -72,7 +77,10 @@ export const NexaiChatBubble = observer(({
         name: data.fromName,
         userUid: data.userUid,
         avatar: data.fromName === 'nexai' ? (
-          <BotAvatar />
+          <BotAvatar
+            name={aiName}
+            avatarUrl={aiAvatarUrl}
+          />
         ) : (
           <ChatAvatar
             src={data.avatarUrl}
@@ -117,20 +125,6 @@ export const NexaiChatBubble = observer(({
     }
   }, [isSuggestLoaded])
 
-  const getChatUser = useCallback(() => {
-    const { name, sessionId, avatarUrl } = sessionRef.current
-    return {
-      name,
-      userUid: sessionId,
-      avatar: (
-        <ChatAvatar
-          src={`${nexaiAssetsUrl}${avatarUrl}`}
-          name={name}
-        />
-      ),
-    }
-  }, [sessionRef, nexaiAssetsUrl])
-
   const toggleChat = () => {
     setIsShowChat(!isShowChat)
     localStorage.setItem('isShowChat', !isShowChat ? '1' : '')
@@ -146,7 +140,7 @@ export const NexaiChatBubble = observer(({
   }
   const onInputKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Enter') {
-      sendChat({ uid: randomUUID(), message: chatInput }, getChatUser())
+      sendUserChat({ uid: randomUUID(), message: chatInput })
     }
   }
 
@@ -263,30 +257,14 @@ export const NexaiChatBubble = observer(({
     }
   }, [scrollToBottom, sendChatViaIo, nexaiApiKey, addAITyping, isSpeechInput, addChat])
 
+  const sendUserChat = useCallback((chatMessage: ChatMessage) => {
+    sendChat(chatMessage, chatUser)
+  }, [sendChat, chatUser])
+
   const onClickSuggest = useCallback((message: string) => {
-    sendChat({ uid: randomUUID(), message }, getChatUser())
+    sendUserChat({ uid: randomUUID(), message })
     setSuggests(nextSuggests())
-  }, [sendChat, getChatUser])
-
-  const synthVoice = (text: string) => {
-    console.log('syncVoice', text)
-    const voices = speechSynthesis.getVoices()
-      .filter(voice => voice.lang === 'en-US')
-
-    console.log('voices', voices)
-    const voice = voices.find(voice => {
-        return voice.voiceURI.match('Google')
-    }) || voices[0]
-
-    const utter = new SpeechSynthesisUtterance(text)
-    if (voice) {
-      utter.voice = voice
-      console.log('voice', voice.voiceURI)
-    }
-    speechSynthesis.speak(utter)
-    console.log('utter', text)
-  }
-  synthVoice; // @todo
+  }, [sendUserChat])
 
   const startSpeechRecognition = () => {
     if (hasSpeechRecognition()) {
@@ -309,7 +287,7 @@ export const NexaiChatBubble = observer(({
         const result = event.results[event.results.length - 1]
         const transcript: string = result[0].transcript;
         console.log('Speech Recognition Result:', transcript);
-        sendChat({ uid: randomUUID(), message: transcript }, getChatUser())
+        sendUserChat({ uid: randomUUID(), message: transcript })
         setIsSpeechInut(false)
         setTimeout(() => {
           startSpeechRecognition()
@@ -331,8 +309,6 @@ export const NexaiChatBubble = observer(({
     startSpeechRecognition()
   }
 
-  const visibleThreads = threads.slice()
-
   return (
     <div
       className="max-w-[100wh] nexai-chat-bubble pt-0 flex flex-col gap-4 rounded-lg"
@@ -346,7 +322,7 @@ export const NexaiChatBubble = observer(({
             <div className='bubble-thread-box pl-20 -ml-20 overflow-y-auto'>
               <div ref={threadsRef} className="bubble-thread text-slate-500">
                 {
-                  visibleThreads.map((thread) => (
+                  threads.map((thread) => (
                     <NexaiChatThread
                       key={thread.date.getTime()}
                       thread={thread}
@@ -360,7 +336,7 @@ export const NexaiChatBubble = observer(({
               style={{ left: -75 }}
             >
               {
-                getChatUser().avatar
+                chatUser.avatar
               }
             </div>
               <div className="flex align-middle border rounded-lg shadow-lg p-1 bg-white">
@@ -388,7 +364,7 @@ export const NexaiChatBubble = observer(({
                         }
                         <button
                           className="flex text-slate-300 my-auto p-2"
-                          onClick={() => sendChat({ uid: randomUUID(), message: chatInput }, getChatUser())}  
+                          onClick={() => sendUserChat({ uid: randomUUID(), message: chatInput })}  
                         >
                         <SendIcon />
                         </button>

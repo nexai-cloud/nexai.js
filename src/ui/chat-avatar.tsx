@@ -26,10 +26,14 @@ export const ChatAvatar = ({ src = '', name = '', className = '' }) => (
   </TooltipProvider>
 )
 
-export const BotAvatar = () => (
+export const BotAvatar = ({
+  avatarUrl = '/logo/nexai-logo-round.svg',
+  name = 'Nexai'
+}) => (
     <ChatAvatar
       className="border-none shadow-none"
-      src={'/logo/nexai-logo-round.svg'}
-      name="Nexai"
+      src={avatarUrl}
+      name={name}
     />  
 )
+

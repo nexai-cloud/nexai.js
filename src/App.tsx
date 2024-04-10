@@ -146,6 +146,8 @@ export const App = observer(() => {
         <NexaiChatBubble
           width={400}
           nexaiApiKey={nexaiApiKey}
+          aiName='AI'
+          aiAvatarUrl='/assets/avatars/alien-1-eye.png'
         />
       </div>
     </div>
