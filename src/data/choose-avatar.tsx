@@ -1,4 +1,5 @@
 import { observer } from "mobx-react-lite";
+import { useState } from "react";
 import { Input } from "~/components/ui/input";
 import { ChatAvatar, avatarsList } from "~/lib/avatars/avatars-list";
 import { cn } from "~/lib/utils";
@@ -10,6 +11,9 @@ export const ChooseAvatar = observer((
 } : { 
   chatSession: ChatSessionModel 
 }) => {
+  const [isEmailValid, setIsEmailValid] = useState(true)
+  const [isNameValid, setIsNameValid] = useState(true)
+
   const avatarUrl = chatSession.avatarUrl
   const onSelectAvatar = (avatar: ChatAvatar) => {
     console.log('onSelectAvatar', { avatar })
@@ -39,7 +43,15 @@ export const ChooseAvatar = observer((
     const emailRegex = /^[^@\s]+@[^@\s.]+\.[^@\s.]+$/;
     return emailRegex.test(email);
   }
-  
+
+  const onBlurEmail = () => {
+    if (chatSession.email?.length > 3) {
+      setIsEmailValid(validateEmail(chatSession.email))
+    }
+  }
+  const onBlurName = () => {
+    setIsNameValid(chatSession.name?.length > 0)
+  }
   console.log('choose-avatar', { avatarUrl })
   return (
     <div>
@@ -71,7 +83,11 @@ export const ChooseAvatar = observer((
           value={chatSession.name}
           onChange={(e) => onChangeName(e.target.value)}
           placeholder="Enter your name"
-          className="w-full"
+          className={cn(
+            "w-full",
+            !isNameValid && "border-red-500"
+          )}
+          onBlur={() => onBlurName()}
         />
       </div>
       <div className="flex p-2">
@@ -81,9 +97,10 @@ export const ChooseAvatar = observer((
           placeholder="Enter your email"
           className={cn(
             "w-full",
-            !validateEmail(chatSession.email) && "border-red-500"
+            !isEmailValid && "border-red-500"
           )}
           type="email"
+          onBlur={() => onBlurEmail()}
         />
       </div>
     </div>
