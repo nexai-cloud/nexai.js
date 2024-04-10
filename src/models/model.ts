@@ -1,4 +1,4 @@
-import { makeObservable, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 
 export type ModelProps<T> = {
   [K in keyof T]?: T[K];
@@ -10,7 +10,7 @@ export class Model {
 
   @observable id!: string
 
-  setProps<T extends this>(props: ModelProps<T>) {
+  @action setProps<T extends this>(props: ModelProps<T>) {
     Object.assign(this, props)
   }
 

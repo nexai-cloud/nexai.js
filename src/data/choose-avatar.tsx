@@ -35,6 +35,10 @@ export const ChooseAvatar = observer((
     })
     chatSession.save()
   }
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^@\s]+@[^@\s.]+\.[^@\s.]+$/;
+    return emailRegex.test(email);
+  }
   
   console.log('choose-avatar', { avatarUrl })
   return (
@@ -75,7 +79,11 @@ export const ChooseAvatar = observer((
           value={chatSession.email}
           onChange={(e) => onChangeEmail(e.target.value)}
           placeholder="Enter your email"
-          className="w-full"
+          className={cn(
+            "w-full",
+            !validateEmail(chatSession.email) && "border-red-500"
+          )}
+          type="email"
         />
       </div>
     </div>
