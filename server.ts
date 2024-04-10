@@ -17,6 +17,7 @@ export type IoChatMsg = {
   toName: string;
   sources?: string[];
   aiMuted?: boolean;
+  avatarUrl?: string;
 }
 
 const PORT: number = parseInt(process.env.PORT as string, 10) || 8080;

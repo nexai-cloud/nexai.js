@@ -63,7 +63,7 @@ export const NexaiChatBubble = observer(({
 
   const aiThreads = getAiThreads(chatSession)
 
-  const chatUser = getChatUser(chatSession, nexaiAssetsUrl)
+  const chatUser = getChatUser(chatSession)
 
   useEffect(() => {
     if (isChatListening.current) return
@@ -78,16 +78,10 @@ export const NexaiChatBubble = observer(({
       }, {
         name: data.fromName,
         userUid: data.userUid,
-        avatar: data.fromName === 'nexai' ? (
-          <BotAvatar
-            name={aiName}
-            avatarUrl={aiAvatarUrl}
-          />
+        avatarUrl: data.fromName === 'nexai' ? (
+          aiAvatarUrl
         ) : (
-          <ChatAvatar
-            src={data.avatarUrl}
-            name={data.fromName}
-          />
+          data.avatarUrl
         )
       })
     }
@@ -154,8 +148,8 @@ export const NexaiChatBubble = observer(({
   }, []);
 
   const sendChatViaIo = useCallback((chatMsg: IoChatMsg) => {
+    console.log('sendChatViaIo', chatMsg)
     socket.emit('chat', chatMsg)
-    console.log('ai chat send', chatMsg)
   }, [socket])
 
   const addAITyping = useCallback(async () => {
@@ -215,7 +209,14 @@ export const NexaiChatBubble = observer(({
         console.log('added to prev thread', prevThread)
       } else {
         const thread = {
-          ...user,
+          userUid: user.userUid,
+          name: user.name,
+          avatar: (
+            <ChatAvatar
+              src={user.avatarUrl}
+              name={user.name}
+            />
+          ),
           uid: String(Date.now()),
           hide: false,
           date: new Date(),
@@ -257,7 +258,7 @@ export const NexaiChatBubble = observer(({
     } catch(e) {
       alert('Failed to send your chat')
     }
-  }, [scrollToBottom, sendChatViaIo, nexaiApiKey, addAITyping, isSpeechInput, addChat])
+  }, [scrollToBottom, sendChatViaIo, nexaiApiKey, addAITyping, isSpeechInput, addChat, chatSession])
 
   const sendUserChat = useCallback((chatMessage: ChatMessage) => {
     sendChat(chatMessage, chatUser)
@@ -338,7 +339,10 @@ export const NexaiChatBubble = observer(({
               style={{ left: -75 }}
             >
               {
-                chatUser.avatar
+                <ChatAvatar
+                  src={chatUser.avatarUrl}
+                  name={chatUser.name}
+                />
               }
             </div>
               <div className="flex align-middle border rounded-lg shadow-lg p-1 bg-white">

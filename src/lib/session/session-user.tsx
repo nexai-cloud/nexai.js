@@ -1,16 +1,10 @@
-import { ChatAvatar } from "~/ui/chat-avatar"
 import { NexaiSession } from "./chat-session"
 
-export const getChatUser = (session: NexaiSession, nexaiAssetsUrl = '') => {
+export const getChatUser = (session: NexaiSession) => {
   const { name, sessionId, avatarUrl } = session
   return {
     name,
     userUid: sessionId,
-    avatar: (
-      <ChatAvatar
-        src={`${nexaiAssetsUrl}${avatarUrl}`}
-        name={name}
-      />
-    ),
+    avatarUrl
   }
 }

@@ -12,7 +12,7 @@ export type ChatThread = {
 export type ChatUser = {
   name: string;
   userUid: string;
-  avatar: JSX.Element;
+  avatarUrl?: string;
 }
 
 export type ChatMessage = {
