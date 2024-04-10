@@ -88,9 +88,9 @@ export const App = observer(() => {
     sessionIo.on('chat', onChat)
     projectIo.on('chat', onProjectChat)
     loaded.current = true
-    setTimeout(() => {
-      sendSessionChatMsg('hello from client')
-    }, 100)
+    // setTimeout(() => {
+    //   sendSessionChatMsg('hello from client')
+    // }, 100)
   })
 
   return (
