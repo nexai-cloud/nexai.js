@@ -1,6 +1,10 @@
 # Nexai AI Support Chat Bubble
 
-The Nexai AI Support Chat Bubble is a React component designed to facilitate AI-powered support chat for any website. 
+(
+![Nexai AI Support Chat Bubble](./public/screenshots/nexai-chat-bubble-open.png)
+)
+
+The Nexai AI Support Chat Bubble is a React component designed to facilitate AI-powered support chat for any website.
 
 ## Setup
 
@@ -8,9 +12,40 @@ Log into https://nexai.site and create a new project. Add your website to the pr
 
 ## Compatibility
 
-It is compatible with both CommonJS (CJS) and ECMAScript Modules (ESM) systems. It can run on the browser or server side nodejs or deno.
+The HTML embed can be embedded onto any website without coding. 
 
-### Installation
+The TypeScript library is compatible with both CommonJS (CJS) and ECMAScript Modules (ESM). It can be used to customize and extend the React Component for use the underlying api to interact with the ai support chat server.
+
+It can run on the browser or server side nodejs or deno.
+
+
+### HTML Embed Installation
+
+```html
+<!-- nexai ai chat bubble -->
+<script src="https://nexai.site/ai/chat-bubble.umd.js"></script>
+<script>
+  // edit to custoize
+  NexaiChatBubble.render({
+    bottom: 30,
+    right: 30,
+    width: 400,
+    nexaiApiKey: 'your-api-key',
+    nexaiIoUrl: '',
+    nexaiAssetsUrl: '',
+    aiName: 'Nexai',
+    aiAvatarUrl: '',
+    chatSuggests: [
+      'Hello|How do I use it?', 'Help me login|Setup account', 'I\'m happy|I need a human'
+    ],
+    projectName: 'Nexai',
+    inputPlaceholder: 'Ask a question...'
+  })
+</script>
+<!-- end nexai ai chat bubble --->
+```
+
+### Library Installation
 
 ```sh
 npm install nexai-ai-support-chat-bubble
@@ -80,13 +115,9 @@ export const App = () => {
 ### Key Components:
 
 1. **Chat Bubble Interface (`./src/chat-bubble`)**: This is the frontend component that users interact with. It provides a user-friendly interface for sending messages and receiving responses from the AI.
-
 2. **Server (`server.js`)**: The server component is built on Express.js and utilizes Socket.IO for real-time, bidirectional communication between the client and server. It handles incoming chat messages from the chat bubble interface, processes them, and sends them to the AI service for response generation.
-
 3. **AI Communication (`sendChatToAi` function)**: This function is responsible for sending user messages to the AI service and retrieving AI-generated responses. It constructs a POST request with the user's message and other relevant information, sends it to the configured AI API endpoint, and processes the response.
-
 4. **Configuration (`config.js`)**: The configuration file contains essential settings for the application, including the AI API URL. This allows for easy customization and integration with different AI services.
-
 5. **Utilities (`utils.js`)**: This file includes utility functions that support the application's functionality, such as generating unique session keys for chat sessions.
 
 ### How It Works:
@@ -105,4 +136,3 @@ This architecture allows for real-time communication with AI-powered support ser
 - It is designed to be deployed on server environments that support Node.js, leveraging Express.js and Socket.IO for backend functionality.
 
 By integrating the Nexai AI Support Chat Bubble into your application, you can enhance user experience by providing instant AI-powered support and assistance.
-
