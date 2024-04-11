@@ -19,7 +19,7 @@ export const ChatAvatar = ({ src = '', name = '', className = '' }) => (
           </Avatar>
         </div>
       </TooltipTrigger>
-      <TooltipContent>
+      <TooltipContent className="bg-white">
         {name}
       </TooltipContent>
     </Tooltip>
@@ -27,12 +27,12 @@ export const ChatAvatar = ({ src = '', name = '', className = '' }) => (
 )
 
 export const BotAvatar = ({
-  avatarUrl = '/logo/nexai-logo-round.svg',
+  src = '/logo/nexai-logo-round.svg',
   name = 'Nexai'
 }) => (
     <ChatAvatar
       className="border-none shadow-none"
-      src={avatarUrl}
+      src={src}
       name={name}
     />  
 )

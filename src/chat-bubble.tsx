@@ -6,9 +6,9 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircleHeartIcon, MicIcon, SendIcon, } from "lucide-react";
 import { NexaiChatThread } from "./ui/chat-thread";
 import { NexaiChatMessage, type ChatMessage, type ChatUser } from "./chat-types";
-import { getAiThreads, aiUser } from "./data/chat-data";
-import { BotAvatar, ChatAvatar } from "./ui/chat-avatar";
-import { ChatThreads } from "./models/chat-threads";
+import { getAiThreads, getAiUser } from "./data/chat-data";
+import { ChatAvatar } from "./ui/chat-avatar";
+import { ChatThreads, setChatThreads } from "./models/chat-threads";
 import { ChatBusyIndicator } from './ui/busy-indicator/busy-indicator';
 import { NexaiWaveForm } from './ui/wave-form/wave-form';
 import './ui/wave-form/wave-form.css'
@@ -36,7 +36,7 @@ export const NexaiChatBubble = observer(({
   nexaiIoUrl = 'http://localhost:8080',
   nexaiAssetsUrl = '',
   aiName = 'Nexai',
-  aiAvatarUrl = '/assets/logo/nexai-logo-round.svg'
+  aiAvatarUrl = ''
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
@@ -61,7 +61,7 @@ export const NexaiChatBubble = observer(({
     ioUrl: nexaiIoUrl
   })
 
-  const aiThreads = getAiThreads(chatSession)
+  const aiThreads = useCallback(() => getAiThreads(chatSession, { aiName, aiAvatarUrl, nexaiAssetsUrl }), [chatSession, aiName, aiAvatarUrl, nexaiAssetsUrl])
 
   const chatUser = getChatUser(chatSession)
 
@@ -76,12 +76,12 @@ export const NexaiChatBubble = observer(({
         sources: data.sources || [],
         aiMuted: data.aiMuted
       }, {
-        name: data.fromName,
+        name: data.userUid === 'nexai' ? aiName : data.fromName,
         userUid: data.userUid,
-        avatarUrl: data.fromName === 'nexai' ? (
-          aiAvatarUrl
+        avatarUrl: data.userUid === 'nexai' ? (
+          nexaiAssetsUrl + aiAvatarUrl
         ) : (
-          data.avatarUrl
+          nexaiAssetsUrl + data.avatarUrl
         )
       })
     }
@@ -106,9 +106,8 @@ export const NexaiChatBubble = observer(({
   }, [])
 
   useEffect(() => {
-    threads.splice(0, threads.length)
-    threads.push(...aiThreads)
-  }, [threads])
+    setChatThreads(aiThreads())
+  }, [aiThreads])
 
   useEffect(() => {
     const loadSuggests = async () => {
@@ -155,7 +154,7 @@ export const NexaiChatBubble = observer(({
   const addAITyping = useCallback(async () => {
     const uid = String(Date.now())
     const thread = {
-      ...aiUser,
+      ...getAiUser({ aiName, aiAvatarUrl, nexaiAssetsUrl }),
       uid,
       hide: false,
       date: new Date(),
@@ -169,7 +168,7 @@ export const NexaiChatBubble = observer(({
     threads.push(thread)
     scrollToBottom()
     return thread
-  }, [threads, scrollToBottom])
+  }, [threads, scrollToBottom, aiName, aiAvatarUrl, nexaiAssetsUrl])
 
   const addChat = useCallback((chatMessage: ChatMessage, user: ChatUser) => {
     console.log('adding chat msg', { chatMessage, user })

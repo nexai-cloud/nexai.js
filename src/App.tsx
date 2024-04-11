@@ -144,7 +144,7 @@ export const App = observer(() => {
           width={400}
           nexaiApiKey={nexaiApiKey}
           aiName='AI'
-          aiAvatarUrl='/assets/avatars/alien-1-eye.png'
+          aiAvatarUrl='/assets/avatars/alien-3-eyes.png'
         />
       </div>
     </div>
