@@ -22,9 +22,21 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "types": ["@types/dom-speech-recognition"]
+    "types": ["@types/dom-speech-recognition"],
+
+    /* alias paths */
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ],
+    },
+    "esModuleInterop": true
   },
   "include": [
-    "./src/lib"
+    "./index.ts"
   ]
 }
+

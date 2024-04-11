@@ -16,6 +16,7 @@ export const NexaiChatMsg = observer(({
   if (!chatMessage) return null
   const { message, sources } = chatMessage
   // const isAi = thread.userUid === 'nexai'
+  thread; // read
 
   return (
     <div
