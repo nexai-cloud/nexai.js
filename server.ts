@@ -18,6 +18,7 @@ export type IoChatMsg = {
   sources?: string[];
   aiMuted?: boolean;
   avatarUrl?: string;
+  email?: string;
 }
 
 const PORT: number = parseInt(process.env.PORT as string, 10) || 8080;
@@ -93,6 +94,9 @@ sessions.on("connection", socket => {
   //   message: "hello from session " + session.name,
   //   fromName: "server"
   // });
+
+  let sentEmailReq = false
+
   socket.on('chat', async (msg: IoChatMsg) => {
     log('session received chat', msg)
     const chatMsg = {
@@ -100,6 +104,15 @@ sessions.on("connection", socket => {
       sessionId: msg.sessionKey, // @todo fix
       createdAt: new Date(),
       updatedAt: new Date()
+    }
+    if (!msg.email && !sentEmailReq) {
+      sentEmailReq = true
+      session.emit('chat', { 
+        ...chatMsg,
+        uid: randomUUID(),
+        userUid: 'nexai',
+        message: 'It is best to provide an email so we can contact you.',
+       })
     }
     session.emit('chat', chatMsg)
     io.of('/project/' + msg.projectId).emit('chat', chatMsg)
