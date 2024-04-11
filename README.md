@@ -1,6 +1,14 @@
 # Nexai AI Support Chat Bubble
 
-The Nexai AI Support Chat Bubble is a sophisticated piece of software designed to facilitate seamless communication between users and AI-powered support services. This solution is built using modern JavaScript technologies and is compatible with both CommonJS (CJS) and ECMAScript Modules (ESM) systems, ensuring broad compatibility across different JavaScript environments.
+The Nexai AI Support Chat Bubble is a React component designed to facilitate AI-powered support chat for any website. 
+
+## Setup
+
+Log into https://nexai.site and create a new project. Add your website to the project then use the API key from the project settings.
+
+## Compatibility
+
+It is compatible with both CommonJS (CJS) and ECMAScript Modules (ESM) systems. It can run on the browser or server side nodejs or deno.
 
 ### Installation
 
@@ -8,13 +16,64 @@ The Nexai AI Support Chat Bubble is a sophisticated piece of software designed t
 npm install nexai-ai-support-chat-bubble
 ```
 
-### Usage
+### Basic Usage
 
 ```js
 import { NexaiChatBubble } from 'nexai-ai-support-chat-bubble';
 
 export const App = () => {
-  return <NexaiChatBubble />;
+  return <NexaiChatBubble nexaiApiKey="your-api-key" />;
+};
+```
+
+### Development Usage
+
+```sh
+git clone https://github.com/nexai-cloud/support-chat-bubble
+cd support-chat-bubble
+npm install
+npm run dev
+```
+
+### Props
+
+```ts
+export type NexaiChatBubbleProps = {
+  width?: number;
+  nexaiApiKey: string;
+  nexaiIoUrl?: string;
+  nexaiAssetsUrl?: string;
+  aiName?: string;
+  aiAvatarUrl?: string;
+  chatSuggests?: string[];
+  projectName?: string;
+  inputPlaceholder?: string;
+}
+```
+
+### React Example with all props
+
+```js
+import { NexaiChatBubble } from 'nexai-ai-support-chat-bubble';
+
+export const App = () => {
+  return (
+    <NexaiChatBubble 
+      nexaiApiKey="your-api-key"
+      width={300}
+      nexaiIoUrl="https://io.nexai.site"
+      nexaiAssetsUrl="https://nexai.site"
+      aiName="Your Bot Name"
+      aiAvatarUrl="https://your.site/avatar.png"
+      chatSuggests={[
+        "Hello|How do I use it?", 
+        "Help me login|Setup account", 
+        "I'm happy|I need a human"
+      ]}
+      projectName="Your Project Name"
+      inputPlaceholder="Type your message..."
+    />
+  );
 };
 ```
 
