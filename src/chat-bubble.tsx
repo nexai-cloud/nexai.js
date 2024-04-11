@@ -13,7 +13,7 @@ import { ChatBusyIndicator } from './ui/busy-indicator/busy-indicator';
 import { NexaiWaveForm } from './ui/wave-form/wave-form';
 import './ui/wave-form/wave-form.css'
 import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recognition';
-import { fetchSuggests, getSuggests, nextSuggests } from './models/chat-suggests';
+import { fetchSuggests, getSuggests, setSuggests, nextSuggests } from './models/chat-suggests';
 import { render } from 'react-dom';
 import { cn, randomUUID } from './lib/utils';
 import { getSessionSocket } from './lib/socket';
@@ -28,6 +28,8 @@ export type NexaiChatBubbleProps = {
   nexaiAssetsUrl?: string;
   aiName?: string;
   aiAvatarUrl?: string;
+  chatSuggests?: string[];
+  projectName?: string;
 }
 
 export const NexaiChatBubble = observer(({
@@ -36,7 +38,9 @@ export const NexaiChatBubble = observer(({
   nexaiIoUrl = 'http://localhost:8080',
   nexaiAssetsUrl = '',
   aiName = 'Nexai',
-  aiAvatarUrl = ''
+  aiAvatarUrl = '',
+  chatSuggests = [],
+  projectName = 'Nexai'
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
@@ -46,8 +50,8 @@ export const NexaiChatBubble = observer(({
   const [chatInput, setChatInput] = useState('')
   const [talking, setTalking] = useState(false)
   const [hasRecognition, setHasRecognition] = useState(false)
-  const [suggests, setSuggests] = useState<string[]>([])
   
+  const suggests = getSuggests()
   const isSuggestLoaded = useRef(false)
   const isChatListening = useRef(false)
 
@@ -112,13 +116,12 @@ export const NexaiChatBubble = observer(({
   useEffect(() => {
     const loadSuggests = async () => {
       isSuggestLoaded.current = true
-      await fetchSuggests()
-      setSuggests(getSuggests())
+      chatSuggests?.length > 0 ? setSuggests(chatSuggests) : await fetchSuggests(projectName)
     }
     if (!isSuggestLoaded.current) {
       loadSuggests()
     }
-  }, [isSuggestLoaded])
+  }, [isSuggestLoaded, projectName, chatSuggests])
 
   const toggleChat = () => {
     setIsShowChat(!isShowChat)
@@ -265,7 +268,7 @@ export const NexaiChatBubble = observer(({
 
   const onClickSuggest = useCallback((message: string) => {
     sendUserChat({ uid: randomUUID(), message })
-    setSuggests(nextSuggests())
+    nextSuggests()
   }, [sendUserChat])
 
   const startSpeechRecognition = () => {

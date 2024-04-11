@@ -145,6 +145,8 @@ export const App = observer(() => {
           nexaiApiKey={nexaiApiKey}
           aiName='AI'
           aiAvatarUrl='/assets/avatars/alien-3-eyes.png'
+          projectName='Nexai'
+          chatSuggests={['Hi! I\'m fine.|What is this?', 'Cool!|How do I use it?', 'API?|Apps?', 'NodeJS|React|Typescript|JS', 'Pricing?|Free option?', 'I am satisfied.|I am not happy.', 'Thanks, bye.']}
         />
       </div>
     </div>
