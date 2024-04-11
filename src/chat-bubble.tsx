@@ -30,6 +30,7 @@ export type NexaiChatBubbleProps = {
   aiAvatarUrl?: string;
   chatSuggests?: string[];
   projectName?: string;
+  inputPlaceholder?: string;
 }
 
 export const NexaiChatBubble = observer(({
@@ -40,7 +41,8 @@ export const NexaiChatBubble = observer(({
   aiName = 'Nexai',
   aiAvatarUrl = '',
   chatSuggests = [],
-  projectName = 'Nexai'
+  projectName = 'Nexai',
+  inputPlaceholder = ''
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
@@ -353,7 +355,7 @@ export const NexaiChatBubble = observer(({
                     <>
                       <input
                         className="w-full bg-white border-0 p-3 font-medium size-12"
-                        placeholder={'Ask a question...'}
+                        placeholder={inputPlaceholder || (projectName ? `Ask about ${projectName}...` : 'Ask a question...')}
                         onChange={onInputChange}
                         onKeyDown={onInputKeyDown}
                         value={chatInput}
