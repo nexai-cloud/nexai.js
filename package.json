@@ -20,7 +20,8 @@
     "build": "vite build",
     "build:copy": "cp dist/*.js ./lib/",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "publish": "npm run prepublishOnly && npm publish"
   },
   "dependencies": {
     "@radix-ui/react-accessible-icon": "^1.0.3",
