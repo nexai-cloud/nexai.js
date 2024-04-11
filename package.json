@@ -1,5 +1,5 @@
 {
-  "name": "nexai-chat-bubble",
+  "name": "nexai-ai-support-chat-bubble",
   "version": "0.0.0",
   "type": "module",
   "main": "./lib/cjs/index.js",
