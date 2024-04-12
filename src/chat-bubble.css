@@ -1,3 +1,6 @@
+.nexai-chat-bubble {
+  display: flex;
+}
 /* Hide scrollbar for Chrome, Safari and Opera */
 .bubble-thread-box::-webkit-scrollbar {
   display: none;
@@ -93,3 +96,7 @@
   font-size: 12px;
 }
 
+#nexai-audio-wave {
+  width: 80px;
+  height: 80px;
+}

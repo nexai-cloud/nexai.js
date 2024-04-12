@@ -13,8 +13,9 @@
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "emitDeclarationOnly": true,
     "jsx": "react-jsx",
+    "declaration": true,
 
     /* Linting */
     "strict": true,
@@ -22,6 +23,9 @@
     // "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
+
+
+    "outDir": "./dist",
 
     /* alias paths */
     "paths": {
@@ -33,7 +37,7 @@
       ],
     }
   },
-  "include": ["src", "server.ts"],
+  "include": ["src", "server.ts", "index.ts"],
   "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

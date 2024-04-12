@@ -2,13 +2,16 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react-swc'
 import { resolve } from 'path'
 import tsconfigPaths from "vite-tsconfig-paths";
-import { libInjectCss } from 'vite-plugin-lib-inject-css';
+// import { libInjectCss } from 'vite-plugin-lib-inject-css';
 import tailwindcss from 'tailwindcss';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   define: {
-    global: 'window',
+    global: [
+      'window',
+      'document'
+    ],
     'process.env.NODE_ENV': '"production"', 
   },
   plugins: [
@@ -16,13 +19,13 @@ export default defineConfig({
       tsDecorators: true
     }), 
     tsconfigPaths(),
-    libInjectCss(),
+    // libInjectCss(),
   ],
   build: {
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: [
-        resolve(__dirname, 'src/chat-bubble.tsx'),
+        resolve(__dirname, 'index.ts'),
         // resolve(__dirname, 'src/lib/nexai.ts')
       ],
       name: 'nexai-chat',
@@ -36,10 +39,10 @@ export default defineConfig({
       // into your library
       external: [
         // 'react/jsx-runtime',
-        // 'react',
-        // 'react-dom',
-        // 'mobx',
-        // 'mobx-react-lite'
+        'react',
+        'react-dom',
+        'mobx',
+        'mobx-react-lite'
       ]
     },
   },

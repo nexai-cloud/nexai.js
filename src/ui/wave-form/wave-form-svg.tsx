@@ -1,7 +1,7 @@
 export const NexaiWaveFormSVG = ({
   className = ''
 }) => (
-  <svg id="mainSVG" className={className} xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 800 600`}>
+  <svg id="nexai-audio-wave" className={className} xmlns="http://www.w3.org/2000/svg" viewBox={`0 0 800 600`}>
     <linearGradient id="grad1" x1="393.05" y1="400" x2="393.05" y2="200" gradientUnits="userSpaceOnUse">
       <stop offset="0" stopColor="#993BDC"/>
       <stop offset="1" stopColor="#35AAF9"/>

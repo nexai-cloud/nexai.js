@@ -1,13 +1,12 @@
 import { useEffect, useRef } from 'react'
-import './App.css'
 import { getProjectSocket, getSessionSocket } from './lib/socket'
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
-import { NexaiChatBubble } from './chat-bubble'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './components/ui/resizable'
 import { getClientSession } from './lib/session/chat-session'
 import { ChatInput } from './ui/chat-input'
 import logger from 'debug'
+import { NexaiChatBubble } from './chat-bubble'
 
 const debug = logger('nexai:app')
 

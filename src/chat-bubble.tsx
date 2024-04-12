@@ -1,7 +1,4 @@
 import { observer } from 'mobx-react-lite'
-import "./chat-bubble.css"
-import "./index.css"
-import "./ui/busy-indicator/busy-indicator.css"
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircleHeartIcon, MicIcon, SendIcon, } from "lucide-react";
 import { NexaiChatThread } from "./ui/chat-thread";
@@ -11,7 +8,6 @@ import { ChatAvatar } from "./ui/chat-avatar";
 import { ChatThreads, setChatThreads } from "./models/chat-threads";
 import { ChatBusyIndicator } from './ui/busy-indicator/busy-indicator';
 import { NexaiWaveForm } from './ui/wave-form/wave-form';
-import './ui/wave-form/wave-form.css'
 import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recognition';
 import { fetchSuggests, getSuggests, setSuggests, nextSuggests } from './models/chat-suggests';
 import { render } from 'react-dom';
@@ -20,6 +16,12 @@ import { getSessionSocket } from './lib/socket';
 import { IoChatMsg } from '../server';
 import { getChatUser } from './lib/session/session-user';
 import { useChatSessionModel } from './models/chat-session';
+// css
+import './ui/wave-form/wave-form.css'
+import "./chat-bubble.css"
+import "./index.css"
+import "./ui/busy-indicator/busy-indicator.css"
+
 
 export type NexaiChatBubbleProps = {
   width?: number;
