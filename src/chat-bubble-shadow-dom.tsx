@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useRef } from 'react';
 import { NexaiChatBubble, NexaiChatBubbleProps } from './chat-bubble';
 import { createRoot } from 'react-dom/client';

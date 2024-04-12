@@ -1,3 +1,4 @@
+"use client"
 import { observer } from 'mobx-react-lite'
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { MessageCircleHeartIcon, MicIcon, SendIcon, } from "lucide-react";
@@ -17,11 +18,11 @@ import { IoChatMsg } from '../server';
 import { getChatUser } from './lib/session/session-user';
 import { useChatSessionModel } from './models/chat-session';
 // css
-import './ui/wave-form/wave-form.css'
-import "./chat-bubble.css"
-import "./index.css"
-import "./ui/busy-indicator/busy-indicator.css"
-
+// import './ui/wave-form/wave-form.css'
+// import "./chat-bubble.css"
+// import "./index.css"
+// import "./ui/busy-indicator/busy-indicator.css"
+// import "./components/shared/prism/code-block.css"
 
 export type NexaiChatBubbleProps = {
   width?: number;
