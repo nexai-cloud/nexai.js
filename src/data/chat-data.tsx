@@ -3,18 +3,18 @@ import { BotAvatar, ChatAvatar } from "../ui/chat-avatar";
 import { ChooseAvatar } from "./choose-avatar";
 import { type ChatSessionModel } from "~/models/chat-session";
 
-export const getAiUser = ({ aiName, aiAvatarUrl, nexaiAssetsUrl }: { aiName: string, aiAvatarUrl: string, nexaiAssetsUrl: string }) => {
+export const getAiUser = ({ aiName, aiAvatarUrl }: { aiName: string, aiAvatarUrl: string }) => {
   console.log('aiAvatarUrl', aiAvatarUrl)
   return {
     userUid: 'nexai',
     name: aiName,
-    avatar: aiAvatarUrl ? <ChatAvatar src={nexaiAssetsUrl + aiAvatarUrl} name={aiName} /> : <BotAvatar />,
+    avatar: aiAvatarUrl ? <ChatAvatar src={aiAvatarUrl} name={aiName} /> : <BotAvatar />,
   }
 }
 
 export const getAiThreads = (chatSession: ChatSessionModel, { aiName, aiAvatarUrl, nexaiAssetsUrl }: { aiName: string, aiAvatarUrl: string, nexaiAssetsUrl: string }) => [
   {
-    ...getAiUser({ aiName, aiAvatarUrl, nexaiAssetsUrl }),
+    ...getAiUser({ aiName, aiAvatarUrl }),
     hide: false,
     date: new Date(),
     messages: [
@@ -25,7 +25,12 @@ export const getAiThreads = (chatSession: ChatSessionModel, { aiName, aiAvatarUr
         message: 'How may I help you?'
       },
       {
-        message: <ChooseAvatar chatSession={chatSession} />
+        message: (
+          <ChooseAvatar
+            nexaiAssetsUrl={nexaiAssetsUrl}
+            chatSession={chatSession}
+          />
+        )
       }
     ]
   } as ChatThread

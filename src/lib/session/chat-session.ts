@@ -9,21 +9,21 @@ export type NexaiSession = {
   email?: string;
 }
 
-export const getClientSession = (apiKey: string): NexaiSession => {
+export const getClientSession = (apiKey: string, nexaiAssetsUrl: string): NexaiSession => {
   if (typeof window !== "undefined") {
     let session =  fetchSession(apiKey)
     if (!session) {
-      session = createSession()
+      session = createSession(nexaiAssetsUrl)
       saveClientSession(apiKey, session)
     }
     return session
   } else {
-    return createSession()
+    return createSession(nexaiAssetsUrl)
   }
 }
 
-export const createSession = (): NexaiSession => {
-  const avatar = randomAvatarGenerator()
+export const createSession = (nexaiAssetsUrl: string): NexaiSession => {
+  const avatar = randomAvatarGenerator(nexaiAssetsUrl)
   return {
     name: randomNameGenerator({
       object: avatar.name,

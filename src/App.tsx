@@ -6,7 +6,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './componen
 import { getClientSession } from './lib/session/chat-session'
 import { ChatInput } from './ui/chat-input'
 import logger from 'debug'
-import { NexaiChatBubble } from './chat-bubble'
+import { NexaiChatBubble } from '../index'
 
 const debug = logger('nexai:app')
 
@@ -29,11 +29,12 @@ const addProjectMsg = action((msg: ChatMsg) => {
 })
 
 const nexaiApiKey = 'clu8hm40800004vzfocfds9xa'
+const nexaiAssetsUrl = 'https://nexai.site/ai/assets'
 
 export const App = observer(() => {
 
   const loaded = useRef(false)
-  const clientSession = getClientSession(nexaiApiKey)
+  const clientSession = getClientSession(nexaiApiKey, nexaiAssetsUrl)
   const sessionIo = getSessionSocket({
     sessionKey: clientSession.sessionId
   })
@@ -143,9 +144,17 @@ export const App = observer(() => {
           width={400}
           nexaiApiKey={nexaiApiKey}
           aiName='AI'
-          aiAvatarUrl='/assets/avatars/alien-3-eyes.png'
+          aiAvatarUrl='https://nexai.site/ai/assets/avatars/alien-3-eyes.png'
           projectName='Nexai'
-          chatSuggests={['Hi! I\'m fine.|What is this?', 'Cool!|How do I use it?', 'API?|Apps?', 'NodeJS|React|Typescript|JS', 'Pricing?|Free option?', 'I am satisfied.|I am not happy.', 'Thanks, bye.']}
+          chatSuggests={[
+            'Hi! I\'m fine.|What is this?',
+            'Cool!|How do I use it?',
+            'API?|Apps?',
+            'NodeJS|React|Typescript|JS',
+            'Pricing?|Free option?',
+            'I am satisfied.|I am not happy.',
+            'Thanks, bye.'
+          ]}
         />
       </div>
     </div>

@@ -39,11 +39,15 @@ export type NexaiChatBubbleProps = {
 export const NexaiChatBubble = observer(({
   width = 380,
   nexaiApiKey,
-  nexaiIoUrl = 'http://localhost:8080',
-  nexaiAssetsUrl = '',
+  nexaiIoUrl = 'https://chat.nexai.site',
+  nexaiAssetsUrl = 'https://nexai.site/ai/assets',
   aiName = 'Nexai',
-  aiAvatarUrl = '',
-  chatSuggests = [],
+  aiAvatarUrl = 'https://nexai.site/ai/logo/nexai-logo-round.svg',
+  chatSuggests = [
+    `Hi! I'm fine!|How do I use this?`,
+    `Free options?|What's the pricing?`,
+    `I'm satisfied. Bye.|I need more help.`
+  ],
   projectName = 'Nexai',
   inputPlaceholder = ''
 }: NexaiChatBubbleProps) => {
@@ -61,7 +65,7 @@ export const NexaiChatBubble = observer(({
   const isChatListening = useRef(false)
 
   const threadsRef = useRef<HTMLDivElement>(null)
-  const chatSession = useChatSessionModel({ nexaiApiKey })
+  const chatSession = useChatSessionModel({ nexaiApiKey, nexaiAssetsUrl })
 
   const threads = ChatThreads
 
@@ -162,7 +166,7 @@ export const NexaiChatBubble = observer(({
   const addAITyping = useCallback(async () => {
     const uid = String(Date.now())
     const thread = {
-      ...getAiUser({ aiName, aiAvatarUrl, nexaiAssetsUrl }),
+      ...getAiUser({ aiName, aiAvatarUrl }),
       uid,
       hide: false,
       date: new Date(),

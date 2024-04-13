@@ -18,6 +18,7 @@
     "dev:server": "nodemon -x npx tsx server.ts",
     "dev:lib": "nodemon -w ./src -e 'ts,tsx'  -x npm run build",
     "build": "vite build",
+    "build:embed": "npm run build:clean && npm run build",
     "build:all": "npm run build:clean && npm run build && npm run build:declarations && npm run build:rename:index",
     "build:clean": "rm -fr dist",
     "build:declarations": "tsc --emitDeclarationOnly",

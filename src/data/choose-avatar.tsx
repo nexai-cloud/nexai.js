@@ -1,16 +1,21 @@
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { Input } from "~/components/ui/input";
-import { ChatAvatar, avatarsList } from "~/lib/avatars/avatars-list";
+import { ChatAvatar, getAvatarsList } from "~/lib/avatars/avatars-list";
 import { cn } from "~/lib/utils";
 import { ChatSessionModel } from "~/models/chat-session";
 
 export const ChooseAvatar = observer((
 { 
-  chatSession 
+  chatSession,
+  nexaiAssetsUrl
 } : { 
-  chatSession: ChatSessionModel 
+  chatSession: ChatSessionModel
+  nexaiAssetsUrl: string
 }) => {
+
+  const avatarsList = getAvatarsList(nexaiAssetsUrl)
+
   const [isEmailValid, setIsEmailValid] = useState(true)
   const [isNameValid, setIsNameValid] = useState(true)
 

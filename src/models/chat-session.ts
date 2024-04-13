@@ -12,6 +12,7 @@ implements NexaiSession {
     super()
     makeObservable(this, {
       nexaiApiKey: observable,
+      nexaiAssetsUrl: observable,
       sessionId: observable,
       name: observable,
       isShowChat: observable,
@@ -24,6 +25,8 @@ implements NexaiSession {
   }
 
   nexaiApiKey = ''
+
+  nexaiAssetsUrl = ''
 
   sessionId = ''
 
@@ -39,7 +42,7 @@ implements NexaiSession {
 
   async fetch() {
     this.fetchState.fetch(async () => {
-      const session = getClientSession(this.nexaiApiKey)
+      const session = getClientSession(this.nexaiApiKey, this.nexaiAssetsUrl)
       this.setProps(session as ModelProps<this>)
     })
   }
@@ -61,13 +64,14 @@ implements NexaiSession {
 }
 
 const map = new Map<string, ChatSessionModel>()
-export const useChatSessionModel = ({ nexaiApiKey }: {
+export const useChatSessionModel = ({ nexaiApiKey, nexaiAssetsUrl }: {
   nexaiApiKey: string;
+  nexaiAssetsUrl: string;
 }): ChatSessionModel => {
   if (!map.has(nexaiApiKey)) {
     console.log('create new session', nexaiApiKey)
     const chatSession = ChatSessionModel.create({ nexaiApiKey })
-    const props = getClientSession(nexaiApiKey)
+    const props = getClientSession(nexaiApiKey, nexaiAssetsUrl)
     chatSession.setProps(props)
     map.set(nexaiApiKey, chatSession)
   }
