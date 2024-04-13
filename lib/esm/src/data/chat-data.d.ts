@@ -1,9 +1,8 @@
 import { type ChatThread } from "../chat-types";
 import { type ChatSessionModel } from "../models/chat-session";
-export declare const getAiUser: ({ aiName, aiAvatarUrl, nexaiAssetsUrl }: {
+export declare const getAiUser: ({ aiName, aiAvatarUrl }: {
     aiName: string;
     aiAvatarUrl: string;
-    nexaiAssetsUrl: string;
 }) => {
     userUid: string;
     name: string;
