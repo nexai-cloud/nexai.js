@@ -84,7 +84,7 @@ export const ChooseAvatar = observer((
           onChange={(e) => onChangeName(e.target.value)}
           placeholder="Enter your name"
           className={cn(
-            "w-full",
+            "w-full bg-white text-slate-700",
             !isNameValid && "border-red-500"
           )}
           onBlur={() => onBlurName()}
@@ -96,7 +96,7 @@ export const ChooseAvatar = observer((
           onChange={(e) => onChangeEmail(e.target.value)}
           placeholder="Enter your email"
           className={cn(
-            "w-full",
+            "w-full bg-white text-slate-700",
             !isEmailValid && "border-red-500"
           )}
           type="email"

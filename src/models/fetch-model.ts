@@ -1,23 +1,36 @@
-import { action, computed, observable } from "mobx";
+import { action, computed, makeObservable, observable } from "mobx";
 import { Model } from "./model";
 
 export class FetchModel extends Model {
+
+  constructor() {
+    super()
+    makeObservable(this, {
+      error: observable,
+      busy: observable,
+      ok: observable,
+      startDate: observable,
+      endDate: observable,
+      fetched: computed,
+      fetch: action
+    })
+  }
   
-  @observable error?: Error
+  error: Error|undefined
 
-  @observable busy = false
+  busy = false
 
-  @observable ok = false
+  ok = false
 
-  @observable startDate?:Date
+  startDate:Date|undefined
 
-  @observable endDate?:Date
+  endDate:Date|undefined
 
-  @computed get fetched(): boolean {
+  get fetched(): boolean {
     return this.busy || this.ok
   }
 
-  @action async fetch(fetch: () => Promise<unknown>) {
+  async fetch(fetch: () => Promise<unknown>) {
     try {
       this.busy = true
       this.startDate = new Date()

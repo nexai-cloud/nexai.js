@@ -6,16 +6,23 @@ export type ModelProps<T> = {
 
 export class Model {
 
+  constructor() {
+    makeObservable(this, {
+      id: observable,
+      setProps: action,
+    })
+  }
+
   uid = String(Math.random()).substring(2)
 
-  @observable id!: string
+  id = ''
 
-  @action setProps<T extends this>(props: ModelProps<T>) {
+  setProps<T extends this>(props: ModelProps<T>) {
     Object.assign(this, props)
   }
 
   static create<T extends Model, U extends ModelProps<T>>(this: new () => T, props?: U): T {
-    const model = makeObservable(new this()) as T;
+    const model = new this() as T;
     if (props) model.setProps(props)
     return model
   }

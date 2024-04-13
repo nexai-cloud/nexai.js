@@ -1,4 +1,4 @@
-import { action, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import { FetchModel } from "~/models/fetch-model";
 import { Model, type ModelProps } from "~/models/model";
 import { NexaiSession, getClientSession, saveClientSession } from "../lib/session/chat-session";
@@ -8,30 +8,45 @@ export class ChatSessionModel
 extends Model 
 implements NexaiSession {
 
-  @observable nexaiApiKey = ''
+  constructor() {
+    super()
+    makeObservable(this, {
+      nexaiApiKey: observable,
+      sessionId: observable,
+      name: observable,
+      isShowChat: observable,
+      avatarUrl: observable,
+      email: observable,
+      fetchState: observable,
+      saveState: observable,
+      save: action
+    })
+  }
 
-  @observable sessionId = ''
+  nexaiApiKey = ''
 
-  @observable name = ''
+  sessionId = ''
 
-  @observable isShowChat = false
+  name = ''
 
-  @observable avatarUrl = ''
+  isShowChat = false
 
-  @observable email = ''
+  avatarUrl = ''
 
-  @observable fetchState = FetchModel.create()
+  email = ''
 
-  @action async fetch() {
+  fetchState = FetchModel.create()
+
+  async fetch() {
     this.fetchState.fetch(async () => {
       const session = getClientSession(this.nexaiApiKey)
       this.setProps(session as ModelProps<this>)
     })
   }
 
-  @observable saveState = FetchModel.create()
+  saveState = FetchModel.create()
 
-  @action async save() {
+  async save() {
     this.saveState.fetch(async () => {
       saveClientSession(this.nexaiApiKey, {
         sessionId: this.sessionId,

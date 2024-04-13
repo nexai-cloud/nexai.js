@@ -1,13 +1,24 @@
-import { action, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 import { Model, type ModelProps } from "./model";
 
 export class ListModel extends Model {
+
+  constructor() {
+    super()
+    makeObservable(this, {
+      items: observable,
+      replaceItem: action,
+      addItem: action,
+      addItems: action,
+      setItems: action,
+    })
+  }
 
   getModelType(): typeof Model {
     return Model
   }
 
-  @observable items:Model[] = []
+  items:Model[] = []
 
   getItems<T extends Model>(): T[] {
     return this.items as T[]
@@ -23,7 +34,7 @@ export class ListModel extends Model {
       .find(item => item.uid === uid)
   }
 
-  @action replaceItem<T extends Model>(
+  replaceItem<T extends Model>(
     props: ModelProps<T>,
     nextProps: ModelProps<T>
   ) {
@@ -35,7 +46,7 @@ export class ListModel extends Model {
     )
   }
 
-  @action addItem<T extends Model>(
+  addItem<T extends Model>(
     props: ModelProps<T>
   ) {
     this.items.push(
@@ -43,7 +54,7 @@ export class ListModel extends Model {
     )
   }
 
-  @action addItems<T extends Model>(
+  addItems<T extends Model>(
     items: ModelProps<T>[]
   ) {
     this.items.push(
@@ -53,7 +64,7 @@ export class ListModel extends Model {
     )
   }
 
-  @action setItems<T extends Model>(
+  setItems<T extends Model>(
     items: ModelProps<T>[]
   ) {
     this.items.splice(

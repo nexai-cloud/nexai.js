@@ -111,7 +111,7 @@ sessions.on("connection", socket => {
         ...chatMsg,
         uid: randomUUID(),
         userUid: 'nexai',
-        message: 'It is best to provide an email so we can contact you.',
+        message: '💁 Provide an email if you need the team to reach out to you.',
        })
     }
     session.emit('chat', chatMsg)
