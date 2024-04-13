@@ -478,4 +478,4 @@ NexaiChatBubble.render = async (props: ChatRenderProps) => {
 }
 
 // @ts-expect-error global
-window.NexaiChatBubble = NexaiChatBubble
+globalThis.NexaiChatBubble = NexaiChatBubble
