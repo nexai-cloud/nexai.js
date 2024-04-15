@@ -1,8 +1,73 @@
-# Nexai AI Support Chat Bubble
+# Nexai AI Chat
 
-(
+
 ![Nexai AI Support Chat Bubble](./public/screenshots/nexai-chat-bubble-open.png)
-)
+
+## Nexai AI Chat library
+
+```sh
+npm install nexai.js
+```
+
+The `nexai.js` library facilitates AI chat with a simple interface. 
+
+```ts
+import { Nexai } from 'nexai.js'
+
+const nexai = new Nexai({
+  nexaiApiKey: 'project-api-key',
+})
+const resp = await nexai.chat(`How do I use nexai.js`)
+
+```
+
+The full typescript interface
+
+```ts
+export declare class Nexai {
+    nexaiApiKey: string;
+    session: NexaiSession;
+    nexaiApiUrl: string;
+    constructor({ nexaiApiKey, session }: {
+        nexaiApiKey: string;
+        session?: NexaiSession;
+    });
+    chat(message: string): Promise<any>;
+    getProjectSocket(): Socket;
+    getSessionSocket(): Socket;
+}
+```
+
+For simple AI queries use nexai.chat(msg). 
+
+If you want to use the socket.io interface you can get it with:
+
+```ts
+import { Nexai } from 'nexai.js'
+
+const nexai = new Nexai({
+  nexaiApiKey: 'project-api-key',
+})
+const socket = await nexai.getSessionSocket()
+
+socket.emit('chat', {
+  userUid: '',
+  projectId: '',
+  sessionKey: '',
+  message: '',
+  fromName: '',
+  toName: '',
+  avatarUrl: '',
+  email: '',
+} as IoChatMsg)
+
+socket.on('chat', (msg: IoChatMsg) => {
+  console.log('chat', msg)
+})
+
+```
+
+## Nexai React AI Chat Support Bubble
 
 The Nexai AI Support Chat Bubble is a React component designed to facilitate AI-powered support chat for any website.
 
@@ -54,7 +119,7 @@ npm install nexai-ai-support-chat-bubble
 ### Basic Usage
 
 ```js
-import { NexaiChatBubble } from 'nexai-ai-support-chat-bubble';
+import { NexaiChatBubble } from 'nexai.js/chat-bubble';
 
 export const App = () => {
   return <NexaiChatBubble nexaiApiKey="your-api-key" />;
@@ -64,8 +129,8 @@ export const App = () => {
 ### Development Usage
 
 ```sh
-git clone https://github.com/nexai-cloud/support-chat-bubble
-cd support-chat-bubble
+git clone https://github.com/nexai-cloud/nexai.js
+cd nexai.js
 npm install
 npm run dev
 ```
@@ -89,7 +154,7 @@ export type NexaiChatBubbleProps = {
 ### React Example with all props
 
 ```js
-import { NexaiChatBubble } from 'nexai-ai-support-chat-bubble';
+import { NexaiChatBubble } from 'nexai.js/chat-bubble';
 
 export const App = () => {
   return (
