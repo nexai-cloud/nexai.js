@@ -1,12 +1,22 @@
 {
   "name": "nexai.js",
-  "version": "0.0.1",
+  "version": "0.0.1-1",
   "type": "module",
   "main": "./lib/esm/index.js",
   "module": "./lib/esm/index.js",
   "files": [
     "lib/"
   ],
+  "exports": {
+    ".": {
+      "types": "./lib/esm/index.d.ts",
+      "default": "./lib/esm/index.js"
+    },
+    "./chat-bubble": {
+      "types": "./lib/esm/chat-bubble.d.ts",
+      "default": "./lib/esm/chat-bubble.js"
+    }
+  },
   "scripts": {
     "tsc": "npm run tsc:clean && npm run tsc:esm && npm run tsc:cjs",
     "tsc:esm": "tsc -p tsconfig.esm.json && tsc-alias -p tsconfig.esm.json",

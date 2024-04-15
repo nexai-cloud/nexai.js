@@ -8,7 +8,7 @@ export class Nexai {
   nexaiApiKey: string
   session: NexaiSession
   nexaiApiUrl = 'https://nexai.site/api'
-  ioUrl = 'https://chat.nexai.site'
+  ioUrl = 'https://ai-chat-server-production.up.railway.app'
 
   constructor({
     nexaiApiKey,

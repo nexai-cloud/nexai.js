@@ -3,9 +3,11 @@ import io from 'socket.io-client'
 let sessionSocket: ReturnType<typeof io>
 let projectSocket: ReturnType<typeof io>
 
+const defaultIoUrl = 'https://ai-chat-server-production.up.railway.app'
+
 export const getSessionSocket = ({
   sessionKey,
-  ioUrl = 'http://localhost:8080'
+  ioUrl = defaultIoUrl
 }:{ 
   sessionKey: string;
   ioUrl?: string;
@@ -21,7 +23,7 @@ export const getSessionSocket = ({
 
 export const getProjectSocket = ({
   projectId,
-  ioUrl = 'http://localhost:8080'
+  ioUrl = defaultIoUrl
 }:{ 
   projectId: string;
   ioUrl?: string;
