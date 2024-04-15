@@ -39,7 +39,7 @@ export type NexaiChatBubbleProps = {
 export const NexaiChatBubble = observer(({
   width = 380,
   nexaiApiKey,
-  nexaiIoUrl = 'https://chat.nexai.site',
+  nexaiIoUrl = 'https://ai-chat-server-production.up.railway.app',
   nexaiAssetsUrl = 'https://nexai.site/ai/assets',
   aiName = 'Nexai',
   aiAvatarUrl = 'https://nexai.site/ai/logo/nexai-logo-round.svg',
