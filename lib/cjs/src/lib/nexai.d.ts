@@ -4,9 +4,12 @@ export declare class Nexai {
     nexaiApiKey: string;
     session: NexaiSession;
     nexaiApiUrl: string;
-    constructor({ nexaiApiKey, session }: {
+    ioUrl: string;
+    constructor({ nexaiApiKey, session, nexaiApiUrl, ioUrl }: {
         nexaiApiKey: string;
         session?: NexaiSession;
+        nexaiApiUrl?: string;
+        ioUrl?: string;
     });
     chat(message: string): Promise<any>;
     getProjectSocket(): Socket;

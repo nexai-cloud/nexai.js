@@ -5,9 +5,21 @@
 
 ## Nexai AI Chat library
 
+## Pre-requisite
+
+Log into https://nexai.site and create a new project. 
+
+Add a document or website to the Knowledgebase documents. For these samples we assume you added `https://nexai.site` (The AI chatbot only responsds to questions about your site or documents)
+
+Get your API key from project settings.
+
+## Install nexai.js library
+
 ```sh
 npm install nexai.js
 ```
+
+## Usage of nexai.js library
 
 The `nexai.js` library facilitates AI chat with a simple interface. 
 
@@ -21,16 +33,17 @@ const resp = await nexai.chat(`How do I use nexai.js`)
 
 ```
 
-The full typescript interface
+This assumes you added https://nexai.site to your knowledgebase. 
+
+### Typescript interface
 
 ```ts
-export declare class Nexai {
-    nexaiApiKey: string;
-    session: NexaiSession;
-    nexaiApiUrl: string;
-    constructor({ nexaiApiKey, session }: {
+class Nexai {
+    constructor({ nexaiApiKey, session, nexaiApiUrl, ioUrl }: {
         nexaiApiKey: string;
         session?: NexaiSession;
+        nexaiApiUrl?: string;
+        ioUrl?: string;
     });
     chat(message: string): Promise<any>;
     getProjectSocket(): Socket;
@@ -38,7 +51,7 @@ export declare class Nexai {
 }
 ```
 
-For simple AI queries use nexai.chat(msg). 
+For simple AI queries use `nexai.chat(msg)`. 
 
 If you want to use the socket.io interface you can get it with:
 
