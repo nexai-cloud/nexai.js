@@ -148,7 +148,7 @@ It can run on the browser or server side nodejs or deno.
 ### Library Installation
 
 ```sh
-npm install nexai.js/chat-bubble
+npm install nexai.js
 ```
 
 ### Basic Usage
