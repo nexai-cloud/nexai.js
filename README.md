@@ -5,6 +5,8 @@
 
 ## Nexai AI Chat library
 
+<a target="_blank" href="https://stackblitz.com/edit/vitejs-vite-wxezhy?file=src%2FApp.tsx">Demo on stackblitz</a>
+
 ## Pre-requisite
 
 Log into https://nexai.site and create a new project. 
@@ -130,6 +132,8 @@ The HTML embed can be embedded onto any website without coding.
 The TypeScript library is compatible with both CommonJS (CJS) and ECMAScript Modules (ESM). It can be used to customize and extend the React Component for use the underlying api to interact with the ai support chat server.
 
 It can run on the browser or server side nodejs or deno.
+
+<a target="_blank" href="https://stackblitz.com/edit/vitejs-vite-wxezhy?file=src%2FApp.tsx">Demo on stackblitz</a>
 
 
 ### HTML Embed Installation
