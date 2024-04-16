@@ -42,12 +42,8 @@ export const NexaiChatBubble = observer(({
   nexaiIoUrl = 'https://ai-chat-server-production.up.railway.app',
   nexaiAssetsUrl = 'https://nexai.site/ai/assets',
   aiName = 'Nexai',
-  aiAvatarUrl = 'https://nexai.site/ai/logo/nexai-logo-round.svg',
-  chatSuggests = [
-    `Hi! I'm fine!|How do I use this?`,
-    `Free options?|What's the pricing?`,
-    `I'm satisfied. Bye.|I need more help.`
-  ],
+  aiAvatarUrl = '',
+  chatSuggests = [],
   projectName = 'Nexai',
   inputPlaceholder = ''
 }: NexaiChatBubbleProps) => {
