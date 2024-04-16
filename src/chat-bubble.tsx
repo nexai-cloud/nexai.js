@@ -17,6 +17,7 @@ import { getSessionSocket } from './lib/socket';
 import { IoChatMsg } from '../server';
 import { getChatUser } from './lib/session/session-user';
 import { useChatSessionModel } from './models/chat-session';
+import { getIsShowChat, hasIsShowChat } from './lib/session/show-chat';
 // css
 // import './ui/wave-form/wave-form.css'
 // import "./chat-bubble.css"
@@ -48,7 +49,7 @@ export const NexaiChatBubble = observer(({
   inputPlaceholder = ''
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
-    Boolean(typeof localStorage !== 'undefined' && localStorage.isShowChat)
+    Boolean(hasIsShowChat() ? getIsShowChat() : true)
   )
   const [isSpeechInput, setIsSpeechInput] = useState(false)
   const chatInputRef = useRef<HTMLInputElement>(null)
