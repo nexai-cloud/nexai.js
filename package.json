@@ -1,12 +1,19 @@
 {
   "name": "nexai.js",
-  "version": "0.0.1-2",
-  "type": "module",
-  "main": "./lib/esm/index.js",
+  "version": "0.0.1-6",
+  "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "files": [
     "lib/"
   ],
+  "types": "./lib/index.d.ts",
+  "typesVersions": {
+    "*": {
+      ".": ["lib/index.d.ts"],
+      "default": ["lib/index.d.ts"],
+      "chat-bubble": ["./lib/esm/chat-bubble.d.ts"]
+    }
+  },
   "exports": {
     ".": {
       "types": "./lib/esm/index.d.ts",
