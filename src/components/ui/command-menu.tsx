@@ -4,9 +4,7 @@ import * as React from "react"
 import { DialogProps } from "@radix-ui/react-alert-dialog"
 import {
   CircleIcon,
-  FileIcon,
   LaptopIcon,
-  Link1Icon,
   MoonIcon,
   SunIcon,
 } from "@radix-ui/react-icons"
@@ -18,11 +16,12 @@ import {
   CommandDialog,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
+  // CommandInput,
   CommandItem,
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
+import { SearchIcon } from "lucide-react"
 
 export type NavItem = {
   title: string;
@@ -30,6 +29,7 @@ export type NavItem = {
   external?: true;
   items?: NavItem[]
   icon?: React.ReactNode;
+  label?: string;
 }
 
 export type CommandMenuProps = DialogProps & {
@@ -52,6 +52,20 @@ export function CommandMenu({
   }: CommandMenuProps) {
   const [open, setOpen] = React.useState(false)
   const { setTheme } = useTheme()
+  const [input, setInput] = React.useState('')
+
+  const search = new RegExp(input, 'ig')
+  const visibleNav = docsNav.map(item => {
+    const items = item.items?.filter(i => {
+      return i.title.match(search) || i.href?.match(search)
+    })
+    if (items?.length) {
+      return {
+        ...item,
+        items
+      }
+    }
+  }).filter(i => i)
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -103,12 +117,22 @@ export function CommandMenu({
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
         <div className="bg-white">
-        <CommandInput placeholder="Type a command or search..." />
+        <div className="flex items-center border-b px-3">
+          <SearchIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+          <input
+            value={input}
+            onChange={e => setInput(e.target.value)}
+            placeholder={placeholder}
+            cmdk-input
+            className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+        {/* <CommandInput placeholder={placeholder} /> */}
         <CommandList>
           <CommandEmpty>
             {commandEmpty}
           </CommandEmpty>
-          {docsNav.map((group) => (
+          {visibleNav.map((group) => group && (
             <CommandGroup key={group.title} heading={group.title}>
               {group.items?.map((navItem) => (
                 <CommandItem
