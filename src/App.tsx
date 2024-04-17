@@ -7,6 +7,8 @@ import { getClientSession } from './lib/session/chat-session'
 import { ChatInput } from './ui/chat-input'
 import logger from 'debug'
 import { NexaiChatBubble } from '../chat-bubble'
+import { CommandMenu, NavItem } from './components/ui/command-menu'
+import { docsConfig } from './components/ui/config/docs'
 
 const debug = logger('nexai:app')
 
@@ -93,6 +95,10 @@ export const App = observer(() => {
     // }, 100)
   })
 
+  const onMenuItemSelect = (menuItem: NavItem) => {
+    console.log('select', menuItem)
+  }
+
   return (
     <div className='flex-col align-middle items-center bg-slate-50 p-5'>
     <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
@@ -100,7 +106,15 @@ export const App = observer(() => {
         <h2 className="text-2xl font-bold border-b px-2 py-2">
           Chat
         </h2>
-        <div className='flex-col space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
+        <div className='flex p-2'>
+          <CommandMenu
+            docsNav={docsConfig}
+            onMenuItemSelect={onMenuItemSelect}
+            className='h-10 bg-slate-50'
+            placeholder='Search chats...'
+          />
+        </div>
+        <div className='flex-col p-2 space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
           {
             msgs.map((msg, index) => (
               <p key={index} className='flex gap-1 p-2 border rounded-xl'>
@@ -121,7 +135,7 @@ export const App = observer(() => {
         <h2 className="text-2xl font-bold border-b px-2 py-2">
           Dashboard
         </h2>
-        <div className='flex-col space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
+        <div className='flex-col p-2 space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
           {
             projectMsgs.map((msg, index) => (
               <p key={index} className='flex gap-1 p-2 border rounded-xl'>
