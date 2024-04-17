@@ -94,10 +94,10 @@ export const App = observer(() => {
   })
 
   return (
-    <div className='flex-col align-middle items-center bg-slate-50'>
-    <ResizablePanelGroup direction="horizontal" className='gap-1'>
-      <ResizablePanel>
-        <h2 className="text-2xl font-bold">
+    <div className='flex-col align-middle items-center bg-slate-50 p-5'>
+    <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
+      <ResizablePanel className='border rounded'>
+        <h2 className="text-2xl font-bold border-b px-2 py-2">
           Chat
         </h2>
         <div className='flex-col space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
@@ -110,13 +110,15 @@ export const App = observer(() => {
             ))
           }
         </div>
-        <ChatInput
-          onSendChatMsg={onSendSessionChatMsg}
-        />
+        <div className='p-4'>
+          <ChatInput
+            onSendChatMsg={onSendSessionChatMsg}
+          />
+        </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel>
-        <h2 className="text-2xl font-bold">
+      <ResizablePanel className='border rounded'>
+        <h2 className="text-2xl font-bold border-b px-2 py-2">
           Dashboard
         </h2>
         <div className='flex-col space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
@@ -129,9 +131,11 @@ export const App = observer(() => {
             ))
           }
         </div>
-        <ChatInput
-          onSendChatMsg={onSendSupportChatMsg}
-        />
+        <div className='p-4'>
+          <ChatInput
+            onSendChatMsg={onSendSupportChatMsg}
+          />
+        </div>
       </ResizablePanel>
     </ResizablePanelGroup>
 
