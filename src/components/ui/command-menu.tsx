@@ -3,12 +3,8 @@
 import * as React from "react"
 import { DialogProps } from "@radix-ui/react-alert-dialog"
 import {
-  CircleIcon,
-  LaptopIcon,
-  MoonIcon,
-  SunIcon,
+  CircleIcon
 } from "@radix-ui/react-icons"
-import { useTheme } from "next-themes"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -21,8 +17,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
-import { ArrowRightCircleIcon, PiIcon, SearchIcon, ZapIcon } from "lucide-react"
-import { IconRight } from "react-day-picker"
+import { ArrowRightCircleIcon, SearchIcon, ZapIcon } from "lucide-react"
 
 export type NavItem = {
   title: string;
@@ -52,7 +47,6 @@ export function CommandMenu({
   ...props
   }: CommandMenuProps) {
   const [open, setOpen] = React.useState(false)
-  const { setTheme } = useTheme()
   const [input, setInput] = React.useState('')
 
   const search = new RegExp(input, 'ig')
@@ -104,15 +98,16 @@ export function CommandMenu({
       <Button
         variant="outline"
         className={cn(
-          "flex h-8 w-full justify-start rounded-[0.5rem] bg-background text-sm font-normal text-muted-foreground shadow-none",
+          "flex group h-8 w-full justify-start rounded-[0.5rem] bg-background text-sm font-normal text-muted-foreground shadow-none",
           className
         )}
         onClick={() => setOpen(true)}
         {...props}
       >
+        <SearchIcon className="group-hover:text-blue-500 mr-2 h-4 w-4 shrink-0" />
         <span className="hidden lg:inline-flex">{placeholder}</span>
         <span className="inline-flex lg:hidden">{placeholderSmall}</span>
-        <kbd className="ml-auto pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
+        <kbd className="ml-auto group-hover:text-blue-500 pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 sm:flex">
           <span className="text-xs">⌘</span>K
         </kbd>
       </Button>
@@ -144,7 +139,7 @@ export function CommandMenu({
                   key={navItem.href}
                   value={navItem.title}
                   onSelect={() => onSelect(navItem)}
-                  className="aria-selected:bg-accent cursor-pointer group"
+                  className="aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 cursor-pointer group"
                 >
                   <div className="mr-2 ml-2 flex h-4 w-4 items-center justify-center">
                     {
@@ -158,7 +153,7 @@ export function CommandMenu({
                   <span className="">
                     {navItem.title}
                   </span>
-                  <span className="hidden item-arrow ml-auto mr-2 h-4 w-4 items-center justify-center group-hover:flex">
+                  <span className="hidden item-arrow ml-auto mr-2 h-4 w-4 items-center justify-center group group-aria-selected:flex">
                     <ArrowRightCircleIcon className="text-blue-500 h-3 w-3" />
                   </span>
                 </CommandItem>
