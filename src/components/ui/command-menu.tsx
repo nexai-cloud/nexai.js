@@ -169,13 +169,17 @@ export function CommandMenu({
           
         </CommandList>
         <div className="flex items-center border-t px-3">
-          <div className="flex gap-1 items-center p-2 ml-auto text-xs font-medium text-muted-foreground">
-          <span>{'AI Search '}</span>
-          <ZapIcon className="text-orange-500" size={10} />
-          <span className="font-bold bg-gradient-to-r from-violet-500 to-blue-500 text-transparent bg-clip-text">
-            Nexai
-          </span>
-          </div>
+          <a
+            className="flex gap-1 items-center p-2 ml-auto text-xs font-medium text-muted-foreground"
+            href="https://nexai.site"
+            target="_blank"
+          >
+            <span>{'AI Search '}</span>
+            <ZapIcon className="text-orange-500" size={10} />
+            <span className="font-bold bg-gradient-to-r from-violet-500 to-blue-500 text-transparent bg-clip-text">
+              Nexai
+            </span>
+          </a>
         </div>
       </CommandDialog>
     </>
