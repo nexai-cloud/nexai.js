@@ -21,7 +21,8 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
-import { SearchIcon } from "lucide-react"
+import { ArrowRightCircleIcon, PiIcon, SearchIcon, ZapIcon } from "lucide-react"
+import { IconRight } from "react-day-picker"
 
 export type NavItem = {
   title: string;
@@ -116,9 +117,8 @@ export function CommandMenu({
         </kbd>
       </Button>
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <div className="bg-white">
         <div className="flex items-center border-b px-3">
-          <SearchIcon className="mr-2 h-4 w-4 shrink-0 opacity-50" />
+          <SearchIcon className="text-blue-500 mr-2 h-4 w-4 shrink-0" />
           <input
             value={input}
             onChange={e => setInput(e.target.value)}
@@ -133,44 +133,49 @@ export function CommandMenu({
             {commandEmpty}
           </CommandEmpty>
           {visibleNav.map((group) => group && (
-            <CommandGroup key={group.title} heading={group.title}>
+            <CommandGroup
+              key={group.title}
+              heading={(
+                <p className="text-blue-500">{group.title}</p>
+              )}
+            >
               {group.items?.map((navItem) => (
                 <CommandItem
                   key={navItem.href}
                   value={navItem.title}
                   onSelect={() => onSelect(navItem)}
-                  className="aria-selected:bg-accent cursor-pointer"
+                  className="aria-selected:bg-accent cursor-pointer group"
                 >
-                  <div className="mr-2 flex h-4 w-4 items-center justify-center">
+                  <div className="mr-2 ml-2 flex h-4 w-4 items-center justify-center">
                     {
                       group.icon ? (
-                        group.icon
+                        <span className="text-blue-500">{group.icon}</span>
                       ) : (
-                        <CircleIcon className="h-3 w-3" />
+                        <CircleIcon className="text-blue-500 h-3 w-3" />
                       )
                     }
                   </div>
-                  {navItem.title}
+                  <span className="">
+                    {navItem.title}
+                  </span>
+                  <span className="hidden item-arrow ml-auto mr-2 h-4 w-4 items-center justify-center group-hover:flex">
+                    <ArrowRightCircleIcon className="text-blue-500 h-3 w-3" />
+                  </span>
                 </CommandItem>
               ))}
             </CommandGroup>
           ))}
           <CommandSeparator />
-          <CommandGroup heading="Theme">
-            <CommandItem onSelect={() => runCommand(() => setTheme("light"))}>
-              <SunIcon className="mr-2 h-4 w-4" />
-              Light
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("dark"))}>
-              <MoonIcon className="mr-2 h-4 w-4" />
-              Dark
-            </CommandItem>
-            <CommandItem onSelect={() => runCommand(() => setTheme("system"))}>
-              <LaptopIcon className="mr-2 h-4 w-4" />
-              System
-            </CommandItem>
-          </CommandGroup>
+          
         </CommandList>
+        <div className="flex items-center border-t px-3">
+          <div className="flex gap-1 items-center p-2 ml-auto text-xs font-medium text-muted-foreground">
+          <span>{'AI Search '}</span>
+          <ZapIcon className="text-orange-500" size={10} />
+          <span className="font-bold bg-gradient-to-r from-violet-500 to-blue-500 text-transparent bg-clip-text">
+            Nexai
+          </span>
+          </div>
         </div>
       </CommandDialog>
     </>
