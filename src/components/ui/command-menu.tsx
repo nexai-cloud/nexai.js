@@ -17,10 +17,11 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
-import { ArrowRightCircleIcon, SearchIcon, ZapIcon } from "lucide-react"
+import { ArrowRightCircleIcon, EyeIcon, SearchIcon, ZapIcon } from "lucide-react"
 
 export type NavItem = {
   title: string;
+  summary?: string;
   href?: string;
   external?: true;
   items?: NavItem[]
@@ -29,7 +30,8 @@ export type NavItem = {
 }
 
 export type CommandMenuProps = DialogProps & {
-  onMenuItemSelect: (navItem: NavItem) => void;
+  onMenuItemSelect?: (navItem: NavItem) => void;
+  onMenuItemReadMore?: (navItem: NavItem) => void;
   docsNav: NavItem[];
   className?: string;
   placeholder?: string;
@@ -39,6 +41,7 @@ export type CommandMenuProps = DialogProps & {
 
 export function CommandMenu({
   onMenuItemSelect,
+  onMenuItemReadMore,
   docsNav,
   className,
   commandEmpty = 'No results found.',
@@ -48,6 +51,7 @@ export function CommandMenu({
   }: CommandMenuProps) {
   const [open, setOpen] = React.useState(false)
   const [input, setInput] = React.useState('')
+  const [selectedNavItem, setSelectedNavItem] = React.useState<NavItem|undefined>()
 
   const search = new RegExp(input, 'ig')
   const visibleNav = docsNav.map(item => {
@@ -90,8 +94,14 @@ export function CommandMenu({
 
   const onSelect = React.useCallback((navItem: NavItem) => {
     console.log('onSelect', navItem)
-    runCommand(() => onMenuItemSelect(navItem))
+    if (onMenuItemSelect) {
+      runCommand(() => onMenuItemSelect(navItem))
+    } else {
+      setSelectedNavItem(navItem)
+    }
   }, [runCommand, onMenuItemSelect])
+
+  onMenuItemReadMore;
 
   return (
     <>
@@ -118,14 +128,13 @@ export function CommandMenu({
             value={input}
             onChange={e => setInput(e.target.value)}
             placeholder={placeholder}
-            cmdk-input
             className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
           />
         </div>
         {/* <CommandInput placeholder={placeholder} /> */}
         <CommandList>
           <CommandEmpty>
-            {commandEmpty}
+            { commandEmpty}
           </CommandEmpty>
           {visibleNav.map((group) => group && (
             <CommandGroup
@@ -135,11 +144,17 @@ export function CommandMenu({
               )}
             >
               {group.items?.map((navItem) => (
+                <div>
                 <CommandItem
                   key={navItem.href}
                   value={navItem.title}
                   onSelect={() => onSelect(navItem)}
-                  className="aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 cursor-pointer group"
+                  className={
+                    cn(
+                      "aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 cursor-pointer group",
+                       selectedNavItem === navItem && "border border-blue-500 border-b-transparent rounded-b-none"
+                    )
+                  }
                 >
                   <div className="mr-2 ml-2 flex h-4 w-4 items-center justify-center">
                     {
@@ -153,10 +168,24 @@ export function CommandMenu({
                   <span className="">
                     {navItem.title}
                   </span>
-                  <span className="hidden item-arrow ml-auto mr-2 h-4 w-4 items-center justify-center group group-aria-selected:flex">
+                  <span className="opacity-0 item-arrow ml-auto mr-2 h-4 w-4 items-center justify-center group group-aria-selected:opacity-100">
                     <ArrowRightCircleIcon className="text-blue-500 h-3 w-3" />
                   </span>
                 </CommandItem>
+                {
+                  selectedNavItem === navItem ? (
+                    <div className="rounded rounded-t-none border border-blue-500 shadow text-sm p-4 flex align-middle items-center">
+                      <div className="mr-2 ml-2 flex h-4 w-4 items-center justify-center">
+                      {/* <EyeIcon className="text-blue-500" /> */}
+                      </div>
+                      <p>
+                        {navItem.summary}
+                        <Button className="h-5 m-2">More</Button>
+                      </p>
+                    </div>
+                  ): null
+                }
+                </div>
               ))}
             </CommandGroup>
           ))}

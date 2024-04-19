@@ -8,7 +8,7 @@ import { ChatInput } from './ui/chat-input'
 import logger from 'debug'
 import { NexaiChatBubble } from '../chat-bubble'
 import { CommandMenu, NavItem } from './components/ui/command-menu'
-import { docsConfig } from './components/ui/config/docs'
+// import { docsConfig } from './components/ui/config/docs'
 
 const debug = logger('nexai:app')
 
@@ -30,8 +30,61 @@ const addProjectMsg = action((msg: ChatMsg) => {
   projectMsgs.push(msg)
 })
 
-const nexaiApiKey = 'clu8hm40800004vzfocfds9xa'
+const nexaiApiKey = 'clu8h3eg60000haaadp65lyeb' // 'clu8hm40800004vzfocfds9xa'
 const nexaiAssetsUrl = 'https://nexai.site/ai/assets'
+
+const docsNav: NavItem[] = []
+
+type NexaiDoc = {
+  name: string;
+  title: string;
+  data_type: string;
+  data_value: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+type NexaiDocumentExtract = {
+  id: string;
+  documentId: string;
+  projectId: string;
+  name: string;
+  title: string | null;
+  content: string | null;
+  summary: string | null;
+  search_phrases: string[];
+  keywords: string[];
+  question_answers: { question: string; answer: string }[];
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+const fetchDocs = async () => {
+  const res = await fetch('https://nexai.site/api/doc/search/?projectId=' + nexaiApiKey, {
+    mode: 'cors'
+  })
+  const data = (await res.json()).data
+  // const docs =  data.documents as NexaiDoc[]
+  const extractions = data.extractions as NexaiDocumentExtract[]
+  console.log('data', data)
+  const nav = extractions.map((doc) => {
+    return ({
+      title: doc.title || doc.name,
+      items: doc.question_answers.map(q => {
+        return {
+          title: q.question,
+          summary: q.answer,
+          href: doc.documentId + '#' + q.question,
+          label: doc.keywords[0],
+        }
+      })
+    })
+  })
+
+  docsNav.push(...nav)
+}
+
+fetchDocs()
 
 export const App = observer(() => {
 
@@ -95,7 +148,7 @@ export const App = observer(() => {
     // }, 100)
   })
 
-  const onMenuItemSelect = (menuItem: NavItem) => {
+  const onMenuItemReadMore = (menuItem: NavItem) => {
     console.log('select', menuItem)
   }
 
@@ -108,8 +161,8 @@ export const App = observer(() => {
         </h2>
         <div className='flex p-2'>
           <CommandMenu
-            docsNav={docsConfig}
-            onMenuItemSelect={onMenuItemSelect}
+            docsNav={docsNav}
+            onMenuItemReadMode={onMenuItemReadMore}
             className='h-10 bg-slate-50'
             placeholder='Search chats...'
           />
