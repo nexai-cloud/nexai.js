@@ -151,8 +151,10 @@ export function CommandMenu({
                   onSelect={() => onSelect(navItem)}
                   className={
                     cn(
-                      "aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 cursor-pointer group",
-                       selectedNavItem === navItem && "border border-blue-500 border-b-transparent rounded-b-none"
+                      "cursor-pointer group",
+                       selectedNavItem === navItem 
+                        ? "border border-blue-500 border-b-transparent rounded-b-none bg-gradient-to-r from-blue-100 via-violet-100 to-blue-100"
+                        : "aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 "
                     )
                   }
                 >
@@ -174,7 +176,7 @@ export function CommandMenu({
                 </CommandItem>
                 {
                   selectedNavItem === navItem ? (
-                    <div className="rounded rounded-t-none border border-blue-500 shadow text-sm p-4 flex align-middle items-center">
+                    <div className="rounded rounded-t-none border border-blue-500 bg-blue-50 shadow text-sm p-4 flex align-middle items-center">
                       <div className="mr-2 ml-2 flex h-4 w-4 items-center justify-center">
                       {/* <EyeIcon className="text-blue-500" /> */}
                       </div>
