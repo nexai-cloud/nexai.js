@@ -70,6 +70,7 @@ const fetchDocs = async () => {
   const nav = extractions.map((doc) => {
     return ({
       title: doc.title || doc.name,
+      href: doc.name,
       items: doc.question_answers.map(q => {
         return {
           title: q.question,
@@ -148,8 +149,11 @@ export const App = observer(() => {
     // }, 100)
   })
 
-  const onMenuItemReadMore = (menuItem: NavItem) => {
-    console.log('select', menuItem)
+  const onMenuItemReadMore = (menuItem: NavItem, group: NavItem) => {
+    console.log('onMenuItemReadMore', { menuItem, group })
+    if (typeof window !== 'undefined') {
+      window.location.href = String(group.href)
+    }
   }
 
   return (
@@ -162,7 +166,7 @@ export const App = observer(() => {
         <div className='flex p-2'>
           <CommandMenu
             docsNav={docsNav}
-            onMenuItemReadMode={onMenuItemReadMore}
+            onMenuItemReadMore={onMenuItemReadMore}
             className='h-10 bg-slate-50'
             placeholder='Search chats...'
           />

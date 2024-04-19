@@ -31,7 +31,7 @@ export type NavItem = {
 
 export type CommandMenuProps = DialogProps & {
   onMenuItemSelect?: (navItem: NavItem) => void;
-  onMenuItemReadMore?: (navItem: NavItem) => void;
+  onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;
   docsNav: NavItem[];
   className?: string;
   placeholder?: string;
@@ -182,7 +182,7 @@ export function CommandMenu({
                       </div>
                       <p>
                         {navItem.summary}
-                        <Button className="h-5 m-2">More</Button>
+                        <Button className="h-5 m-2" onClick={() => onMenuItemReadMore(navItem, group)}>More</Button>
                       </p>
                     </div>
                   ): null
