@@ -94,14 +94,20 @@ export function CommandMenu({
 
   const onSelect = React.useCallback((navItem: NavItem) => {
     console.log('onSelect', navItem)
+    if (navItem === selectedNavItem) {
+      const group = docsNav.find(nav => nav.items?.includes(selectedNavItem))
+      runCommand(() => onMenuItemReadMore(navItem, group!))
+    }
     if (onMenuItemSelect) {
       runCommand(() => onMenuItemSelect(navItem))
     } else {
       setSelectedNavItem(navItem)
     }
-  }, [runCommand, onMenuItemSelect])
+  }, [runCommand, onMenuItemSelect, docsNav, onMenuItemReadMore, selectedNavItem])
 
-  onMenuItemReadMore;
+  const onReadMore = React.useCallback((navItem: NavItem, group: NavItem) => {
+    runCommand(() => onMenuItemReadMore(navItem, group))
+  }, [runCommand, onMenuItemReadMore])
 
   return (
     <>
@@ -182,7 +188,12 @@ export function CommandMenu({
                       </div>
                       <p>
                         {navItem.summary}
-                        <Button className="h-5 m-2" onClick={() => onMenuItemReadMore(navItem, group)}>More</Button>
+                        <Button
+                          className="flex gap-2 h-7 m-2 ml-auto bg-blue-500"
+                          onClick={() => onReadMore(navItem, group)}>
+                            <span>More</span>
+                            <EyeIcon className="h-5 w-5" />
+                          </Button>
                       </p>
                     </div>
                   ): null
