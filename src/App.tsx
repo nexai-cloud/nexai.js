@@ -7,7 +7,9 @@ import { getClientSession } from './lib/session/chat-session'
 import { ChatInput } from './ui/chat-input'
 import logger from 'debug'
 import { NexaiChatBubble } from '../chat-bubble'
-import { CommandMenu, NavItem } from './components/ui/command-menu'
+import { NavItem } from './ai-search'
+import { AISearchShadowDom } from './ai-search-shadow-dom'
+import { fetchSearchDocs } from './lib/ai-search/fetch-search'
 // import { docsConfig } from './components/ui/config/docs'
 
 const debug = logger('nexai:app')
@@ -35,56 +37,10 @@ const nexaiAssetsUrl = 'https://nexai.site/ai/assets'
 
 const docsNav: NavItem[] = []
 
-type NexaiDoc = {
-  name: string;
-  title: string;
-  data_type: string;
-  data_value: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-type NexaiDocumentExtract = {
-  id: string;
-  documentId: string;
-  projectId: string;
-  name: string;
-  title: string | null;
-  content: string | null;
-  summary: string | null;
-  search_phrases: string[];
-  keywords: string[];
-  question_answers: { question: string; answer: string }[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 const fetchDocs = async () => {
-  const res = await fetch('https://nexai.site/api/doc/search/?projectId=' + nexaiApiKey, {
-    mode: 'cors'
-  })
-  const data = (await res.json()).data
-  // const docs =  data.documents as NexaiDoc[]
-  const extractions = data.extractions as NexaiDocumentExtract[]
-  console.log('data', data)
-  const nav = extractions.map((doc) => {
-    return ({
-      title: doc.title || doc.name,
-      href: doc.name,
-      items: doc.question_answers.map(q => {
-        return {
-          title: q.question,
-          summary: q.answer,
-          href: doc.documentId + '#' + q.question,
-          label: doc.keywords[0],
-        }
-      })
-    })
-  })
-
-  docsNav.push(...nav)
+  const docs = await fetchSearchDocs(nexaiApiKey)
+  docsNav.push(...docs)
 }
-
 fetchDocs()
 
 export const App = observer(() => {
@@ -164,11 +120,11 @@ export const App = observer(() => {
           Chat
         </h2>
         <div className='flex p-2'>
-          <CommandMenu
+          <AISearchShadowDom
             docsNav={docsNav}
             onMenuItemReadMore={onMenuItemReadMore}
             className='h-10 bg-slate-50'
-            placeholder='Search chats...'
+            placeholder='Search Nexai documents...'
           />
         </div>
         <div className='flex-col p-2 space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>

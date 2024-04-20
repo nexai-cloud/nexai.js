@@ -1,6 +1,6 @@
 {
   "name": "nexai.js",
-  "version": "0.0.1-11",
+  "version": "0.0.1-12",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "files": [
@@ -17,6 +17,9 @@
       ],
       "chat-bubble": [
         "./lib/esm/chat-bubble.d.ts"
+      ],
+      "ai-search": [
+        "./lib/esm/ai-search.d.ts"
       ]
     }
   },
@@ -28,6 +31,10 @@
     "./chat-bubble": {
       "types": "./lib/esm/chat-bubble.d.ts",
       "default": "./lib/esm/chat-bubble.js"
+    },
+    "./ai-search": {
+      "types": "./lib/esm/ai-search.d.ts",
+      "default": "./lib/esm/ai-search.js"
     }
   },
   "scripts": {

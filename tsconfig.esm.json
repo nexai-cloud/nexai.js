@@ -39,6 +39,7 @@
     "src",
     "index.ts",
     "chat-bubble.ts",
+    "ai-search.ts",
     "twind.config.ts",
   ]
 }
