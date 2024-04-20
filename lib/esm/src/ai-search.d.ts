@@ -10,12 +10,12 @@ export type NavItem = {
     label?: string;
 };
 export type AISearchProps = DialogProps & {
+    nexaiApiKey: string;
     onMenuItemSelect?: (navItem: NavItem) => void;
     onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;
-    docsNav: NavItem[];
     className?: string;
     placeholder?: string;
     placeholderSmall?: string;
     commandEmpty?: React.ReactNode;
 };
-export declare function AISearch({ onMenuItemSelect, onMenuItemReadMore, docsNav, className, commandEmpty, placeholder, placeholderSmall, ...props }: AISearchProps): import("react/jsx-runtime").JSX.Element;
+export declare function AISearch({ nexaiApiKey, onMenuItemSelect, onMenuItemReadMore, className, commandEmpty, placeholder, placeholderSmall, ...props }: AISearchProps): import("react/jsx-runtime").JSX.Element;

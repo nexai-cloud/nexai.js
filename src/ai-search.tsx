@@ -18,6 +18,7 @@ import {
   CommandSeparator,
 } from "@/components/ui/command"
 import { ArrowRightCircleIcon, EyeIcon, SearchIcon, ZapIcon } from "lucide-react"
+import { fetchSearchDocs } from "./lib/ai-search/fetch-search"
 
 export type NavItem = {
   title: string;
@@ -30,9 +31,9 @@ export type NavItem = {
 }
 
 export type AISearchProps = DialogProps & {
+  nexaiApiKey: string;
   onMenuItemSelect?: (navItem: NavItem) => void;
   onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;
-  docsNav: NavItem[];
   className?: string;
   placeholder?: string;
   placeholderSmall?: string;
@@ -40,9 +41,9 @@ export type AISearchProps = DialogProps & {
 }
 
 export function AISearch({
+  nexaiApiKey,
   onMenuItemSelect,
   onMenuItemReadMore,
-  docsNav,
   className,
   commandEmpty = 'No results found.',
   placeholder = 'Search documentation...',
@@ -52,6 +53,19 @@ export function AISearch({
   const [open, setOpen] = React.useState(false)
   const [input, setInput] = React.useState('')
   const [selectedNavItem, setSelectedNavItem] = React.useState<NavItem|undefined>()
+
+  const [docsNav, setDocsNav] = React.useState<NavItem[]>([])
+  const fetched = React.useRef(false)
+  React.useEffect(() => {
+    const fetchDocs = async () => {
+      const docs = await fetchSearchDocs(nexaiApiKey)
+      setDocsNav(docs)
+    }
+    if (!fetched.current) {
+      fetchDocs()
+      fetched.current = true
+    }
+  }, [docsNav, nexaiApiKey])
 
   const search = new RegExp(input, 'ig')
   const visibleNav = docsNav.map(item => {

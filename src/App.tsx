@@ -9,8 +9,6 @@ import logger from 'debug'
 import { NexaiChatBubble } from '../chat-bubble'
 import { NavItem } from './ai-search'
 import { AISearchShadowDom } from './ai-search-shadow-dom'
-import { fetchSearchDocs } from './lib/ai-search/fetch-search'
-// import { docsConfig } from './components/ui/config/docs'
 
 const debug = logger('nexai:app')
 
@@ -34,14 +32,6 @@ const addProjectMsg = action((msg: ChatMsg) => {
 
 const nexaiApiKey = 'clu8h3eg60000haaadp65lyeb' // 'clu8hm40800004vzfocfds9xa'
 const nexaiAssetsUrl = 'https://nexai.site/ai/assets'
-
-const docsNav: NavItem[] = []
-
-const fetchDocs = async () => {
-  const docs = await fetchSearchDocs(nexaiApiKey)
-  docsNav.push(...docs)
-}
-fetchDocs()
 
 export const App = observer(() => {
 
@@ -121,7 +111,7 @@ export const App = observer(() => {
         </h2>
         <div className='flex p-2'>
           <AISearchShadowDom
-            docsNav={docsNav}
+            nexaiApiKey={nexaiApiKey}
             onMenuItemReadMore={onMenuItemReadMore}
             className='h-10 bg-slate-50'
             placeholder='Search Nexai documents...'
