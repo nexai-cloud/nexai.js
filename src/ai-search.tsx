@@ -7,7 +7,7 @@ import {
 } from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import { Button, ButtonProps } from "@/components/ui/button"
 import {
   CommandDialog,
   CommandEmpty,
@@ -30,7 +30,7 @@ export type NavItem = {
   label?: string;
 }
 
-export type AISearchProps = DialogProps & {
+export type AISearchProps = DialogProps & ButtonProps & {
   nexaiApiKey: string;
   onMenuItemSelect?: (navItem: NavItem) => void;
   onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;
@@ -164,9 +164,8 @@ export function AISearch({
               )}
             >
               {group.items?.map((navItem) => (
-                <div>
+                <div key={navItem.href}>
                 <CommandItem
-                  key={navItem.href}
                   value={navItem.title}
                   onSelect={() => onSelect(navItem)}
                   className={

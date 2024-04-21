@@ -1,5 +1,6 @@
 import * as React from "react";
 import { DialogProps } from "@radix-ui/react-alert-dialog";
+import { ButtonProps } from "./components/ui/button";
 export type NavItem = {
     title: string;
     summary?: string;
@@ -9,7 +10,7 @@ export type NavItem = {
     icon?: React.ReactNode;
     label?: string;
 };
-export type AISearchProps = DialogProps & {
+export type AISearchProps = DialogProps & ButtonProps & {
     nexaiApiKey: string;
     onMenuItemSelect?: (navItem: NavItem) => void;
     onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;

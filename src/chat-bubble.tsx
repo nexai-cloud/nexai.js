@@ -177,7 +177,7 @@ export const NexaiChatBubble = observer(({
     threads.push(thread)
     scrollToBottom()
     return thread
-  }, [threads, scrollToBottom, aiName, aiAvatarUrl, nexaiAssetsUrl])
+  }, [threads, scrollToBottom, aiName, aiAvatarUrl])
 
   const addChat = useCallback((chatMessage: ChatMessage, user: ChatUser) => {
     console.log('adding chat msg', { chatMessage, user })

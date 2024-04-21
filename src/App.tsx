@@ -113,7 +113,7 @@ export const App = observer(() => {
           <AISearchShadowDom
             nexaiApiKey={nexaiApiKey}
             onMenuItemReadMore={onMenuItemReadMore}
-            className='h-10 bg-slate-50'
+            className='h-10 bg-slate-50 text-slate-400 hover:text-slate-800'
             placeholder='Search Nexai documents...'
           />
         </div>
