@@ -68,7 +68,10 @@ export function AISearch({
   }, [docsNav, nexaiApiKey])
 
   const search = new RegExp(input, 'ig')
-  const visibleNav = docsNav.map(item => {
+  const uniqueNav = docsNav.filter((group, index) => {
+    return docsNav.findIndex((nav) => nav.title === group.title) === index
+  })
+  const visibleNav = uniqueNav.map(item => {
     const items = item.items?.filter(i => {
       return i.title.match(search) || i.href?.match(search)
     })
