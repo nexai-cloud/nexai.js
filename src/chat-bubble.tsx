@@ -11,7 +11,6 @@ import { ChatBusyIndicator } from './ui/busy-indicator/busy-indicator';
 import { NexaiWaveForm } from './ui/wave-form/wave-form';
 import { getSpeechRecognition, hasSpeechRecognition } from './lib/speech/recognition';
 import { fetchSuggests, getSuggests, setSuggests, nextSuggests } from './models/chat-suggests';
-import { render } from 'react-dom';
 import { cn, randomUUID } from './lib/utils';
 import { getSessionSocket } from './lib/socket';
 import { IoChatMsg } from '../server';
@@ -456,27 +455,3 @@ export const NexaiChatBubble = observer(({
     </div>
   )
 });
-
-export type ChatRenderProps = NexaiChatBubbleProps & {
-  bottom?: number;
-  right?: number;
-}
-
-// @ts-expect-error no render prop
-NexaiChatBubble.render = async (props: ChatRenderProps) => {
-  const el = document.createElement('div')
-  el.setAttribute('id', '#nexai-chat-bubble')
-  el.style.position = 'absolute'
-  el.style.bottom = (props.bottom || 30) + 'px'
-  el.style.right = (props.right || 30) + 'px'
-  document.body.appendChild(el)
-  document.addEventListener('DOMContentLoaded', () => {
-    render(
-      React.createElement(NexaiChatBubble, props), 
-      el
-    )
-  })
-}
-
-// @ts-expect-error global
-globalThis.NexaiChatBubble = NexaiChatBubble

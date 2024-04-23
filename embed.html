@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo/nexai-logo-round.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexai Chat</title>
+    
+  </head>
+  <body>
+    <!-- <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script> -->
+
+<!-- nexai ai chat bubble -->
+<script src="/dist/embed.umd.js"></script>
+<script>
+  // edit the configurations for your website
+  NexaiChatBubble.render({
+    bottom: 30,
+    right: 30,
+    width: 400,
+    nexaiApiKey: 'clvbcyv3h000c1jrkytex0t6p',
+    aiName: 'Support AI',
+    aiAvatarUrl: 'https://nexai.site/ai/assets/avatars/alien-3-eyes.png',
+    projectName: 'Support Team',
+    chatSuggests: [
+      "Hi! I'm fine!|How do I use this?",
+      "Free options?|What's the pricing?",
+      "I'm satisfied. Bye.|I need more help."
+    ]
+  })
+</script>
+<!-- end nexai ai chat bubble --->
+  </body>
+</html>
