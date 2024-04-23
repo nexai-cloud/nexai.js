@@ -19,6 +19,10 @@ import {
 } from "@/components/ui/command"
 import { ArrowRightCircleIcon, EyeIcon, SearchIcon, ZapIcon } from "lucide-react"
 import { fetchSearchDocs } from "./lib/ai-search/fetch-search"
+import { useFlexsearchModel } from "./models/flexsearch-model"
+import { keywordSearch } from "./lib/ai-search/keyword-search"
+import { filterFlexsearchResults } from "./lib/ai-search/flexsearch"
+import { observer } from "mobx-react-lite"
 
 export type NavItem = {
   title: string;
@@ -40,7 +44,7 @@ export type AISearchProps = DialogProps & ButtonProps & {
   commandEmpty?: React.ReactNode;
 }
 
-export function AISearch({
+export const AISearch = observer(({
   nexaiApiKey,
   onMenuItemSelect,
   onMenuItemReadMore,
@@ -49,39 +53,45 @@ export function AISearch({
   placeholder = 'Search documentation...',
   placeholderSmall = 'Search...',
   ...props
-  }: AISearchProps) {
+  }: AISearchProps) => {
   const [open, setOpen] = React.useState(false)
   const [input, setInput] = React.useState('')
   const [selectedNavItem, setSelectedNavItem] = React.useState<NavItem|undefined>()
 
+  const searchModel = useFlexsearchModel({ nexaiApiKey })
   const [docsNav, setDocsNav] = React.useState<NavItem[]>([])
   const fetched = React.useRef(false)
   React.useEffect(() => {
     const fetchDocs = async () => {
       const docs = await fetchSearchDocs(nexaiApiKey)
       setDocsNav(docs)
+      searchModel.setDocuments(docs)
     }
     if (!fetched.current) {
       fetchDocs()
       fetched.current = true
     }
-  }, [docsNav, nexaiApiKey])
+  }, [docsNav, nexaiApiKey, searchModel])
 
-  const search = new RegExp(input, 'ig')
   const uniqueNav = docsNav.filter((group, index) => {
     return docsNav.findIndex((nav) => nav.title === group.title) === index
   })
-  const visibleNav = uniqueNav.map(item => {
-    const items = item.items?.filter(i => {
-      return i.title.match(search) || i.href?.match(search)
-    })
-    if (items?.length) {
-      return {
-        ...item,
-        items
-      }
-    }
-  }).filter(i => i)
+
+  const keywords = input.split(' ').filter(i => i)
+  const searches = keywords.map(keyword => new RegExp(keyword, 'ig'))
+
+  // use flexsearch index
+  const visibleNav = !searches.length 
+    ? uniqueNav 
+    : filterFlexsearchResults(uniqueNav, searchModel.results)
+
+  // augment with OR keyword search
+  if (!visibleNav.length) {
+    visibleNav.push(
+      // @ts-expect-error navitem
+      ...keywordSearch(input, uniqueNav) as NavItem[]
+    )
+  }
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -110,7 +120,7 @@ export function AISearch({
   }, [])
 
   const onSelect = React.useCallback((navItem: NavItem) => {
-    console.log('onSelect', navItem)
+    // console.log('onSelect', navItem)
     if (navItem === selectedNavItem) {
       const group = docsNav.find(nav => nav.items?.includes(selectedNavItem))
       runCommand(() => onMenuItemReadMore(navItem, group!))
@@ -125,6 +135,13 @@ export function AISearch({
   const onReadMore = React.useCallback((navItem: NavItem, group: NavItem) => {
     runCommand(() => onMenuItemReadMore(navItem, group))
   }, [runCommand, onMenuItemReadMore])
+
+  const onSearchInput = async (input: string) => {
+    setInput(input)
+    // console.log('searchModel', searchModel)
+    await searchModel.search(input)
+    // console.log('results', searchModel.results, searchModel)
+  }
 
   return (
     <>
@@ -149,7 +166,7 @@ export function AISearch({
           <SearchIcon className="text-blue-500 mr-2 h-4 w-4 shrink-0" />
           <input
             value={input}
-            onChange={e => setInput(e.target.value)}
+            onChange={e => onSearchInput(e.target.value)}
             placeholder={placeholder}
             className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
           />
@@ -237,4 +254,4 @@ export function AISearch({
       </CommandDialog>
     </>
   )
-}
+})
