@@ -19,4 +19,6 @@ export type AISearchProps = DialogProps & ButtonProps & {
     placeholderSmall?: string;
     commandEmpty?: React.ReactNode;
 };
-export declare function AISearch({ nexaiApiKey, onMenuItemSelect, onMenuItemReadMore, className, commandEmpty, placeholder, placeholderSmall, ...props }: AISearchProps): import("react/jsx-runtime").JSX.Element;
+export declare const AISearch: (({ nexaiApiKey, onMenuItemSelect, onMenuItemReadMore, className, commandEmpty, placeholder, placeholderSmall, ...props }: AISearchProps) => import("react/jsx-runtime").JSX.Element) & {
+    displayName: string;
+};

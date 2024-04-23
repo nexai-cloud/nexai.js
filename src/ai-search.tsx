@@ -89,7 +89,7 @@ export const AISearch = observer(({
   if (!visibleNav.length) {
     visibleNav.push(
       // @ts-expect-error navitem
-      ...keywordSearch(input, uniqueNav) as NavItem[]
+      ...keywordSearch(input, uniqueNav)
     )
   }
 

@@ -20,5 +20,5 @@ export const keywordSearch = (query: string, nav: NavItem[]): NavItem[] => {
     }
   }).filter(i => i)
 
-  return visibleNav
+  return visibleNav as NavItem[]
 }
