@@ -6,7 +6,6 @@ import "construct-style-sheets-polyfill";
 // mention right path for twind.config.js
 import config from "../../../twind.config";
 import { styles } from "./styles";
-import "../../index.css"
 
 export const addTwStyles = (shadowRoot: ShadowRoot) => {
 
