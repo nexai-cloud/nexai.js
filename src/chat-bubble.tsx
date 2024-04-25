@@ -37,15 +37,15 @@ export type NexaiChatBubbleProps = {
 }
 
 export const NexaiChatBubble = observer(({
-  width = 380,
+  width = 400,
   nexaiApiKey,
-  nexaiIoUrl = 'https://ai-chat-server-production.up.railway.app',
+  nexaiIoUrl = 'https://io.nexai.site',
   nexaiAssetsUrl = 'https://nexai.site/ai/assets',
-  aiName = 'Nexai',
+  aiName = 'AI Assistant',
   aiAvatarUrl = '',
   chatSuggests = [],
-  projectName = 'Nexai',
-  inputPlaceholder = ''
+  projectName = 'AI Support',
+  inputPlaceholder = 'Ask a question...'
 }: NexaiChatBubbleProps) => {
   const [isShowChat, setIsShowChat] = useState(
     Boolean(hasIsShowChat() ? getIsShowChat() : true)

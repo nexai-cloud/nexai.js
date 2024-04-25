@@ -12,7 +12,3 @@ export type NexaiChatBubbleProps = {
 export declare const NexaiChatBubble: (({ width, nexaiApiKey, nexaiIoUrl, nexaiAssetsUrl, aiName, aiAvatarUrl, chatSuggests, projectName, inputPlaceholder }: NexaiChatBubbleProps) => import("react/jsx-runtime").JSX.Element) & {
     displayName: string;
 };
-export type ChatRenderProps = NexaiChatBubbleProps & {
-    bottom?: number;
-    right?: number;
-};
