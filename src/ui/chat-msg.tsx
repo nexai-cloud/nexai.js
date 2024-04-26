@@ -57,7 +57,7 @@ export const NexaiChatMsg = observer(({
                   <div className='mt-2'>
                     <h4 className='font-semibold'>Sources:</h4>
                     {
-                      sources.map((source: string) => (
+                      sources.filter(src => src).map((source: string) => (
                         <p key={source}>
                           <a className='flex items-center align-middle' href={source} target='_blank'>
                             {source}<ExternalLinkIcon className='ml-1' size={12} />

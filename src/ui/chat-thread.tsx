@@ -25,7 +25,7 @@ export const NexaiChatThread = observer(({
       {
         thread.messages.map((message, i) => (
           <NexaiChatMsg
-            key={i}
+            key={message.uid}
             thread={thread}
             chatMessage={message}
           />

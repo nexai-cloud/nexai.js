@@ -28,6 +28,7 @@ export type NexaiChatBubbleProps = {
   width?: number;
   nexaiApiKey: string;
   nexaiIoUrl?: string;
+  nexaiApiUrl?: string;
   nexaiAssetsUrl?: string;
   aiName?: string;
   aiAvatarUrl?: string;
@@ -40,6 +41,7 @@ export const NexaiChatBubble = observer(({
   width = 400,
   nexaiApiKey,
   nexaiIoUrl = 'https://io.nexai.site',
+  nexaiApiUrl = 'https://nexai.site/api/nexai',
   nexaiAssetsUrl = 'https://nexai.site/ai/assets',
   aiName = 'AI Assistant',
   aiAvatarUrl = '',
@@ -70,7 +72,9 @@ export const NexaiChatBubble = observer(({
     ioUrl: nexaiIoUrl
   })
 
-  const aiThreads = useCallback(() => getAiThreads(chatSession, { aiName, aiAvatarUrl, nexaiAssetsUrl }), [chatSession, aiName, aiAvatarUrl, nexaiAssetsUrl])
+  const aiThreads = useCallback(() => {
+    return getAiThreads(chatSession, { aiName, aiAvatarUrl, nexaiAssetsUrl })
+  }, [chatSession, aiName, aiAvatarUrl, nexaiAssetsUrl])
 
   const chatUser = getChatUser(chatSession)
 
@@ -101,7 +105,30 @@ export const NexaiChatBubble = observer(({
       setTimeout(() => scrollToBottom(), 50)
     }
 
-    const listen = () => {
+    const fetchPrevMessages = async () => {
+      const params = `projectId=${nexaiApiKey}&sessionKey=${chatSession.sessionId}`
+      const res = await fetch(`${nexaiApiUrl}/chat/?${params}`, { mode: 'cors' })
+      const json = await res.json()
+      console.log('fetchPrevMessages', json)
+      const messages = json.data.messages as NexaiChatMessage[]
+      messages.map((message) => {
+        addChatMessageToThread({
+          ...message,
+          fromType: message.fromName === 'nexai' ? 'nexai' : 'user',
+          userUid: message.fromName,
+          uid: randomUUID(),
+        })
+      })
+      setTimeout(() => scrollToBottom(), 50)
+    }
+
+    const listen = async () => {
+      console.log('fetching prev messages...')
+      try {
+        await fetchPrevMessages()
+      } catch(error) {
+        console.error(error)
+      }
       console.log('listening socket', socket)
       socket.on('chat', handleChatMessage)
     }
@@ -160,7 +187,8 @@ export const NexaiChatBubble = observer(({
   }, [socket])
 
   const addAITyping = useCallback(async () => {
-    const uid = String(Date.now())
+    const uid = randomUUID()
+    const msgUid = randomUUID()
     const thread = {
       ...getAiUser({ aiName, aiAvatarUrl }),
       uid,
@@ -168,9 +196,9 @@ export const NexaiChatBubble = observer(({
       date: new Date(),
       isTyping: true,
       messages: [{
-        uid: randomUUID(),
+        uid: msgUid,
         isTyping: true,
-        message: <div key={Date.now()}><ChatBusyIndicator text={''} /></div>
+        message: <div key={msgUid}><ChatBusyIndicator text={''} /></div>
       }]
     }
     threads.push(thread)
@@ -181,6 +209,8 @@ export const NexaiChatBubble = observer(({
   const addChat = useCallback((chatMessage: ChatMessage, user: ChatUser) => {
     console.log('adding chat msg', { chatMessage, user })
 
+    if (!chatMessage.uid) throw 'no msg uid'
+
     const threadWithMsg = threads.find(thread => {
       return thread.messages
         .map(m => m.uid).includes(chatMessage.uid)
@@ -188,7 +218,7 @@ export const NexaiChatBubble = observer(({
 
     if (threadWithMsg) {
       const existingChat = threadWithMsg.messages.find(m => {
-        return m.uid == chatMessage.uid
+        return m.uid === chatMessage.uid
       })
       existingChat!.isReceived = true
       return
@@ -224,7 +254,7 @@ export const NexaiChatBubble = observer(({
               name={user.name}
             />
           ),
-          uid: String(Date.now()),
+          uid: randomUUID(),
           hide: false,
           date: new Date(),
           messages: [
@@ -334,7 +364,7 @@ export const NexaiChatBubble = observer(({
                 {
                   threads.map((thread) => (
                     <NexaiChatThread
-                      key={thread.date.getTime()}
+                      key={thread.uid}
                       thread={thread}
                     />
                   ))

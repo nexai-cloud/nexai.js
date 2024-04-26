@@ -165,6 +165,7 @@ export const App = observer(() => {
           width={400}
           nexaiApiKey={nexaiApiKey}
           aiName='AI'
+          nexaiApiUrl='http://localhost:3000/api/nexai'
           aiAvatarUrl='https://nexai.site/ai/assets/avatars/alien-3-eyes.png'
           projectName='Nexai'
           chatSuggests={[
