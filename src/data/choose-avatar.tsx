@@ -60,7 +60,7 @@ export const ChooseAvatar = observer((
   console.log('choose-avatar', { avatarUrl })
   return (
     <div>
-      <h3 className="font-bold pt-4 pb-2 text-sm text-muted">
+      <h3 className="font-bold text-primary pt-4 pb-2 text-sm">
       You may choose a profile
       </h3>
       <div className={'flex gap-4 flex-wrap py-4 px-2'}>
