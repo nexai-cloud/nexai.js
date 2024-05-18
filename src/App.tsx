@@ -103,13 +103,13 @@ export const App = observer(() => {
   }
 
   return (
-    <div className='flex-col align-middle items-center bg-slate-50 p-5'>
+    <div className='h-screen w-screen flex-col align-middle items-center bg-slate-50'>
     <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
-      <ResizablePanel className='border rounded'>
-        <h2 className="text-2xl font-bold border-b px-2 py-2">
+      <ResizablePanel className='flex flex-col space-y-2 space-x-2'>
+        <h2 className="text-2xl font-bold border-b p-2">
           Chat
         </h2>
-        <div className='flex p-2'>
+        <div className='flex p-1'>
           <AISearchShadowDom
             nexaiApiKey={nexaiApiKey}
             onMenuItemReadMore={onMenuItemReadMore}
@@ -117,7 +117,7 @@ export const App = observer(() => {
             placeholder='Search Nexai documents...'
           />
         </div>
-        <div className='flex-col p-2 space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
+        <div className='flex flex-col flex-1 m-2 space-y-2 items-start align-top overflow-y-auto'>
           {
             msgs.map((msg, index) => (
               <p key={index} className='flex gap-1 p-2 border rounded-xl'>
@@ -127,18 +127,18 @@ export const App = observer(() => {
             ))
           }
         </div>
-        <div className='p-4'>
+        <div className='mt-auto p-2'>
           <ChatInput
             onSendChatMsg={onSendSessionChatMsg}
           />
         </div>
       </ResizablePanel>
       <ResizableHandle />
-      <ResizablePanel className='border rounded'>
-        <h2 className="text-2xl font-bold border-b px-2 py-2">
+      <ResizablePanel className='flex flex-col'>
+        <h2 className="text-2xl font-bold border-b p-2">
           Dashboard
         </h2>
-        <div className='flex-col p-2 space-y-2 my-2 items-start align-top h-[80vh] overflow-y-auto'>
+        <div className='flex flex-col flex-1 p-2 space-y-2 my-2 items-start align-top overflow-y-auto'>
           {
             projectMsgs.map((msg, index) => (
               <p key={index} className='flex gap-1 p-2 border rounded-xl'>
@@ -148,7 +148,7 @@ export const App = observer(() => {
             ))
           }
         </div>
-        <div className='p-4'>
+        <div className='p-2 mt-auto'>
           <ChatInput
             onSendChatMsg={onSendSupportChatMsg}
           />
