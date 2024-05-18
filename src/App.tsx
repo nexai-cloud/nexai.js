@@ -156,11 +156,7 @@ export const App = observer(() => {
       </ResizablePanel>
     </ResizablePanelGroup>
 
-      <div className="fixed bottom-50 right-10 z-50"
-        style={{
-          bottom: 140
-        }}
-      >
+      <div className="fixed bottom-0 right-0 sm:right-10 sm:bottom-10 z-50">
         <NexaiChatBubble
           width={400}
           nexaiApiKey={nexaiApiKey}

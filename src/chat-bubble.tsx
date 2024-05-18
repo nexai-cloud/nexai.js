@@ -321,9 +321,10 @@ export const NexaiChatBubble = observer(({
 
   return (
     <div
-      className="max-w-[100wh] nexai-chat-bubble pt-0 flex flex-col gap-4 rounded-lg"
+      className="max-w-[100vw] p-1 nexai-chat-bubble pt-0 flex flex-col gap-4 rounded-lg"
       style={{
-        width
+        width,
+        maxWidth: '100vw'
       }}
     >
       {
@@ -407,7 +408,7 @@ export const NexaiChatBubble = observer(({
           </div>
         )
       }
-      <div className="bubble-icon flex items-end align-middle -ml-5">
+      <div className="bubble-icon flex items-end align-middle ml-auto">
         {
           isShowChat && (
             <>
@@ -430,7 +431,7 @@ export const NexaiChatBubble = observer(({
           onClick={toggleChat}
           className={
             cn(
-              `ml-auto flex align-middle items-center rounded-full`,
+              `ml-auto mb-1 mr-1 flex align-middle items-center rounded-full`,
               isShowChat ? ` text-blue-600` : `bg-blue-600 text-white shadow`
             )
           }
