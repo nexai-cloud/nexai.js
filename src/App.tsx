@@ -9,6 +9,8 @@ import logger from 'debug'
 import { NexaiChatBubble } from '../chat-bubble'
 import { NavItem } from './ai-search'
 import { AISearchShadowDom } from './ai-search-shadow-dom'
+import { mockMsgs } from './data/mock-msgs'
+import { ScrollArea } from './components/ui/scroll-area'
 
 const debug = logger('nexai:app')
 
@@ -89,6 +91,11 @@ export const App = observer(() => {
     debug('loaded session...')
     sessionIo.on('chat', onChat)
     projectIo.on('chat', onProjectChat)
+    // load mocks
+    msgs.push(...mockMsgs as ChatMsg[])
+    projectMsgs.push(...mockMsgs as ChatMsg[])
+    msgs.push(...mockMsgs as ChatMsg[])
+    projectMsgs.push(...mockMsgs as ChatMsg[])
     loaded.current = true
     // setTimeout(() => {
     //   sendSessionChatMsg('hello from client')
@@ -117,16 +124,16 @@ export const App = observer(() => {
             placeholder='Search Nexai documents...'
           />
         </div>
-        <div className='flex flex-col flex-1 m-2 space-y-2 items-start align-top overflow-y-auto'>
+        <ScrollArea className='flex flex-col flex-1 m-2 space-y-2 items-start align-top'>
           {
             msgs.map((msg, index) => (
-              <p key={index} className='flex gap-1 p-2 border rounded-xl'>
+              <p key={index} className='flex gap-1 p-2 m-2 border rounded-xl'>
                 <span className='font-bold'>{msg.fromName}</span>
                 <span>{msg.message}</span>
               </p>
             ))
           }
-        </div>
+        </ScrollArea>
         <div className='mt-auto p-2'>
           <ChatInput
             onSendChatMsg={onSendSessionChatMsg}
