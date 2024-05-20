@@ -11,24 +11,19 @@ import { NavItem } from './ai-search'
 import { AISearchShadowDom } from './ai-search-shadow-dom'
 import { mockMsgs } from './data/mock-msgs'
 import { ScrollArea } from './components/ui/scroll-area'
+import { ChatDashboard } from './chat/dashboard/dashboard'
+import { type NexaiChatMessage } from './chat-types'
 
 const debug = logger('nexai:app')
 
-type ChatMsg = {
-  projectId: string;
-  sessionKey: string;
-  message: string;
-  fromName: string;
-  toName: string;
-}
-const msgs = observable<ChatMsg>([])
-const projectMsgs = observable<ChatMsg>([])
+const msgs = observable<NexaiChatMessage>([])
+const projectMsgs = observable<NexaiChatMessage>([])
 
-const addMsg = action((msg: ChatMsg) => {
+const addMsg = action((msg: NexaiChatMessage) => {
   msgs.push(msg)
 })
 
-const addProjectMsg = action((msg: ChatMsg) => {
+const addProjectMsg = action((msg: NexaiChatMessage) => {
   projectMsgs.push(msg)
 })
 
@@ -76,12 +71,12 @@ export const App = observer(() => {
     sendSupportChatMsg(msg)
   }
 
-  const onChat = (msg: ChatMsg, ...args: string[]) => {
+  const onChat = (msg: NexaiChatMessage, ...args: string[]) => {
     debug('session chat msg', { msg, args })
     addMsg(msg)
   }
 
-  const onProjectChat = (msg: ChatMsg, ...args: string[]) => {
+  const onProjectChat = (msg: NexaiChatMessage, ...args: string[]) => {
     debug('project chat msg', { msg, args })
     addProjectMsg(msg)
   } 
@@ -92,10 +87,10 @@ export const App = observer(() => {
     sessionIo.on('chat', onChat)
     projectIo.on('chat', onProjectChat)
     // load mocks
-    msgs.push(...mockMsgs as ChatMsg[])
-    projectMsgs.push(...mockMsgs as ChatMsg[])
-    msgs.push(...mockMsgs as ChatMsg[])
-    projectMsgs.push(...mockMsgs as ChatMsg[])
+    msgs.push(...mockMsgs as NexaiChatMessage[])
+    projectMsgs.push(...mockMsgs as NexaiChatMessage[])
+    msgs.push(...mockMsgs as NexaiChatMessage[])
+    projectMsgs.push(...mockMsgs as NexaiChatMessage[])
     loaded.current = true
     // setTimeout(() => {
     //   sendSessionChatMsg('hello from client')
@@ -142,24 +137,10 @@ export const App = observer(() => {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className='flex flex-col'>
-        <h2 className="text-2xl font-bold border-b p-2">
-          Dashboard
-        </h2>
-        <div className='flex flex-col flex-1 p-2 space-y-2 my-2 items-start align-top overflow-y-auto'>
-          {
-            projectMsgs.map((msg, index) => (
-              <p key={index} className='flex gap-1 p-2 border rounded-xl'>
-                <span className='font-bold'>{msg.fromName}</span>
-                <span>{msg.message}</span>
-              </p>
-            ))
-          }
-        </div>
-        <div className='p-2 mt-auto'>
-          <ChatInput
-            onSendChatMsg={onSendSupportChatMsg}
-          />
-        </div>
+        <ChatDashboard
+          projectMsgs={projectMsgs}
+          onSendSupportChatMsg={onSendSupportChatMsg}
+        />
       </ResizablePanel>
     </ResizablePanelGroup>
 
