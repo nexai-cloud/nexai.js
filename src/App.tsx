@@ -127,10 +127,18 @@ export const App = observer(() => {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className='flex flex-col'>
-        <ChatDashboard
-          projectMsgs={projectMsgs}
-          onSendSupportChatMsg={onSendSupportChatMsg}
-        />
+        <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
+          <ResizablePanel className='flex flex-col'>
+          <ChatDashboard
+            projectMsgs={projectMsgs}
+            onSendSupportChatMsg={onSendSupportChatMsg}
+          />
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel className='flex flex-col'>
+            <img src='/screenshots/hai-create-bot.jpeg' />
+          </ResizablePanel>
+        </ResizablePanelGroup>
       </ResizablePanel>
     </ResizablePanelGroup>
 
