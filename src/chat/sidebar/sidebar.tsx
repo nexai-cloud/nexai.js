@@ -9,15 +9,13 @@ type Props = {
 
 export const ChatSidebar = ({ msgs, onSendChatMsg }: Props) => {
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex-1">
-        <Messages msgs={msgs} />
-      </div>
+    <>
+      <Messages msgs={msgs} />
       <div className='mt-auto p-2'>
         <ChatInput
           onSendChatMsg={onSendChatMsg}
         />
       </div>
-    </div>
+    </>
   )
 }

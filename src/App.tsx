@@ -14,6 +14,7 @@ import { ScrollArea } from './components/ui/scroll-area'
 import { ChatDashboard } from './chat/dashboard/dashboard'
 import { type NexaiChatMessage } from './chat-types'
 import { ChatSidebar } from './chat/sidebar/sidebar'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
 
 const debug = logger('nexai:app')
 
@@ -106,7 +107,7 @@ export const App = observer(() => {
   }
 
   return (
-    <div className='h-screen w-screen flex-col align-middle items-center bg-slate-50'>
+    <div className='h-screen w-screen flex-col align-middle items-center'>
     <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
       <ResizablePanel className='flex flex-col space-y-2 space-x-2'>
         <h2 className="text-2xl font-bold border-b p-2">
@@ -127,18 +128,21 @@ export const App = observer(() => {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className='flex flex-col'>
-        <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
-          <ResizablePanel className='flex flex-col'>
-          <ChatDashboard
-            projectMsgs={projectMsgs}
-            onSendSupportChatMsg={onSendSupportChatMsg}
-          />
-          </ResizablePanel>
-          <ResizableHandle />
-          <ResizablePanel className='flex flex-col'>
-            <img src='/screenshots/hai-create-bot.jpeg' />
-          </ResizablePanel>
-        </ResizablePanelGroup>
+        <Tabs defaultValue='screenshot' className='relative gap-1'>
+          <TabsList>
+            <TabsTrigger value='screenshot'>Screenshot</TabsTrigger>
+            <TabsTrigger value='dashboard'>Dashboard</TabsTrigger>
+          </TabsList>
+          <TabsContent value="dashboard">
+            <ChatDashboard
+              projectMsgs={projectMsgs}
+              onSendSupportChatMsg={onSendSupportChatMsg}
+            />
+          </TabsContent>
+          <TabsContent value="screenshot">
+            <img src='/screenshots/hai-sidebar.jpeg' />
+          </TabsContent>
+        </Tabs>
       </ResizablePanel>
     </ResizablePanelGroup>
 
