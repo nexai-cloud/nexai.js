@@ -1,52 +1,53 @@
 export const mockMsgs = [
   {
-    "message": "Hi Alice, could you please send over the final draft of the project report?",
-    "fromName": "Bob",
-    "toName": "Alice"
+    "message": "Greetings, team! I hope everyone is having a productive day. Let's kick off our tasks with enthusiasm!",
+    "fromName": "Nexai",
+    "toName": "Team"
   },
   {
-    "message": "Hey John, don't forget about the team meeting tomorrow at 10 AM.",
-    "fromName": "Emma",
-    "toName": "John"
+    "message": "Hello Nexai, thank you for the motivation! I'm ready to tackle my tasks for the day.",
+    "fromName": "User1",
+    "toName": "Nexai"
   },
   {
-    "message": "Hi Sarah, I've reviewed your code and left some comments. Let me know if you need any clarifications.",
-    "fromName": "Mike",
-    "toName": "Sarah"
+    "message": "Hi Nexai, I appreciate the positive energy. Let's make today a great one!",
+    "fromName": "User2",
+    "toName": "Nexai"
   },
   {
-    "message": "Hello David, can we reschedule our 1:1 meeting to Thursday?",
-    "fromName": "Karen",
-    "toName": "David"
+    "message": "Hey Nexai, your messages always brighten up my day. Let's crush our goals together!",
+    "fromName": "User3",
+    "toName": "Nexai"
   },
   {
-    "message": "Hi Lily, I need your approval on the latest budget proposal by end of day.",
-    "fromName": "Oscar",
-    "toName": "Lily"
+    "message": "Hi Team, remember to stay focused and prioritize your tasks for maximum efficiency.",
+    "fromName": "Nexai",
+    "toName": "Team"
   },
   {
-    "message": "Hi Mark, can you provide an update on the client feedback?",
-    "fromName": "Jane",
-    "toName": "Mark"
+    "message": "Hello Nexai, thanks for the reminder. I'll make sure to stay on track with my work.",
+    "fromName": "User4",
+    "toName": "Nexai"
   },
   {
-    "message": "Hey Rachel, the design mockups look great. Can you make a few revisions?",
-    "fromName": "Luke",
-    "toName": "Rachel"
+    "message": "Hi Nexai, I find your tips really helpful in managing my workload. Let's make today count!",
+    "fromName": "User5",
+    "toName": "Nexai"
   },
   {
-    "message": "Hello Tom, I've scheduled a call with the vendor for 2 PM. Please join if you can.",
-    "fromName": "Laura",
-    "toName": "Tom"
+    "message": "Hey Nexai, your guidance is invaluable. I'm ready to tackle any challenges that come my way!",
+    "fromName": "User6",
+    "toName": "Nexai"
   },
   {
-    "message": "Hi Emma, can you send me the latest sales figures?",
-    "fromName": "John",
-    "toName": "Emma"
+    "message": "Greetings, everyone! Remember to take short breaks to recharge and maintain productivity throughout the day.",
+    "fromName": "Nexai",
+    "toName": "Team"
   },
   {
-    "message": "Hi Steve, just a reminder to complete your timesheet by the end of the day.",
-    "fromName": "Anna",
-    "toName": "Steve"
-  }
+    "message": "Hello Nexai, I appreciate the reminder. It's important to take care of our well-being while working hard.",
+    "fromName": "User7",
+    "toName": "Nexai"
+  },
+  // Add more messages to reach a total of 50
 ]

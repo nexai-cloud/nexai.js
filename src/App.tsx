@@ -4,17 +4,16 @@ import { action, observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './components/ui/resizable'
 import { getClientSession } from './lib/session/chat-session'
-import { ChatInput } from './ui/chat-input'
 import logger from 'debug'
 import { NexaiChatBubble } from '../chat-bubble'
 import { NavItem } from './ai-search'
 import { AISearchShadowDom } from './ai-search-shadow-dom'
 import { mockMsgs } from './data/mock-msgs'
-import { ScrollArea } from './components/ui/scroll-area'
 import { ChatDashboard } from './chat/dashboard/dashboard'
 import { type NexaiChatMessage } from './chat-types'
 import { ChatSidebar } from './chat/sidebar/sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
+import { ScrollArea } from './components/ui/scroll-area'
 
 const debug = logger('nexai:app')
 
@@ -110,9 +109,6 @@ export const App = observer(() => {
     <div className='h-screen w-screen flex-col align-middle items-center'>
     <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
       <ResizablePanel className='flex flex-col space-y-2 space-x-2'>
-        <h2 className="text-2xl font-bold border-b p-2">
-          Chat
-        </h2>
         <div className='flex p-1'>
           <AISearchShadowDom
             nexaiApiKey={nexaiApiKey}
@@ -140,7 +136,13 @@ export const App = observer(() => {
             />
           </TabsContent>
           <TabsContent value="screenshot">
-            <img src='/screenshots/hai-sidebar.jpeg' />
+            <ScrollArea className='h-screen'>
+              <img className='h-screen' src='/screenshots/hai-sidebar.jpeg' />
+              <img className='h-screen' src='/screenshots/hai-prompts.jpeg' />
+              <img className='h-screen' src='/screenshots/hai-create-bot.jpeg' />
+              <img className='h-screen' src='/screenshots/hai-toolkit.jpeg' />
+              <img className='h-screen' src='/screenshots/hai-sidebar2.jpeg' />
+            </ScrollArea>
           </TabsContent>
         </Tabs>
       </ResizablePanel>

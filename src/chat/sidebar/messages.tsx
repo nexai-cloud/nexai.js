@@ -1,5 +1,6 @@
 import { NexaiChatMessage } from "~/chat-types"
 import { ScrollArea } from "~/components/ui/scroll-area"
+import { ChatMessage } from "./message"
 
 type Props = {
   msgs: NexaiChatMessage[]
@@ -7,13 +8,10 @@ type Props = {
 
 export const Messages = ({ msgs }: Props) => {
   return (
-    <ScrollArea className='flex flex-col flex-1 m-2 space-y-2 items-start align-top'>
+    <ScrollArea className='flex flex-col flex-1 m-2 space-y-4 items-start align-top'>
       {
         msgs.map((msg, index) => (
-          <p key={index} className='flex gap-1 p-2 m-2 border rounded-xl'>
-            <span className='font-bold'>{msg.fromName}</span>
-            <span>{msg.message}</span>
-          </p>
+          <ChatMessage key={index} msg={msg} />
         ))
       }
     </ScrollArea>
