@@ -13,6 +13,7 @@ import { mockMsgs } from './data/mock-msgs'
 import { ScrollArea } from './components/ui/scroll-area'
 import { ChatDashboard } from './chat/dashboard/dashboard'
 import { type NexaiChatMessage } from './chat-types'
+import { ChatSidebar } from './chat/sidebar/sidebar'
 
 const debug = logger('nexai:app')
 
@@ -119,21 +120,10 @@ export const App = observer(() => {
             placeholder='Search Nexai documents...'
           />
         </div>
-        <ScrollArea className='flex flex-col flex-1 m-2 space-y-2 items-start align-top'>
-          {
-            msgs.map((msg, index) => (
-              <p key={index} className='flex gap-1 p-2 m-2 border rounded-xl'>
-                <span className='font-bold'>{msg.fromName}</span>
-                <span>{msg.message}</span>
-              </p>
-            ))
-          }
-        </ScrollArea>
-        <div className='mt-auto p-2'>
-          <ChatInput
-            onSendChatMsg={onSendSessionChatMsg}
-          />
-        </div>
+        <ChatSidebar
+          msgs={msgs}
+          onSendChatMsg={onSendSessionChatMsg}
+        />
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel className='flex flex-col'>
