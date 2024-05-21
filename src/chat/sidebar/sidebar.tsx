@@ -1,4 +1,4 @@
-import { ChatInput } from "~/ui/chat-input"
+import { ChatInput } from "./input";
 import { Messages } from "./messages"
 import { NexaiChatMessage } from "~/chat-types";
 
@@ -8,12 +8,14 @@ type Props = {
 }
 
 export const ChatSidebar = ({ msgs, onSendChatMsg }: Props) => {
+  
+  
   return (
     <>
       <Messages msgs={msgs} />
       <div className='mt-auto p-2'>
         <ChatInput
-          onSendChatMsg={onSendChatMsg}
+            
         />
       </div>
     </>
