@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { NexaiWaveFormSVG } from "./wave-form-svg"
+import { cn } from "~/lib/utils";
 
 export const NexaiWaveForm = ({
   active = false,
+  className = ''
 }) => {
 
   useEffect(() => {
@@ -11,7 +13,7 @@ export const NexaiWaveForm = ({
 
   return (
     <NexaiWaveFormSVG
-      className={active ? "animate-spin" : ""}
+      className={cn(active ? "animate-spin" : "", className)}
     />
   )
 };

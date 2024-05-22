@@ -1,39 +1,51 @@
-import { MicIcon, SendIcon } from "lucide-react"
-import { useRef, type ChangeEvent, type KeyboardEvent, type RefObject } from 'react';
+import { EyeClosedIcon } from "@radix-ui/react-icons";
+import { MicIcon, PanelRightCloseIcon, SendIcon, ShieldCloseIcon, SidebarCloseIcon, XCircleIcon } from "lucide-react"
+import { observer } from "mobx-react-lite";
+import { useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { hasSpeechRecognition } from "~/lib/speech/recognition";
-import { randomUUID } from "~/lib/utils";
 import { SpeechRecognitionModel } from "~/models/speech-recognition";
 import { NexaiWaveForm } from "~/ui/wave-form/wave-form";
 
 type Props = {
-  isSpeechInput: boolean;
   inputPlaceholder?: string;
-  projectName?: string;
-  onInputChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  onInputKeyDown: (event: KeyboardEvent<HTMLInputElement>) => void;
-  chatInput: string;
-  chatInputRef: RefObject<HTMLInputElement>;
-  handleSpeechRecognition: (transcript: string) => void;
-  sendUserChat: (message: { uid: string; message: string }) => void;
-  talking: boolean;
+  onSpeechTranscript: (transcript: string) => void;
+  onSendChatMsg: (message: string) => void;
 };
 
-export const ChatInput = ({
-  handleSpeechRecognition,
+export const ChatInput = observer(({
+  onSpeechTranscript,
   inputPlaceholder,
-  onInputChange,
-  onInputKeyDown,
-  chatInput,
-  chatInputRef,
-  sendUserChat,
-  talking
+  onSendChatMsg,
 }: Props) => {
 
   const speech = useRef(SpeechRecognitionModel.create()).current
+  const [chatInput, setChatInput] = useState('')
+  const chatInputRef = useRef<HTMLInputElement>(null)
+
+  const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setChatInput(event.target.value)
+  }
+  const onInputKeyDown = (event: KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      setChatInput('')
+      onSendChatMsg(chatInput)
+    }
+  }
 
   const startSpeechRecognition = () => {
-    speech.startSpeechRecognition(handleSpeechRecognition)
+    speech.startSpeechRecognition(onSpeechTranscript)
   }
+
+  const handleSendClick = (msg: string) => {
+    setChatInput('')
+    onSendChatMsg(msg)
+  }
+
+  const stopSpeech = () => {
+    speech.stopSpeechRecognition()
+  }
+
+  console.log('render', { speech, chatInput })
 
   return (
     <div className="flex align-middle border rounded-lg shadow-lg p-1 bg-white">
@@ -61,31 +73,30 @@ export const ChatInput = ({
               }
               <button
                 className="flex text-slate-300 my-auto p-2"
-                onClick={() => sendUserChat({ uid: randomUUID(), message: chatInput })}  
+                onClick={() => handleSendClick(chatInput)}  
               >
               <SendIcon />
               </button>
             </div>
           </>
         ) : (
-          <div className="flex w-full align-middle items-center size-12">
-            <div className='mx-auto flex align-middle items-center gap-1'>
-              <div className='mr-auto flex text-blue-500'>
-                {
-                  talking ? (
-                    <NexaiWaveForm active={true} />
-                  ) : (
-                    <div className='animate-pulse'>
-                      {`I'm listening`}
-                    </div>
-                  )
-                }
-              </div>
-            </div>
+          <div className="flex relative w-full align-middle items-center size-12">
+            {
+              speech.talking ? (
+                <NexaiWaveForm active={true} className="h-16 mx-auto" />
+              ) : (
+                <div className='animate-pulse mx-auto font-semibold'>
+                  {`I'm listening`}
+                </div>
+              )
+            }
+            <button onClick={stopSpeech} className="absolute right-2">
+              <XCircleIcon className="text-muted-foreground" />
+            </button>
           </div>
         )
       }
       
     </div>
   )
-}
+})

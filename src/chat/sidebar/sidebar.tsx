@@ -4,10 +4,17 @@ import { NexaiChatMessage } from "~/chat-types";
 
 type Props = {
   msgs: NexaiChatMessage[];
-  onSendChatMsg: (msg: string) => void;
 }
 
-export const ChatSidebar = ({ msgs, onSendChatMsg }: Props) => {
+export const ChatSidebar = ({ msgs }: Props) => {
+
+  const onSpeechTranscript = (transcript: string) => {
+    console.log('onSpeech', transcript)
+  }
+
+  const onSendChatMsg = (msg: string) => {
+    console.log('onSend', msg)
+  }
   
   
   return (
@@ -15,7 +22,8 @@ export const ChatSidebar = ({ msgs, onSendChatMsg }: Props) => {
       <Messages msgs={msgs} />
       <div className='mt-auto p-2'>
         <ChatInput
-            
+            onSendChatMsg={onSendChatMsg}
+            onSpeechTranscript={onSpeechTranscript}
         />
       </div>
     </>

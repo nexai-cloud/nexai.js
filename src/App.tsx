@@ -109,14 +109,6 @@ export const App = observer(() => {
     <div className='h-screen w-screen flex-col align-middle items-center'>
     <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
       <ResizablePanel className='flex flex-col space-y-2 space-x-2'>
-        <div className='flex p-1'>
-          <AISearchShadowDom
-            nexaiApiKey={nexaiApiKey}
-            onMenuItemReadMore={onMenuItemReadMore}
-            className='h-10'
-            placeholder='Search Nexai documents...'
-          />
-        </div>
         <ChatSidebar
           msgs={msgs}
           onSendChatMsg={onSendSessionChatMsg}
@@ -137,6 +129,7 @@ export const App = observer(() => {
           </TabsContent>
           <TabsContent value="screenshot">
             <ScrollArea className='h-screen'>
+              <img className='h-screen' src='/screenshots/hai-semantic-chat.png' />
               <img className='h-screen' src='/screenshots/hai-sidebar.jpeg' />
               <img className='h-screen' src='/screenshots/hai-prompts.jpeg' />
               <img className='h-screen' src='/screenshots/hai-create-bot.jpeg' />
