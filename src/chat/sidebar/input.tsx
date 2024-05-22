@@ -27,7 +27,7 @@ export const ChatInput = observer(({
     setChatInput(event.target.value)
   }
   const onInputKeyDown = (event: KeyboardEvent) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && chatInput) {
       setChatInput('')
       onSendChatMsg(chatInput)
     }
