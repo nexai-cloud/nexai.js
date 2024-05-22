@@ -3,6 +3,7 @@ import { MicIcon, PanelRightCloseIcon, SendIcon, ShieldCloseIcon, SidebarCloseIc
 import { observer } from "mobx-react-lite";
 import { useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { hasSpeechRecognition } from "~/lib/speech/recognition";
+import { cn } from "~/lib/utils";
 import { SpeechRecognitionModel } from "~/models/speech-recognition";
 import { NexaiWaveForm } from "~/ui/wave-form/wave-form";
 
@@ -48,12 +49,15 @@ export const ChatInput = observer(({
   console.log('render', { speech, chatInput })
 
   return (
-    <div className="flex align-middle border rounded-lg shadow-lg p-1 bg-white">
+    <div className="focus-within:border-blue-500 flex align-middle border rounded-lg shadow-lg p-1 bg-white">
       {
         !speech.isSpeechInput ? (
           <>
             <input
-              className="w-full bg-white border-0 p-3 font-medium size-12"
+              className={cn(
+                "flex-grow bg-white border-0 p-3 font-medium size-12", 
+                "focus:border-none focus:outline-none"
+              )}
               placeholder={inputPlaceholder || 'Ask a question...'}
               onChange={onInputChange}
               onKeyDown={onInputKeyDown}
@@ -71,12 +75,16 @@ export const ChatInput = observer(({
                   </button>
                 )
               }
-              <button
-                className="flex text-slate-300 my-auto p-2"
-                onClick={() => handleSendClick(chatInput)}  
-              >
-              <SendIcon />
-              </button>
+              {
+                chatInput ? (
+                  <button
+                    className="flex text-slate-300 my-auto p-2"
+                    onClick={() => handleSendClick(chatInput)}  
+                  >
+                    <SendIcon />
+                  </button>
+                ) : null
+              }
             </div>
           </>
         ) : (
@@ -85,7 +93,7 @@ export const ChatInput = observer(({
               speech.talking ? (
                 <NexaiWaveForm active={true} className="h-16 mx-auto" />
               ) : (
-                <div className='animate-pulse mx-auto font-semibold'>
+                <div className='animate-pulse mx-auto font-semibold text-blue-500'>
                   {`I'm listening`}
                 </div>
               )
