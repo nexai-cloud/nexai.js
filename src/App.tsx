@@ -110,6 +110,7 @@ export const App = observer(() => {
     <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
       <ResizablePanel className='flex flex-col space-y-2 space-x-2 p-3'>
         <ChatSidebar
+          nexaiApiKey={nexaiApiKey}
           msgs={msgs}
         />
       </ResizablePanel>

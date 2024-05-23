@@ -1,5 +1,4 @@
-import { EyeClosedIcon } from "@radix-ui/react-icons";
-import { MicIcon, PanelRightCloseIcon, SendIcon, ShieldCloseIcon, SidebarCloseIcon, XCircleIcon } from "lucide-react"
+import { MicIcon, SendIcon, XCircleIcon } from "lucide-react"
 import { observer } from "mobx-react-lite";
 import { useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
 import { hasSpeechRecognition } from "~/lib/speech/recognition";
@@ -8,20 +7,28 @@ import { SpeechRecognitionModel } from "~/models/speech-recognition";
 import { NexaiWaveForm } from "~/ui/wave-form/wave-form";
 
 type Props = {
+  nexaiApiKey: string;
   inputPlaceholder?: string;
   onSpeechTranscript: (transcript: string) => void;
   onSendChatMsg: (message: string) => void;
+  onChatInput: (message: string) => void;
+  chatInput: string;
 };
 
 export const ChatInput = observer(({
   onSpeechTranscript,
   inputPlaceholder,
   onSendChatMsg,
+  onChatInput,
+  chatInput,
 }: Props) => {
 
   const speech = useRef(SpeechRecognitionModel.create()).current
-  const [chatInput, setChatInput] = useState('')
   const chatInputRef = useRef<HTMLInputElement>(null)
+
+  const setChatInput = (input: string) => {
+    onChatInput(input)
+  }
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setChatInput(event.target.value)

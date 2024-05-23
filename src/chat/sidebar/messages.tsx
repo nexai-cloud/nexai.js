@@ -9,7 +9,7 @@ type Props = {
 
 export const Messages = ({ msgs }: Props) => {
   return (
-    <ScrollArea type="always" className={cn(
+    <ScrollArea className={cn(
       'flex flex-col flex-1 m-2 space-y-4 items-start align-top',
       'pr-2'
     )}>
