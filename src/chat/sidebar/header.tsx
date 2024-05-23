@@ -29,7 +29,7 @@ export const ChatHeader = ({ users, onClickBack }: Props) => {
             users.map((user, i) => {
               const initials = user.name && getInitials(user.name)
               return (
-                <Avatar className={cn(
+                <Avatar key={i} className={cn(
                   "mr-auto h-10 w-10 border border-white"
                 )} style={{
                   zIndex: 10 - i*2,

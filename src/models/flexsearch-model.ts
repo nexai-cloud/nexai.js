@@ -111,7 +111,9 @@ export class FlexsearchModel extends Model  {
         return // newer query exists
       }
       // console.log('search results', { query, results })
-      this.setResults(results as IndexSearchResult[])
+      if (results.length) {
+        this.setResults(results as IndexSearchResult[])
+      }
     })
   }
 
