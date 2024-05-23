@@ -12,7 +12,11 @@ export class FetchModel extends Model {
       startDate: observable,
       endDate: observable,
       fetched: computed,
-      fetch: action
+      fetch: action,
+      setBusy: action,
+      setOk: action,
+      setStartDate: action,
+      setEndDate: action
     })
   }
   
@@ -26,23 +30,42 @@ export class FetchModel extends Model {
 
   endDate:Date|undefined
 
+  setError(error: Error | undefined) {
+    this.error = error;
+  }
+
+  setBusy(busy: boolean) {
+    this.busy = busy;
+  }
+
+  setOk(ok: boolean) {
+    this.ok = ok;
+  }
+
+  setStartDate(startDate: Date | undefined) {
+    this.startDate = startDate;
+  }
+
+  setEndDate(endDate: Date | undefined) {
+    this.endDate = endDate;
+  }
+
   get fetched(): boolean {
     return this.busy || this.ok
   }
 
   async fetch(fetch: () => Promise<unknown>) {
     try {
-      this.busy = true
-      this.startDate = new Date()
+      this.setBusy(true)
+      this.setStartDate(new Date())
       const res = await fetch()
-      console.log('fetched', res)
-      this.ok = true // @todo use res
+      this.setOk(true) // @todo use res
       return res
     } catch(error) {
-      this.error = error as Error
+      this.setError(error as Error)
     } finally {
-      this.busy = false
-      this.endDate = new Date()
+      this.setBusy(false)
+      this.setEndDate(new Date())
     }
   }
 }

@@ -35,7 +35,8 @@ export class FlexsearchModel extends Model  {
       setDocuments: action,
       searchState: observable,
       search: action,
-      results: observable
+      results: observable,
+      setResults: action,
     })
   }
 
@@ -44,8 +45,6 @@ export class FlexsearchModel extends Model  {
   documents: NavItem[] = []
 
   documentsState = FetchModel.create()
-
-  
 
   async setDocuments(documents: NavItem[]) {
     this.documents.push(...documents)
@@ -95,7 +94,6 @@ export class FlexsearchModel extends Model  {
 
   async search(query: string) {
     const keywords = this.queryToKeywords(query)
-    console.log('keywords', keywords)
     this.currentQuery = query
     await this.documentsReady()
     if (this.currentQuery !== query) {

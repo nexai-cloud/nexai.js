@@ -53,8 +53,6 @@ export const ChatInput = observer(({
     speech.stopSpeechRecognition()
   }
 
-  console.log('render', { speech, chatInput })
-
   return (
     <div className="focus-within:border-blue-500 flex align-middle border rounded-lg shadow-lg p-1 bg-white">
       {
