@@ -28,6 +28,7 @@ export type AISearchProps = DialogProps & ButtonProps & {
   onMenuItemSelect?: (navItem: NavItem) => void;
   onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;
   className?: string;
+  showInput?: boolean;
 }
 
 export const SearchSuggest = observer(({
@@ -35,7 +36,8 @@ export const SearchSuggest = observer(({
   input,
   onMenuItemSelect,
   onMenuItemReadMore,
-  className
+  className,
+  showInput = true
   }: AISearchProps) => {
   const [selectedNavItem, setSelectedNavItem] = React.useState<NavItem|undefined>()
 
@@ -95,9 +97,11 @@ export const SearchSuggest = observer(({
   return (
     <>
       <Command className={cn("h-full", className)}>
-        <ScrollArea className="p-2">
+        <ScrollArea 
+          className={cn(!visibleNav.length && 'hidden', 'p-2')}
+        >
           <CommandList className="overflow-visible">
-          <CommandGroup
+            <CommandGroup
                 heading={(
                   <p className="text-blue-500 text-sm flex">
                     {'Suggestions'}
@@ -107,6 +111,7 @@ export const SearchSuggest = observer(({
                 <CommandItem
                   className={
                     cn(
+                      !showInput && "hidden",
                       "cursor-pointer group items-center",
                       "aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 "
                     )
@@ -182,10 +187,13 @@ export const SearchSuggest = observer(({
                 ))}
               </CommandGroup>
             ))}
-            <CommandSeparator />
+            {/* <CommandSeparator /> */}
           </CommandList>
         </ScrollArea>
-        <div className="flex items-center border-t px-3">
+        <div className={cn(
+          "flex items-center px-3",
+          visibleNav.length && 'border-t'
+        )}>
           <a
             className="flex gap-1 items-center p-2 ml-auto text-xs font-medium text-muted-foreground"
             href="https://nexai.site"

@@ -52,7 +52,7 @@ export const ChatSidebar = ({
           chatInput && (
             <div className={cn(
               "absolute bottom-0 left-0 z-100",
-              "border rounded-lg shadow-lg mx-2 mb-0"
+              "border rounded-lg shadow-lg mx-2 mb-0 shadow-slate-400"
             )}>
               <SearchSuggest
                 input={chatInput}
