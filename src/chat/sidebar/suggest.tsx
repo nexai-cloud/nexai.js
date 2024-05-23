@@ -15,7 +15,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command"
-import { ChevronRight, EyeIcon, ZapIcon } from "lucide-react"
+import { ChevronRight, EyeIcon, PlusIcon, ZapIcon } from "lucide-react"
 import { fetchSearchDocs } from "../../lib/ai-search/fetch-search"
 import { type NavItem, useFlexsearchModel } from "../../models/flexsearch-model"
 import { filterFlexsearchResults } from "../../lib/ai-search/flexsearch"
@@ -95,8 +95,34 @@ export const SearchSuggest = observer(({
   return (
     <>
       <Command className={cn("h-full", className)}>
-        <ScrollArea>
+        <ScrollArea className="p-2">
           <CommandList className="overflow-visible">
+          <CommandGroup
+                heading={(
+                  <p className="text-blue-500 text-sm flex">
+                    {'Suggestions'}
+                  </p>
+                )}
+              >
+                <CommandItem
+                  className={
+                    cn(
+                      "cursor-pointer group items-center",
+                      "aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 "
+                    )
+                  }
+                >
+                  <div className="mr-2 ml-2 flex h-4 w-4 items-center justify-center">
+                    <ZapIcon className="text-yellow-500 h-3 w-3" />
+                  </div>
+                  <span className="flex items-center">
+                    {input}...
+                  </span>
+                  <span className="opacity-0 item-arrow ml-auto mr-2 h-6 w-6 items-center justify-center group group-aria-selected:opacity-100">
+                    <PlusIcon className="text-blue-500 h-6 w-6 mb-2" />
+                  </span>
+                </CommandItem>
+            </CommandGroup>
             {visibleNav.map((group) => group && (
               <CommandGroup
                 key={group.title}
