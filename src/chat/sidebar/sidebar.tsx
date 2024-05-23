@@ -5,6 +5,7 @@ import { NexaiChatMessage } from "~/chat-types";
 import { SearchSuggest } from "./suggest";
 import { cn } from "~/lib/utils";
 import { useState } from "react";
+import { Command } from "~/components/ui/command";
 
 type Props = {
   nexaiApiKey: string;
@@ -47,30 +48,33 @@ export const ChatSidebar = ({
     <>
       <ChatHeader users={users} onClickBack={onClickBack} />
       <Messages msgs={msgs} />
-      <div className="relative w-full">
-        {
-          chatInput && (
-            <div className={cn(
-              "absolute bottom-0 left-0 z-100",
-              "border rounded-lg shadow-lg mx-2 mb-0 shadow-slate-400"
-            )}>
-              <SearchSuggest
-                input={chatInput}
-                nexaiApiKey={nexaiApiKey}
-                onMenuItemReadMore={() => {}}
-              />
-            </div>
-          )
-        }
-      </div>
-      <div className='relative mt-auto p-2'>
-        <ChatInput
-          chatInput={chatInput}
-          nexaiApiKey={nexaiApiKey}
-          onChatInput={onChatInput}
-          onSendChatMsg={onSendChatMsg}
-          onSpeechTranscript={onSpeechTranscript}
-        />
+      <div className="mt-auto p-2">
+        <Command className={cn("h-full w-full overflow-visible")}>
+          <div className="relative">
+            {
+              chatInput && (
+                <div className={cn(
+                  "absolute bottom-3 left-0 z-100",
+                  "border rounded-lg shadow-lg mx-2 mb-0 shadow-slate-400 bg-slate-100"
+                )}>
+                  <SearchSuggest
+                    className="bg-slate-100"
+                    input={chatInput}
+                    nexaiApiKey={nexaiApiKey}
+                    onMenuItemReadMore={() => {}}
+                  />
+                </div>
+              )
+            }
+          </div>
+          <ChatInput
+            chatInput={chatInput}
+            nexaiApiKey={nexaiApiKey}
+            onChatInput={onChatInput}
+            onSendChatMsg={onSendChatMsg}
+            onSpeechTranscript={onSpeechTranscript}
+          />
+        </Command>
       </div>
     </>
   )

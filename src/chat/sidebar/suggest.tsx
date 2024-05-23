@@ -36,7 +36,6 @@ export const SearchSuggest = observer(({
   input,
   onMenuItemSelect,
   onMenuItemReadMore,
-  className,
   showInput = true
   }: AISearchProps) => {
   const [selectedNavItem, setSelectedNavItem] = React.useState<NavItem|undefined>()
@@ -96,7 +95,6 @@ export const SearchSuggest = observer(({
 
   return (
     <>
-      <Command className={cn("h-full", className)}>
         <ScrollArea 
           className={cn(!visibleNav.length && 'hidden', 'p-2')}
         >
@@ -113,7 +111,7 @@ export const SearchSuggest = observer(({
                     cn(
                       !showInput && "hidden",
                       "cursor-pointer group items-center",
-                      "aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 "
+                      "aria-selected:bg-blue-100 "
                     )
                   }
                 >
@@ -145,7 +143,7 @@ export const SearchSuggest = observer(({
                         "cursor-pointer group items-center",
                         selectedNavItem === navItem 
                           ? "border border-blue-500 border-b-transparent rounded-b-none bg-gradient-to-r from-blue-100 via-violet-100 to-blue-100"
-                          : "aria-selected:bg-gradient-to-r from-blue-50 via-violet-50 to-blue-50 "
+                          : "aria-selected:bg-blue-100 "
                       )
                     }
                   >
@@ -206,7 +204,6 @@ export const SearchSuggest = observer(({
             </span>
           </a>
         </div>
-      </Command>
     </>
   )
 })
