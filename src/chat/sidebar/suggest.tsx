@@ -17,21 +17,10 @@ import {
 } from "@/components/ui/command"
 import { ChevronRight, EyeIcon, ZapIcon } from "lucide-react"
 import { fetchSearchDocs } from "../../lib/ai-search/fetch-search"
-import { useFlexsearchModel } from "../../models/flexsearch-model"
-import { keywordSearch } from "../../lib/ai-search/keyword-search"
+import { type NavItem, useFlexsearchModel } from "../../models/flexsearch-model"
 import { filterFlexsearchResults } from "../../lib/ai-search/flexsearch"
 import { observer } from "mobx-react-lite"
 import { ScrollArea } from "~/components/ui/scroll-area"
-
-export type NavItem = {
-  title: string;
-  summary?: string;
-  href?: string;
-  external?: true;
-  items?: NavItem[]
-  icon?: React.ReactNode;
-  label?: string;
-}
 
 export type AISearchProps = DialogProps & ButtonProps & {
   nexaiApiKey: string;
@@ -39,11 +28,6 @@ export type AISearchProps = DialogProps & ButtonProps & {
   onMenuItemSelect?: (navItem: NavItem) => void;
   onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;
   className?: string;
-  placeholder?: string;
-  placeholderSmall?: string;
-  commandEmpty?: React.ReactNode;
-  open: boolean;
-  setOpen: (open: boolean) => void;
 }
 
 export const SearchSuggest = observer(({
@@ -51,9 +35,7 @@ export const SearchSuggest = observer(({
   input,
   onMenuItemSelect,
   onMenuItemReadMore,
-  open,
-  setOpen,
-  commandEmpty = 'No results found.',
+  className
   }: AISearchProps) => {
   const [selectedNavItem, setSelectedNavItem] = React.useState<NavItem|undefined>()
 
@@ -89,37 +71,7 @@ export const SearchSuggest = observer(({
     ? uniqueNav 
     : filterFlexsearchResults(uniqueNav, searchModel.results)
 
-  // augment with OR keyword search
-  if (!visibleNav.length) {
-    visibleNav.push(
-      // @ts-expect-error navitem
-      ...keywordSearch(input, uniqueNav)
-    )
-  }
-
-  React.useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if ((e.key === "k" && (e.metaKey || e.ctrlKey)) || e.key === "/") {
-        if (
-          (e.target instanceof HTMLElement && e.target.isContentEditable) ||
-          e.target instanceof HTMLInputElement ||
-          e.target instanceof HTMLTextAreaElement ||
-          e.target instanceof HTMLSelectElement
-        ) {
-          return
-        }
-
-        e.preventDefault()
-        setOpen(!open)
-      }
-    }
-
-    document.addEventListener("keydown", down)
-    return () => document.removeEventListener("keydown", down)
-  }, [])
-
   const runCommand = React.useCallback((command: () => unknown) => {
-    setOpen(false)
     command()
   }, [])
 
@@ -142,7 +94,7 @@ export const SearchSuggest = observer(({
 
   return (
     <>
-      <Command className="h-full">
+      <Command className={cn("h-full", className)}>
         <ScrollArea>
           <CommandList className="overflow-visible">
             {visibleNav.map((group) => group && (

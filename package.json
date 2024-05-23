@@ -126,6 +126,7 @@
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
     "sonner": "^1.4.41",
+    "stopwords-iso": "^1.1.0",
     "tailwind-merge": "^2.2.2",
     "tailwindcss-animate": "^1.0.7",
     "twind": "^0.16.19",

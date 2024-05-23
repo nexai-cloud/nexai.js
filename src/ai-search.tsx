@@ -19,20 +19,10 @@ import {
 } from "@/components/ui/command"
 import { ArrowRightCircleIcon, EyeIcon, SearchIcon, ZapIcon } from "lucide-react"
 import { fetchSearchDocs } from "./lib/ai-search/fetch-search"
-import { useFlexsearchModel } from "./models/flexsearch-model"
+import { type NavItem, useFlexsearchModel } from "./models/flexsearch-model"
 import { keywordSearch } from "./lib/ai-search/keyword-search"
 import { filterFlexsearchResults } from "./lib/ai-search/flexsearch"
 import { observer } from "mobx-react-lite"
-
-export type NavItem = {
-  title: string;
-  summary?: string;
-  href?: string;
-  external?: true;
-  items?: NavItem[]
-  icon?: React.ReactNode;
-  label?: string;
-}
 
 export type AISearchProps = DialogProps & ButtonProps & {
   nexaiApiKey: string;
@@ -88,7 +78,6 @@ export const AISearch = observer(({
   // augment with OR keyword search
   if (!visibleNav.length) {
     visibleNav.push(
-      // @ts-expect-error navitem
       ...keywordSearch(input, uniqueNav)
     )
   }

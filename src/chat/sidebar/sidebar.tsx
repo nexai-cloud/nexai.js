@@ -55,9 +55,7 @@ export const ChatSidebar = ({
               "border rounded-lg shadow-lg mx-2 mb-0"
             )}>
               <SearchSuggest
-                open={true}
                 input={chatInput}
-                setOpen={() => {}}
                 nexaiApiKey={nexaiApiKey}
                 onMenuItemReadMore={() => {}}
               />

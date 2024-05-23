@@ -1,8 +1,18 @@
 import { action, makeObservable, observable, reaction } from "mobx";
 import { FetchModel } from "~/models/fetch-model";
 import Flexsearch from "flexsearch"
-import { NavItem } from "~/ai-search";
 import { Model } from "./model";
+import { text2Words } from "~/lib/ai-search/tokenizer";
+
+export type NavItem = {
+  title: string;
+  summary?: string;
+  href?: string;
+  external?: true;
+  items?: NavItem[]
+  icon?: React.ReactNode;
+  label?: string;
+}
 
 export type SearchResult = {
   field: string; 
@@ -78,14 +88,25 @@ export class FlexsearchModel extends Model  {
     this.results.splice(0, this.results.length, ...results)
   }
 
+  queryToKeywords(query: string) {
+    const words = text2Words(query).join(' ');
+    return words;
+  }
+
   async search(query: string) {
+    const keywords = this.queryToKeywords(query)
+    console.log('keywords', keywords)
     this.currentQuery = query
     await this.documentsReady()
     if (this.currentQuery !== query) {
       return // newer query exists
     }
     this.searchState.fetch(async () => {
-      const results = await this.flexsearch.searchAsync(query, this.limit)
+      const keywordResults = await this.flexsearch.searchAsync(keywords, this.limit)
+      // fallback to searching whole query
+      const results =  keywordResults.length 
+        ? keywordResults : 
+        await this.flexsearch.searchAsync(query, this.limit)
       if (this.currentQuery !== query) {
         return // newer query exists
       }

@@ -1,7 +1,6 @@
-import { NavItem } from "~/ai-search"
-import { IndexSearchResult, getNavItemId } from "~/models/flexsearch-model"
+import { IndexSearchResult, type NavItem, getNavItemId } from "~/models/flexsearch-model"
 
-export const filterFlexsearchResults = (nav: NavItem[], results: IndexSearchResult[]) => {
+export const filterFlexsearchResults = (nav: NavItem[], results: IndexSearchResult[]): NavItem[] => {
 
   // console.log('filter', { nav, results })
   const visibleNav = nav.map((group) => {
@@ -17,5 +16,5 @@ export const filterFlexsearchResults = (nav: NavItem[], results: IndexSearchResu
     }
   }).filter(i => i)
 
-  return visibleNav
+  return visibleNav as NavItem[]
 }
