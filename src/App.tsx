@@ -111,7 +111,6 @@ export const App = observer(() => {
       <ResizablePanel className='flex flex-col space-y-2 space-x-2'>
         <ChatSidebar
           msgs={msgs}
-          onSendChatMsg={onSendSessionChatMsg}
         />
       </ResizablePanel>
       <ResizableHandle />
@@ -129,7 +128,7 @@ export const App = observer(() => {
           </TabsContent>
           <TabsContent value="screenshot">
             <ScrollArea className='h-screen'>
-              <img className='h-screen' src='/screenshots/hai-semantic-chat.png' />
+              <img className='h-[90vh]' src='/screenshots/hai-semantic-chat.png' />
               <img className='h-screen' src='/screenshots/hai-sidebar.jpeg' />
               <img className='h-screen' src='/screenshots/hai-prompts.jpeg' />
               <img className='h-screen' src='/screenshots/hai-create-bot.jpeg' />

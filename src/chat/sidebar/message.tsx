@@ -1,5 +1,5 @@
 import { NexaiChatMessage } from "~/chat-types"
-import { Avatar, AvatarFallback } from "~/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
 import { cn } from "~/lib/utils"
 
 type Props = {
@@ -9,10 +9,11 @@ type Props = {
 export const ChatMessage = ({ msg }: Props) => {
   const isAi = msg.fromName === 'Nexai'
   return (
-    <div className="flex gap-1 m-2">
+    <div className="flex gap-2 m-2">
       {
         isAi ? (
           <Avatar className="mt-auto">
+            <AvatarImage src="/nexai-logo/nexai-logo-circle-dark.svg" />
             <AvatarFallback>AI</AvatarFallback>
           </Avatar>
         ) : null
