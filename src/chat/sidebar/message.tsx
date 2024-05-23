@@ -18,12 +18,12 @@ export const ChatMessage = ({ msg }: Props) => {
           </Avatar>
         ) : null
       }
-      <div className={cn(
+      <span className={cn(
         "p-2 border border-slate-300 text-slate-900 bg-slate-100 rounded-lg",
-        !isAi && "ml-auto bg-slate-900 text-slate-300"
+        !isAi && "ml-auto bg-slate-900 text-slate-300 text-right max-w-[95%]"
       )}>
         {msg.message}
-      </div>
+      </span>
     </div>
   )
 }

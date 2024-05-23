@@ -108,7 +108,7 @@ export const App = observer(() => {
   return (
     <div className='h-screen w-screen flex-col align-middle items-center'>
     <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
-      <ResizablePanel className='flex flex-col space-y-2 space-x-2'>
+      <ResizablePanel className='flex flex-col space-y-2 space-x-2 p-3'>
         <ChatSidebar
           msgs={msgs}
         />

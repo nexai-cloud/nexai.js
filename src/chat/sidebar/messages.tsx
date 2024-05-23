@@ -1,5 +1,5 @@
 import { NexaiChatMessage } from "~/chat-types"
-import { ScrollArea, ScrollBar, Thumb } from "~/components/ui/scroll-area"
+import { ScrollArea, ScrollBar } from "~/components/ui/scroll-area"
 import { ChatMessage } from "./message"
 import { cn } from "~/lib/utils"
 
