@@ -9,7 +9,7 @@ type Props = {
 
 export const Messages = ({ msgs }: Props) => {
   return (
-    <ScrollArea className={cn(
+    <ScrollArea type="always" className={cn(
       'flex flex-col flex-1 m-2 space-y-4 items-start align-top',
       'pr-2'
     )}>
@@ -18,7 +18,7 @@ export const Messages = ({ msgs }: Props) => {
           <ChatMessage key={index} msg={msg} />
         ))
       }
-      <ScrollBar className="bg-slate-100 text-black rounded-full" />
+      <ScrollBar className="bg-muted text-black rounded-full" />
     </ScrollArea>
   )
 }

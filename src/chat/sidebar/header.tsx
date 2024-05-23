@@ -46,7 +46,7 @@ export const ChatHeader = ({ users, onClickBack }: Props) => {
       </div>
       <div>
         <span className="text-slate-400 text-lg">
-          {`Talking to Nexai bot`}
+          {`Talking to Nexai AI Assistant`}
         </span>
       </div>
     </div>
