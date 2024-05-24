@@ -7,9 +7,9 @@ type Props = {
 }
 
 export const ChatMessage = ({ msg }: Props) => {
-  const isAi = msg.fromName === 'Nexai'
+  const isAi = msg.fromName === 'nexai'
   return (
-    <div className="flex gap-2 m-2">
+    <div className="chat-message flex gap-2 m-2">
       {
         isAi ? (
           <Avatar className="mt-auto">

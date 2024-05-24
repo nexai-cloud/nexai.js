@@ -1,33 +1,37 @@
 import { ChatHeader } from "./header";
 import { ChatInput } from "./input";
 import { Messages } from "./messages"
-import { NexaiChatMessage } from "~/chat-types";
 import { SearchSuggest } from "./suggest";
 import { cn } from "~/lib/utils";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Command } from "~/components/ui/command";
 import { NavItem } from "~/models/flexsearch-model";
 import { IoChatMsg } from "../../../server";
 import { getSessionSocket } from "~/lib/socket";
 import { useChatSessionModel } from "~/models/chat-session";
+import { observer } from "mobx-react-lite";
+import { ChatMessagesModel } from "~/models/chat-messages";
+import { ChatMessageModel } from "~/models/chat-message";
+import { NexaiChatMessage } from "~/chat-types";
+import { mockMsgs } from "~/data/mock-msgs";
 
 type Props = {
   nexaiApiKey: string;
-  msgs: NexaiChatMessage[];
   nexaiAssetsUrl?: string;
   nexaiIoUrl?: string;
 }
 
-export const ChatSidebar = ({
+export const ChatSidebar = observer(({
   nexaiApiKey,
-  msgs,
   nexaiAssetsUrl = '',
   nexaiIoUrl = 'https://io.nexai.site'
 }: Props) => {
 
   const [chatInput, setChatInput] = useState('')
+  const messagesModel = useRef(ChatMessagesModel.create()).current
   let suggest: NavItem|null
   const setSuggest = (value: NavItem|null) => suggest = value
+  const messagesRef = useRef<HTMLDivElement>()
 
   const onSpeechTranscript = (transcript: string) => {
     console.log('onSpeech', transcript)
@@ -38,6 +42,27 @@ export const ChatSidebar = ({
   const socket = getSessionSocket({
     sessionKey: chatSession.sessionId,
     ioUrl: nexaiIoUrl
+  })
+
+  const loaded = useRef(false)
+
+  const onChatMessage = (message: NexaiChatMessage) => {
+    messagesModel.addItem(message)
+    setTimeout(() => scrollMessagesToBottom(), 50)
+  }
+
+  const scrollMessagesToBottom = useCallback(() => {
+    // console.log('scroll', messagesRef.current)
+    // @todo use ref
+    document.querySelector('.chat-message:last-child')
+        ?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
+  }, []);
+
+  useEffect(() => {
+    if (loaded.current) return
+    loaded.current = true
+    socket.on('chat', onChatMessage)
+    ;[ ...mockMsgs, ...mockMsgs ].forEach(msg => onChatMessage(msg as NexaiChatMessage))
   })
 
   const sendChatViaSoketIo = useCallback((chatMsg: IoChatMsg) => {
@@ -95,7 +120,10 @@ export const ChatSidebar = ({
   return (
     <>
       <ChatHeader users={users} onClickBack={onClickBack} />
-      <Messages msgs={msgs} />
+      <Messages
+        ref={messagesRef}
+        msgs={[...messagesModel.items] as ChatMessageModel[]}
+      />
       <div className="mt-auto p-2">
         <Command className={cn("h-full w-full overflow-visible")} shouldFilter={false}>
           <div className="relative">
@@ -126,4 +154,4 @@ export const ChatSidebar = ({
       </div>
     </>
   )
-}
+})

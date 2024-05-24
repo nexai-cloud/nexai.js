@@ -16,7 +16,6 @@ import {
   // CommandSeparator,
 } from "@/components/ui/command"
 import { ChevronRight, PlusIcon, ZapIcon } from "lucide-react"
-import { fetchSearchDocs } from "../../lib/ai-search/fetch-search"
 import { type NavItem, useFlexsearchModel } from "../../models/flexsearch-model"
 import { filterFlexsearchResults } from "../../lib/ai-search/flexsearch"
 import { observer } from "mobx-react-lite"
