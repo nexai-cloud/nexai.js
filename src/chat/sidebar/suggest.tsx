@@ -7,15 +7,15 @@ import {
 } from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
-import { Button, ButtonProps } from "@/components/ui/button"
+import { ButtonProps } from "@/components/ui/button"
 import {
-  Command,
+  // Command,
   CommandGroup,
   CommandItem,
   CommandList,
-  CommandSeparator,
+  // CommandSeparator,
 } from "@/components/ui/command"
-import { ChevronRight, EyeIcon, PlusIcon, ZapIcon } from "lucide-react"
+import { ChevronRight, PlusIcon, ZapIcon } from "lucide-react"
 import { fetchSearchDocs } from "../../lib/ai-search/fetch-search"
 import { type NavItem, useFlexsearchModel } from "../../models/flexsearch-model"
 import { filterFlexsearchResults } from "../../lib/ai-search/flexsearch"
@@ -25,8 +25,7 @@ import { ScrollArea } from "~/components/ui/scroll-area"
 export type AISearchProps = DialogProps & ButtonProps & {
   nexaiApiKey: string;
   input: string;
-  onMenuItemSelect?: (navItem: NavItem) => void;
-  onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;
+  onMenuItemSelect: (navItem: NavItem, group: NavItem) => void;
   className?: string;
   showInput?: boolean;
 }
@@ -35,14 +34,11 @@ export const SearchSuggest = observer(({
   nexaiApiKey,
   input,
   onMenuItemSelect,
-  onMenuItemReadMore,
   showInput = true
   }: AISearchProps) => {
-  const [selectedNavItem, setSelectedNavItem] = React.useState<NavItem|undefined>()
 
   const searchModel = useFlexsearchModel({ nexaiApiKey })
-  const [docsNav, setDocsNav] = React.useState<NavItem[]>([])
-  const fetched = React.useRef(false)
+  const docsNav = searchModel.documents
 
   React.useEffect(() => {
     searchModel.search(input)
@@ -50,15 +46,12 @@ export const SearchSuggest = observer(({
   
   React.useEffect(() => {
     const fetchDocs = async () => {
-      const docs = await fetchSearchDocs(nexaiApiKey)
-      setDocsNav(docs)
-      searchModel.setDocuments(docs)
+      await searchModel.fetchDocuments()
     }
-    if (!fetched.current) {
+    if (!searchModel.fetchDocumentsState.busy && !searchModel.fetchDocumentsState.ok) {
       fetchDocs()
-      fetched.current = true
     }
-  }, [docsNav, nexaiApiKey, searchModel])
+  }, [nexaiApiKey, searchModel])
 
   const uniqueNav = docsNav.filter((group, index) => {
     return docsNav.findIndex((nav) => nav.title === group.title) === index
@@ -77,21 +70,10 @@ export const SearchSuggest = observer(({
   }, [])
 
   const onSelect = React.useCallback((navItem: NavItem) => {
-    // console.log('onSelect', navItem)
-    if (navItem === selectedNavItem) {
-      const group = docsNav.find(nav => nav.items?.includes(selectedNavItem))
-      runCommand(() => onMenuItemReadMore(navItem, group!))
-    }
-    if (onMenuItemSelect) {
-      runCommand(() => onMenuItemSelect(navItem))
-    } else {
-      setSelectedNavItem(navItem)
-    }
-  }, [runCommand, onMenuItemSelect, docsNav, onMenuItemReadMore, selectedNavItem])
-
-  const onReadMore = React.useCallback((navItem: NavItem, group: NavItem) => {
-    runCommand(() => onMenuItemReadMore(navItem, group))
-  }, [runCommand, onMenuItemReadMore])
+    console.log('onSelect', navItem)
+    const group = docsNav.find(nav => nav.items?.includes(navItem))
+      runCommand(() => onMenuItemSelect(navItem, group!))
+  }, [runCommand, onMenuItemSelect, docsNav])
 
   return (
     <>
@@ -134,16 +116,14 @@ export const SearchSuggest = observer(({
                 )}
               >
                 {group.items?.map((navItem) => (
-                  <div key={navItem.href}>
                   <CommandItem
+                    key={navItem.href}
                     value={navItem.title}
                     onSelect={() => onSelect(navItem)}
                     className={
                       cn(
                         "cursor-pointer group items-center",
-                        selectedNavItem === navItem 
-                          ? "border border-blue-500 border-b-transparent rounded-b-none bg-gradient-to-r from-blue-100 via-violet-100 to-blue-100"
-                          : "aria-selected:bg-blue-100 "
+                        "aria-selected:bg-blue-100 "
                       )
                     }
                   >
@@ -163,25 +143,6 @@ export const SearchSuggest = observer(({
                       <ChevronRight className="text-blue-500 h-6 w-6 mb-2" />
                     </span>
                   </CommandItem>
-                  {
-                    selectedNavItem === navItem ? (
-                      <div className="rounded rounded-t-none border border-blue-500 bg-blue-50 shadow text-sm p-4 flex align-middle items-center">
-                        <div className="mr-2 ml-2 flex h-4 w-4 items-center justify-center">
-                        {/* <EyeIcon className="text-blue-500" /> */}
-                        </div>
-                        <p>
-                          {navItem.summary}
-                          <Button
-                            className="flex gap-2 h-7 m-2 ml-auto bg-blue-500"
-                            onClick={() => onReadMore(navItem, group)}>
-                              <span>More</span>
-                              <EyeIcon className="h-5 w-5" />
-                            </Button>
-                        </p>
-                      </div>
-                    ): null
-                  }
-                  </div>
                 ))}
               </CommandGroup>
             ))}

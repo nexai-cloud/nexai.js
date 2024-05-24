@@ -140,25 +140,6 @@ export const App = observer(() => {
         </Tabs>
       </ResizablePanel>
     </ResizablePanelGroup>
-
-      <div className="fixed bottom-0 right-0 sm:right-10 sm:bottom-10 z-50">
-        <NexaiChatBubble
-          width={400}
-          nexaiApiKey={nexaiApiKey}
-          aiName='AI'
-          aiAvatarUrl='https://nexai.site/ai/assets/avatars/alien-3-eyes.png'
-          projectName='Nexai'
-          chatSuggests={[
-            'Hi! I\'m fine.|What is this?',
-            'Cool!|How do I use it?',
-            'API?|Apps?',
-            'NodeJS|React|Typescript|JS',
-            'Pricing?|Free option?',
-            'I am satisfied.|I am not happy.',
-            'Thanks, bye.'
-          ]}
-        />
-      </div>
     </div>
   )
 })

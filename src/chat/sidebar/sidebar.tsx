@@ -4,27 +4,75 @@ import { Messages } from "./messages"
 import { NexaiChatMessage } from "~/chat-types";
 import { SearchSuggest } from "./suggest";
 import { cn } from "~/lib/utils";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Command } from "~/components/ui/command";
+import { NavItem } from "~/models/flexsearch-model";
+import { IoChatMsg } from "../../../server";
+import { getSessionSocket } from "~/lib/socket";
+import { useChatSessionModel } from "~/models/chat-session";
 
 type Props = {
   nexaiApiKey: string;
   msgs: NexaiChatMessage[];
+  nexaiAssetsUrl?: string;
+  nexaiIoUrl?: string;
 }
 
 export const ChatSidebar = ({
   nexaiApiKey,
-  msgs
+  msgs,
+  nexaiAssetsUrl = '',
+  nexaiIoUrl = 'https://io.nexai.site'
 }: Props) => {
 
   const [chatInput, setChatInput] = useState('')
+  let suggest: NavItem|null
+  const setSuggest = (value: NavItem|null) => suggest = value
 
   const onSpeechTranscript = (transcript: string) => {
     console.log('onSpeech', transcript)
   }
 
-  const onSendChatMsg = (msg: string) => {
-    console.log('onSend', msg)
+  const chatSession = useChatSessionModel({ nexaiApiKey, nexaiAssetsUrl })
+
+  const socket = getSessionSocket({
+    sessionKey: chatSession.sessionId,
+    ioUrl: nexaiIoUrl
+  })
+
+  const sendChatViaSoketIo = useCallback((chatMsg: IoChatMsg) => {
+    console.log('sendChatViaIo', chatMsg)
+    socket.emit('chat', chatMsg)
+  }, [socket])
+
+  const sendSessionChatMsg = (message: string) => {
+    const chatMsg = {
+      message,
+      fromName: chatSession.name,
+      userUid: chatSession.uid,
+      projectId: nexaiApiKey,
+      sessionKey: chatSession.uid,
+      toName: 'nexai'
+    }
+    sendChatViaSoketIo(chatMsg)
+  }
+
+  const onSendChatMsg = (message: string) => {
+    setTimeout(() => {
+      console.log('onSend', message)
+      if (suggest) {
+        console.log('we have a suggest', suggest)
+        sendSessionChatMsg(suggest.title)
+        setSuggest(null)
+      } else {
+        sendSessionChatMsg(message)
+      }
+    }, 50)
+  }
+
+  const onSendSuggest = (navItem: NavItem, group: NavItem) => {
+    console.log('onSuggest', { navItem, group })
+    setSuggest(navItem)
   }
 
   const users = [{
@@ -49,7 +97,7 @@ export const ChatSidebar = ({
       <ChatHeader users={users} onClickBack={onClickBack} />
       <Messages msgs={msgs} />
       <div className="mt-auto p-2">
-        <Command className={cn("h-full w-full overflow-visible")}>
+        <Command className={cn("h-full w-full overflow-visible")} shouldFilter={false}>
           <div className="relative">
             {
               chatInput && (
@@ -61,7 +109,7 @@ export const ChatSidebar = ({
                     className="bg-slate-100"
                     input={chatInput}
                     nexaiApiKey={nexaiApiKey}
-                    onMenuItemReadMore={() => {}}
+                    onMenuItemSelect={onSendSuggest}
                   />
                 </div>
               )

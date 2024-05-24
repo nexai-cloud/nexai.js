@@ -3,6 +3,7 @@ import { FetchModel } from "~/models/fetch-model";
 import Flexsearch from "flexsearch"
 import { Model } from "./model";
 import { text2Words } from "~/lib/ai-search/tokenizer";
+import { fetchSearchDocs } from "~/lib/ai-search/fetch-search";
 
 export type NavItem = {
   title: string;
@@ -37,6 +38,8 @@ export class FlexsearchModel extends Model  {
       search: action,
       results: observable,
       setResults: action,
+      fetchDocumentsState: observable,
+      fetchDocuments: action
     })
   }
 
@@ -70,6 +73,15 @@ export class FlexsearchModel extends Model  {
         () => this.documentsState.fetched, 
         (status) => status && resolve(true)
       )
+    })
+  }
+
+  fetchDocumentsState = FetchModel.create()
+
+  async fetchDocuments() {
+    return this.fetchDocumentsState.fetch(async () => {
+      const docs = await fetchSearchDocs(this.nexaiApiKey)
+      await this.setDocuments(docs)
     })
   }
 
