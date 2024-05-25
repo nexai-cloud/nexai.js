@@ -1,4 +1,4 @@
-import { ChevronLeftIcon } from "lucide-react"
+import { ChevronLeftIcon, PanelRightCloseIcon, SidebarCloseIcon, XCircleIcon } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
 import { cn } from "~/lib/utils"
 
@@ -44,8 +44,8 @@ export const ChatHeader = ({ users, onClickBack }: Props) => {
           }
         </div>
       </div>
-      <div>
-        <span className="text-slate-400 text-lg">
+      <div className="flex">
+        <span className="px-2 text-slate-400 text-lg">
           {`Talking to Nexai AI Assistant`}
         </span>
       </div>

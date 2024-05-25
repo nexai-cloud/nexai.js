@@ -2,18 +2,15 @@ import { useEffect, useRef } from 'react'
 import { getProjectSocket, getSessionSocket } from './lib/socket'
 import { action, observable } from 'mobx'
 import { observer } from 'mobx-react-lite'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './components/ui/resizable'
 import { getClientSession } from './lib/session/chat-session'
 import logger from 'debug'
-import { NexaiChatBubble } from '../chat-bubble'
-import { NavItem } from './ai-search'
-import { AISearchShadowDom } from './ai-search-shadow-dom'
 import { mockMsgs } from './data/mock-msgs'
 import { ChatDashboard } from './chat/dashboard/dashboard'
 import { type NexaiChatMessage } from './chat-types'
-import { ChatSidebar } from './chat/sidebar/sidebar'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
 import { ScrollArea } from './components/ui/scroll-area'
+import { ChatSidePanel } from './side-panel'
+
 
 const debug = logger('nexai:app')
 
@@ -107,15 +104,7 @@ export const App = observer(() => {
 
   return (
     <div className='h-screen w-screen flex-col align-middle items-center'>
-    <ResizablePanelGroup direction="horizontal" className='relative gap-1'>
-      <ResizablePanel className='flex flex-col space-y-2 space-x-2 p-3'>
-        <ChatSidebar
-          nexaiApiKey={nexaiApiKey}
-          msgs={msgs}
-        />
-      </ResizablePanel>
-      <ResizableHandle />
-      <ResizablePanel className='flex flex-col'>
+    
         <Tabs defaultValue='screenshot' className='relative gap-1'>
           <TabsList>
             <TabsTrigger value='screenshot'>Screenshot</TabsTrigger>
@@ -138,8 +127,9 @@ export const App = observer(() => {
             </ScrollArea>
           </TabsContent>
         </Tabs>
-      </ResizablePanel>
-    </ResizablePanelGroup>
+    
+      <ChatSidePanel nexaiApiKey={nexaiApiKey} />
+    
     </div>
   )
 })

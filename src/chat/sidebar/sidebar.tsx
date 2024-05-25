@@ -19,6 +19,7 @@ import { mockMsgs } from "~/data/mock-msgs";
 
 type Props = {
   nexaiApiKey: string;
+  onClickBack: () => void;
   nexaiAssetsUrl?: string;
   nexaiIoUrl?: string;
 }
@@ -26,7 +27,8 @@ type Props = {
 export const ChatSidebar = observer(({
   nexaiApiKey,
   nexaiAssetsUrl = '',
-  nexaiIoUrl = 'https://io.nexai.site'
+  nexaiIoUrl = 'https://io.nexai.site',
+  onClickBack
 }: Props) => {
 
   const [chatInput, setChatInput] = useState('')
@@ -104,8 +106,6 @@ export const ChatSidebar = observer(({
   }
   
   const chatAssistants = mockChatAssistants
-
-  const onClickBack = () => {}
   
   const onChatInput = (input: string) => setChatInput(input)
   
