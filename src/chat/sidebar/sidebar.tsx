@@ -1,4 +1,3 @@
-import { ChatHeader } from "./header";
 import { ChatInput } from "./input";
 import { Messages } from "./messages"
 import { SearchSuggest } from "./suggest";
@@ -13,6 +12,9 @@ import { observer } from "mobx-react-lite";
 import { ChatMessagesModel } from "~/models/chat-messages";
 import { ChatMessageModel } from "~/models/chat-message";
 import { NexaiChatMessage } from "~/chat-types";
+import { mockChatAssistants } from "./data/mockChatAssistants";
+import { ChatHeader } from "./header";
+import { mockChatMessages } from "./data/mockChatMessages";
 import { mockMsgs } from "~/data/mock-msgs";
 
 type Props = {
@@ -52,9 +54,7 @@ export const ChatSidebar = observer(({
   }
 
   const scrollMessagesToBottom = useCallback(() => {
-    // console.log('scroll', messagesRef.current)
-    // @todo use ref
-    document.querySelector('.chat-message:last-child')
+    messagesRef.current?.querySelector('.chat-message:last-child')
         ?.scrollIntoView({ behavior: "smooth", block: "end", inline: "nearest" })
   }, []);
 
@@ -62,7 +62,10 @@ export const ChatSidebar = observer(({
     if (loaded.current) return
     loaded.current = true
     socket.on('chat', onChatMessage)
-    ;[ ...mockMsgs, ...mockMsgs ].forEach(msg => onChatMessage(msg as NexaiChatMessage))
+    mockChatMessages.forEach((msg, i) => {
+      setTimeout(() => onChatMessage(msg as NexaiChatMessage), i * 2000)
+    })
+    mockMsgs.forEach(msg => onChatMessage(msg as NexaiChatMessage))
   })
 
   const sendChatViaSoketIo = useCallback((chatMsg: IoChatMsg) => {
@@ -99,19 +102,8 @@ export const ChatSidebar = observer(({
     console.log('onSuggest', { navItem, group })
     setSuggest(navItem)
   }
-
-  const users = [{
-    name: 'Alien Eye',
-    avatarUrl: '/avatars/alien-1-eye.png'
-  },
-  {
-    name: 'Alien Three',
-    avatarUrl: '/avatars/alien-3-eyes.png'
-  },
-  {
-    name: 'Ninja Girl',
-    avatarUrl: '/avatars/ninja-girl.png'
-  }]
+  
+  const chatAssistants = mockChatAssistants
 
   const onClickBack = () => {}
   
@@ -119,7 +111,10 @@ export const ChatSidebar = observer(({
   
   return (
     <>
-      <ChatHeader users={users} onClickBack={onClickBack} />
+      <ChatHeader
+        users={chatAssistants}
+        onClickBack={onClickBack}
+      />
       <Messages
         ref={messagesRef}
         msgs={[...messagesModel.items] as ChatMessageModel[]}

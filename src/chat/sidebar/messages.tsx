@@ -3,15 +3,16 @@ import { ChatMessage } from "./message"
 import { cn } from "~/lib/utils"
 import { observer } from "mobx-react-lite"
 import { ChatMessageModel } from "~/models/chat-message"
-import { forwardRef } from "react"
+import { Ref, forwardRef } from "react"
 
 type Props = {
   msgs: ChatMessageModel[]
 }
 
-export const Messages = observer(forwardRef(({ msgs }: Props) => {
+export const Messages = observer(forwardRef(({ msgs }: Props, ref: Ref<HTMLDivElement|undefined>) => {
   return (
     <ScrollArea
+      ref={ref}
       className={cn(
         'flex flex-col flex-1 m-2 space-y-4 items-start align-top',
         'pr-2'
