@@ -7,7 +7,9 @@ type Props = {
 }
 
 export const ChatMessage = ({ msg }: Props) => {
-  const isAi = msg.fromName === 'nexai'
+  const isAi = msg.fromName?.toLowerCase() === 'nexai' 
+    || msg.fromType === 'ai'
+    || msg.userUid === 'nexai'
   return (
     <div className="chat-message flex gap-2 m-2">
       {
