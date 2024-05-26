@@ -21,7 +21,7 @@ export const ChatSidePanel = ({
     <>
       <ResizablePanelGroup direction="horizontal" className={cn(
         'fixed bottom-0 left-0 pointer-events-none',
-        'md:p-10 md:pb-20'
+        'md:p-10 md:pb-20',
       )}>
         <ResizablePanel
           className={cn(
@@ -37,6 +37,7 @@ export const ChatSidePanel = ({
         }
         <ResizablePanel className={cn(
           'nexai-chat-sidebar',
+          "max-h-screen md:max-h-[90%]",
           'flex flex-col bg-white shadow-xl',
           'border rounded-lg mt-auto',
           'opacity-0',
