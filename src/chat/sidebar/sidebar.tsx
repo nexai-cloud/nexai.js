@@ -138,7 +138,7 @@ export const ChatSidebar = observer(({
             {
               chatInput && (
                 <div className={cn(
-                  "absolute bottom-3 left-0 z-100",
+                  "absolute bottom-3 left-0 z-50",
                   "border rounded-lg shadow-lg mx-2 mb-0 shadow-slate-400 bg-slate-100"
                 )}>
                   <SearchSuggest

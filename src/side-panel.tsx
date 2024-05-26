@@ -59,7 +59,7 @@ export const ChatSidePanel = ({
         }
         <ResizablePanel className={cn(
           'nexai-chat-sidebar relative',
-          "max-h-screen md:max-h-[90%]",
+          "max-h-screen md:max-h-[90%] md:min-w-[400px]",
           'flex flex-col bg-white shadow-xl',
           'border rounded-lg mt-auto',
           'opacity-0',
