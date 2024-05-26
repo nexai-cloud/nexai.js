@@ -21,9 +21,7 @@ export const ChatSidePanel = ({
       : Boolean(localStorage.getItem('nexai:open'))
   )
   const [isSidePanel, setIsSidePanel] = useState(
-    localStorage.getItem('nexai:panel') === null
-      ? true
-      : Boolean(localStorage.getItem('nexai:panel'))
+    Boolean(localStorage.getItem('nexai:panel'))
   )
   const [chatInput, setChatInput] = useState('')
 
