@@ -1,0 +1,27 @@
+.nexai-chat-sidebar code {
+  padding: 5px 8px 5px 8px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 0 5px #e2e8f0;
+  margin: 5px;
+  background: #f7f9fb;
+  display: block;
+  border-radius: 8px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 500px;
+  font-size: 12px;
+}
+
+.nexai-chat-sidebar .prism-code {
+  padding: 5px 8px 5px 8px;
+  box-shadow: 0 0 5px #e2e8f0;
+  margin: 5px;
+  display: block;
+  border-radius: 8px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 500px;
+  font-size: 12px;
+}
