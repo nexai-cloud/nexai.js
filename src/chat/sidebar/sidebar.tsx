@@ -75,6 +75,9 @@ export const ChatSidebar = observer(({
     teamMembers.fetch()
     // @ts-expect-error window
     window.teamMembers = teamMembers
+
+    // ensure no dupes
+    socket.off('chat', onChatMessage)
     socket.on('chat', onChatMessage)
 
     if (!messagesModel.items.length) {
@@ -85,9 +88,6 @@ export const ChatSidebar = observer(({
     
     // mockMsgs.forEach(msg => onChatMessage(msg as NexaiChatMessage))
 
-    return () => {
-      socket.off('chat', onChatMessage)
-    }
   })
 
   const sendChatViaSoketIo = useCallback((chatMsg: IoChatMsg) => {
