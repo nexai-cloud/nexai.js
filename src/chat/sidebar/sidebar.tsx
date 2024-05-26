@@ -44,6 +44,7 @@ export const ChatSidebar = observer(({
 
   const onSpeechTranscript = (transcript: string) => {
     console.log('onSpeech', transcript)
+    onSendChatMsg(transcript)
   }
 
   const chatSession = useChatSessionModel({ nexaiApiKey, nexaiAssetsUrl })
