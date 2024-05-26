@@ -80,7 +80,7 @@ export const ChatSidebar = observer(({
       })
     }
     
-    // mockMsgs.forEach(msg => onChatMessage(msg as NexaiChatMessage))
+    mockMsgs.forEach(msg => onChatMessage(msg as NexaiChatMessage))
   })
 
   const sendChatViaSoketIo = useCallback((chatMsg: IoChatMsg) => {
