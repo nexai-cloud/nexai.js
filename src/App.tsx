@@ -9,7 +9,7 @@ import { ChatDashboard } from './chat/dashboard/dashboard'
 import { type NexaiChatMessage } from './chat-types'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from './components/ui/tabs'
 import { ScrollArea } from './components/ui/scroll-area'
-import { ChatSidePanel } from './side-panel'
+import { ChatSidePanel } from './chat-side-panel'
 
 
 const debug = logger('nexai:app')

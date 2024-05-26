@@ -1,5 +1,5 @@
-import { FetchModel } from "../models/fetch-model";
-import { Model } from "../models/model";
+import { FetchModel } from "~/models/fetch-model";
+import { Model } from "~/models/model";
 import { NexaiSession } from "../lib/session/chat-session";
 export declare class ChatSessionModel extends Model implements NexaiSession {
     constructor();

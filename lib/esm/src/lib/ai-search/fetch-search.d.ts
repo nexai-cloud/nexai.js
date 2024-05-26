@@ -1,2 +1,5 @@
-import { NavItem } from "../../ai-search";
-export declare const fetchSearchDocs: (nexaiApiKey: string) => Promise<NavItem[]>;
+import { type NavItem } from "~/models/flexsearch-model";
+export declare const fetchSearchDocs: ({ nexaiApiKey, nexaiApiUrl }: {
+    nexaiApiKey: string;
+    nexaiApiUrl: string;
+}) => Promise<NavItem[]>;

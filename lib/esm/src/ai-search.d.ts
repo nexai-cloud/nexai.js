@@ -1,15 +1,7 @@
 import * as React from "react";
 import { DialogProps } from "@radix-ui/react-alert-dialog";
-import { ButtonProps } from "./components/ui/button";
-export type NavItem = {
-    title: string;
-    summary?: string;
-    href?: string;
-    external?: true;
-    items?: NavItem[];
-    icon?: React.ReactNode;
-    label?: string;
-};
+import { ButtonProps } from "@/components/ui/button";
+import { type NavItem } from "./models/flexsearch-model";
 export type AISearchProps = DialogProps & ButtonProps & {
     nexaiApiKey: string;
     onMenuItemSelect?: (navItem: NavItem) => void;

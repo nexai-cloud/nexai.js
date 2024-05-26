@@ -1,4 +1,4 @@
-import { ChatSessionModel } from "../models/chat-session";
+import { ChatSessionModel } from "~/models/chat-session";
 export declare const ChooseAvatar: (({ chatSession, nexaiAssetsUrl }: {
     chatSession: ChatSessionModel;
     nexaiAssetsUrl: string;
