@@ -40,6 +40,7 @@
     "index.ts",
     "chat-bubble.ts",
     "ai-search.ts",
+    "chat-side-panel.ts",
     "twind.config.ts",
   ]
 }

@@ -6,14 +6,14 @@ import { cn } from './lib/utils';
 import "./chat/sidebar/style/sidebar.css"
 import { ChevronsLeftRight } from 'lucide-react';
 
-type ChatSidePanelProps = {
+export type ChatSidePanelProps = {
   nexaiApiKey: string;
-  nexaiApiUrl: string;
+  nexaiApiUrl?: string;
 }
 
 export const ChatSidePanel = ({
   nexaiApiKey,
-  nexaiApiUrl,
+  nexaiApiUrl = 'https://nexai.site/api',
 }: ChatSidePanelProps) => {
   const [open, _setOpen] = useState(
     localStorage.getItem('nexai:open') === null
