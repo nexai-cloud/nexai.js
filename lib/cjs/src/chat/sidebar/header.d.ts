@@ -3,5 +3,7 @@ type Props = {
     teamMembers: TeamMemberModel[];
     onClickBack: () => void;
 };
-export declare const ChatHeader: ({ teamMembers, onClickBack }: Props) => import("react/jsx-runtime").JSX.Element;
+export declare const ChatHeader: (({ teamMembers, onClickBack }: Props) => import("react/jsx-runtime").JSX.Element) & {
+    displayName: string;
+};
 export {};

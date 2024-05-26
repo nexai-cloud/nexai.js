@@ -1,4 +1,5 @@
 import { ChevronLeftIcon } from "lucide-react"
+import { observer } from "mobx-react-lite";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
 import { cn } from "~/lib/utils"
 import { TeamMemberModel } from "~/models/team-member";
@@ -12,7 +13,7 @@ const getInitials = (name: string): string => (
   name.split(' ').map(w => w[0]).join('').toUpperCase()
 )
 
-export const ChatHeader = ({ teamMembers, onClickBack }: Props) => {
+export const ChatHeader = observer(({ teamMembers, onClickBack }: Props) => {
 
   return (
     <div className="flex flex-col space-y-2 m-2 border-b pb-2">
@@ -52,4 +53,4 @@ export const ChatHeader = ({ teamMembers, onClickBack }: Props) => {
       </div>
     </div>
   )
-}
+})
