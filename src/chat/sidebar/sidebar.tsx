@@ -12,7 +12,6 @@ import { observer } from "mobx-react-lite";
 import { ChatMessagesModel } from "~/models/chat-messages";
 import { ChatMessageModel } from "~/models/chat-message";
 import { NexaiChatMessage } from "~/chat-types";
-import { mockChatAssistants } from "./data/mockChatAssistants";
 import { ChatHeader } from "./header";
 import { mockChatMessages } from "./data/mockChatMessages";
 import { mockMsgs } from "~/data/mock-msgs";
@@ -114,7 +113,7 @@ export const ChatSidebar = observer(({
     setSuggest(navItem)
   }
   
-  const chatAssistants = mockChatAssistants as TeamMemberModel[]
+  const chatAssistants = teamMembers.items as TeamMemberModel[]
   
   const onChatInput = (input: string) => setChatInput(input)
   

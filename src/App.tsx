@@ -25,13 +25,14 @@ const addProjectMsg = action((msg: NexaiChatMessage) => {
   projectMsgs.push(msg)
 })
 
-const nexaiApiKey = 'clu8h3eg60000haaadp65lyeb'
+const nexaiApiKey = 'clu8hm40800004vzfocfds9xa'
 
 // 'clttxpx0w000whlerwrt9toge' // Local - Nexai Development
 // 'clu8h3eg60000haaadp65lyeb' // Nexai Team
-// 'clu8hm40800004vzfocfds9xa'
+// 'clu8hm40800004vzfocfds9xa' // Nexai Dev
 const nexaiAssetsUrl = 'https://nexai.site/ai/assets'
-const nexaiApiUrl = 'https://nexai.site/api' // 'http://localhost:3001/api'
+const nexaiApiUrl = 'https://nexai.site/api'
+//'https://nexai.site/api' // 'http://localhost:3001/api'
 
 export const App = observer(() => {
 

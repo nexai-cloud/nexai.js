@@ -8,7 +8,7 @@ export class TeamMemberModel extends Model {
     makeObservable(this, {
       name: observable,
       email: observable,
-      avatarUrl: observable
+      picture: observable
     })
   }
 
@@ -16,6 +16,6 @@ export class TeamMemberModel extends Model {
 
   email = ''
 
-  avatarUrl = ''
+  picture = ''
   
 }

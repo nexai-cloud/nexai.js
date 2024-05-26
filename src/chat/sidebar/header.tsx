@@ -8,7 +8,7 @@ type Props = {
   onClickBack: () => void;
 }
 
-const getInitials = (name: string) => (
+const getInitials = (name: string): string => (
   name.split(' ').map(w => w[0]).join('').toUpperCase()
 )
 
@@ -28,8 +28,8 @@ export const ChatHeader = ({ teamMembers, onClickBack }: Props) => {
         <div className="ml-auto flex relative">
           {
             teamMembers.map((user, i) => {
-              const initials = user.name && getInitials(user.name || user.email)
-              return (
+              const initials = getInitials(user.name || user.email)
+              return (user.picture || initials) && (
                 <Avatar key={i} className={cn(
                   "mr-auto h-10 w-10 border border-white"
                 )} style={{
@@ -37,7 +37,7 @@ export const ChatHeader = ({ teamMembers, onClickBack }: Props) => {
                   marginLeft: -16,
                   borderWidth: 3
                 }}>
-                  <AvatarImage src={user.avatarUrl} />
+                  <AvatarImage src={user.picture} />
                   <AvatarFallback>{initials}</AvatarFallback>
                 </Avatar>
               )
