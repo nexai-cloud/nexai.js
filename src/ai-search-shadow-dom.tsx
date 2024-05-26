@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { createRoot } from 'react-dom/client';
 import { addTwStyles } from './lib/twind/twind';
-import { AISearch, AISearchProps } from './ai-search';
+import { AISearch, type AISearchProps } from './ai-search';
 
 export const AISearchShadowDom = (props: AISearchProps) => {
   const shadowContainerRef = useRef<HTMLDivElement>(null);

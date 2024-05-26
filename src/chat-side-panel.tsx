@@ -57,6 +57,7 @@ export const ChatSidePanel = ({
         {
           open && (
             <ResizableHandle
+              // @ts-expect-error withhandle
               withHandle={isSidePanel}
               className="bg-transparent"
             />

@@ -26,6 +26,7 @@ import { observer } from "mobx-react-lite"
 
 export type AISearchProps = DialogProps & ButtonProps & {
   nexaiApiKey: string;
+  nexaiApiUrl: string;
   onMenuItemSelect?: (navItem: NavItem) => void;
   onMenuItemReadMore: (navItem: NavItem, group: NavItem) => void;
   className?: string;
@@ -36,6 +37,7 @@ export type AISearchProps = DialogProps & ButtonProps & {
 
 export const AISearch = observer(({
   nexaiApiKey,
+  nexaiApiUrl,
   onMenuItemSelect,
   onMenuItemReadMore,
   className,
@@ -48,12 +50,12 @@ export const AISearch = observer(({
   const [input, setInput] = React.useState('')
   const [selectedNavItem, setSelectedNavItem] = React.useState<NavItem|undefined>()
 
-  const searchModel = useFlexsearchModel({ nexaiApiKey })
+  const searchModel = useFlexsearchModel({ nexaiApiKey, nexaiApiUrl })
   const [docsNav, setDocsNav] = React.useState<NavItem[]>([])
   const fetched = React.useRef(false)
   React.useEffect(() => {
     const fetchDocs = async () => {
-      const docs = await fetchSearchDocs(nexaiApiKey)
+      const docs = await fetchSearchDocs({nexaiApiKey, nexaiApiUrl})
       setDocsNav(docs)
       searchModel.setDocuments(docs)
     }
@@ -61,7 +63,7 @@ export const AISearch = observer(({
       fetchDocs()
       fetched.current = true
     }
-  }, [docsNav, nexaiApiKey, searchModel])
+  }, [docsNav, nexaiApiKey, searchModel, nexaiApiUrl])
 
   const uniqueNav = docsNav.filter((group, index) => {
     return docsNav.findIndex((nav) => nav.title === group.title) === index

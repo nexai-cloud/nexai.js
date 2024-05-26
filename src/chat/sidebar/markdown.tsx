@@ -1,10 +1,9 @@
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { CircleIcon, ExternalLinkIcon, FileIcon, Link2Icon, LinkIcon } from "lucide-react"
+import { ExternalLinkIcon, Link2Icon} from "lucide-react"
 import { CodeBlock } from "~/components/shared/prism/code-block"
 import { observer } from "mobx-react-lite"
 import { NexaiChatMessage } from '~/chat-types'
-import { ButtonIcon } from '@radix-ui/react-icons'
 
 export const MessageMarkdown = observer(({
   chatMessage

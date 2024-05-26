@@ -45,17 +45,6 @@ export const App = observer(() => {
     projectId: nexaiApiKey
   })
 
-  const sendSessionChatMsg = (message: string) => {
-    const chatMsg = {
-      message,
-      projectId: nexaiApiKey,
-      sessionKey: clientSession.sessionId,
-      fromName: clientSession.name,
-      toName: 'support'
-    }
-    sessionIo.emit('chat', chatMsg)
-  }
-
   const sendSupportChatMsg = (message: string) => {
     const chatMsg = {
       message,
@@ -65,10 +54,6 @@ export const App = observer(() => {
       toName: clientSession.name
     }
     projectIo.emit('chat', chatMsg)
-  }
-
-  const onSendSessionChatMsg = (msg: string) => {
-    sendSessionChatMsg(msg)
   }
 
   const onSendSupportChatMsg = (msg: string) => {
@@ -100,13 +85,6 @@ export const App = observer(() => {
     //   sendSessionChatMsg('hello from client')
     // }, 100)
   })
-
-  const onMenuItemReadMore = (menuItem: NavItem, group: NavItem) => {
-    console.log('onMenuItemReadMore', { menuItem, group })
-    if (typeof window !== 'undefined') {
-      window.location.href = String(group.href)
-    }
-  }
 
   return (
     <div className='flex-col align-middle items-center'>
