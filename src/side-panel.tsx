@@ -20,27 +20,25 @@ export const ChatSidePanel = ({
   return (
     <>
       <ResizablePanelGroup direction="horizontal" className={cn(
-        'fixed bottom-0 left-0 h-[90vh] pointer-events-none',
-      )} style={{
-        // height: '90vh'
-      }}
-      >
+        'fixed bottom-0 left-0 pointer-events-none',
+        'md:p-10 md:pb-20'
+      )}>
         <ResizablePanel
           className={cn(
             'flex flex-col space-y-2 space-x-2 p-3',
-            'hidden md:flex'
+            'hidden lg:flex',
           )}
-        >
-        </ResizablePanel>
+          defaultSize={70}
+        />
         {
           open && (
-            <ResizableHandle className="bg-transparent" withHandle />
+            <ResizableHandle className="bg-transparent" />
           )
         }
         <ResizablePanel className={cn(
           'nexai-chat-sidebar',
           'flex flex-col bg-white shadow-xl',
-          'border rounded-lg h-screen md:h-[80vh] mt-auto mr-0 md:mr-10 mb-20',
+          'border rounded-lg mt-auto',
           'opacity-0',
           'transition-opacity duration-300',
           open && 'opacity-100 pointer-events-auto'
