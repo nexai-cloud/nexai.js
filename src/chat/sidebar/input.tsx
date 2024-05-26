@@ -1,6 +1,6 @@
 import { MicIcon, SendIcon, XCircleIcon } from "lucide-react"
 import { observer } from "mobx-react-lite";
-import { useRef, useState, type ChangeEvent, type KeyboardEvent } from 'react';
+import { forwardRef, useRef, type ChangeEvent, type KeyboardEvent } from 'react';
 import { hasSpeechRecognition } from "~/lib/speech/recognition";
 import { cn } from "~/lib/utils";
 import { SpeechRecognitionModel } from "~/models/speech-recognition";
@@ -15,16 +15,15 @@ type Props = {
   chatInput: string;
 };
 
-export const ChatInput = observer(({
+export const ChatInput = observer(forwardRef<HTMLInputElement, Props>(({
   onSpeechTranscript,
   inputPlaceholder,
   onSendChatMsg,
   onChatInput,
   chatInput,
-}: Props) => {
+}, chatInputRef) => {
 
   const speech = useRef(SpeechRecognitionModel.create()).current
-  const chatInputRef = useRef<HTMLInputElement>(null)
 
   const setChatInput = (input: string) => {
     onChatInput(input)
@@ -59,6 +58,7 @@ export const ChatInput = observer(({
         !speech.isSpeechInput ? (
           <>
             <input
+              ref={chatInputRef}
               className={cn(
                 "flex-grow bg-white border-0 p-3 font-medium size-12", 
                 "focus:border-none focus:outline-none"
@@ -67,7 +67,6 @@ export const ChatInput = observer(({
               onChange={onInputChange}
               onKeyDown={onInputKeyDown}
               value={chatInput}
-              ref={chatInputRef}
             />
             <div className="flex">
               {
@@ -112,4 +111,4 @@ export const ChatInput = observer(({
       
     </div>
   )
-})
+}))

@@ -38,6 +38,7 @@ export const ChatSidebar = observer(({
 }: Props) => {
 
   const [chatInput, setChatInput] = useState('')
+  const chatInputRef = useRef<HTMLInputElement>(null)
   const messagesModel = useChatMessagesModel()
   let suggest: NavItem|null
   const setSuggest = (value: NavItem|null) => suggest = value
@@ -106,9 +107,7 @@ export const ChatSidebar = observer(({
     setTimeout(() => {
       console.log('onSend', message)
       if (suggest) {
-        console.log('we have a suggest', suggest)
-        sendSessionChatMsg(suggest.title)
-        setSuggest(null)
+        console.log('we sent a suggest', suggest)
       } else {
         sendSessionChatMsg(message)
       }
@@ -117,7 +116,11 @@ export const ChatSidebar = observer(({
 
   const onSendSuggest = (navItem: NavItem, group: NavItem) => {
     console.log('onSuggest', { navItem, group })
+    setTimeout(() => setSuggest(null), 200)
+    sendSessionChatMsg(navItem.title)
     setSuggest(navItem)
+    setChatInput('')
+    chatInputRef.current && chatInputRef.current.focus()
   }
   
   const chatAssistants = teamMembers.items as TeamMemberModel[]
@@ -158,6 +161,7 @@ export const ChatSidebar = observer(({
             }
           </div>
           <ChatInput
+            ref={chatInputRef}
             chatInput={chatInput}
             nexaiApiKey={nexaiApiKey}
             onChatInput={_onChatInput}

@@ -72,7 +72,7 @@ export const ChatSidePanel = ({
           open && 'opacity-100 pointer-events-auto',
           'pt-4',
           isSidePanel && 'h-screen max-h-screen md:max-h-screen rounded-none',
-          chatInput && 'min-h-[80vh] md:min-h-[550px]'
+          chatInput && 'min-h-[80vh] md:min-h-[550px]',
         )}
         >
           {
