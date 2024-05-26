@@ -125,10 +125,10 @@ export const ChatSidebar = observer(({
   
   const chatAssistants = teamMembers.items as TeamMemberModel[]
   
-  const _onChatInput = (input: string) => {
+  const _onChatInput = useCallback((input: string) => {
     setChatInput(input)
     onChatInput && onChatInput(input)
-  }
+  }, [onChatInput])
   
   return (
     <>
