@@ -5,9 +5,8 @@ import { twind, cssom, observe } from "@twind/core";
 import "construct-style-sheets-polyfill";
 // mention right path for twind.config.js
 import config from "../../../twind.config";
-import { styles } from "./styles";
 
-export const addTwStyles = (shadowRoot: ShadowRoot) => {
+export const addTwStyles = (shadowRoot: ShadowRoot, styles: string) => {
 
   if (typeof CSSStyleSheet === 'undefined') {
     return 

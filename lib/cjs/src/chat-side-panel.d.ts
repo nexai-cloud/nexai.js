@@ -1,4 +1,3 @@
-import "./chat/sidebar/style/sidebar.css";
 export type ChatSidePanelProps = {
     nexaiApiKey: string;
     nexaiApiUrl?: string;

@@ -1,2 +1,2 @@
 import "construct-style-sheets-polyfill";
-export declare const addTwStyles: (shadowRoot: ShadowRoot) => void;
+export declare const addTwStyles: (shadowRoot: ShadowRoot, styles: string) => void;

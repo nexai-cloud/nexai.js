@@ -3,7 +3,7 @@ import { ChatSidebar } from './chat/sidebar/sidebar'
 import { Avatar, AvatarFallback, AvatarImage } from './components/ui/avatar'
 import { useState } from 'react';
 import { cn } from './lib/utils';
-import "./chat/sidebar/style/sidebar.css"
+// import "./chat/sidebar/style/sidebar.css"
 import { ChevronsLeftRight } from 'lucide-react';
 
 export type ChatSidePanelProps = {
