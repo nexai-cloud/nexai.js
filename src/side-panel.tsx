@@ -25,6 +25,7 @@ export const ChatSidePanel = ({
       ? true
       : Boolean(localStorage.getItem('nexai:panel'))
   )
+  const [chatInput, setChatInput] = useState('')
 
   const setOpen = (open: boolean) => {
     localStorage.setItem('nexai:open', open ? '1' : '')
@@ -34,6 +35,10 @@ export const ChatSidePanel = ({
   const toggleSidePanel = () => {
     localStorage.setItem('nexai:panel', isSidePanel ? '' : '1')
     setIsSidePanel(!isSidePanel)
+  }
+
+  const onChatInput = (chatInput: string) => {
+    setChatInput(chatInput)
   }
 
   return (
@@ -66,7 +71,8 @@ export const ChatSidePanel = ({
           'transition-opacity duration-300',
           open && 'opacity-100 pointer-events-auto',
           'pt-4',
-          isSidePanel && 'h-screen max-h-screen md:max-h-screen rounded-none'
+          isSidePanel && 'h-screen max-h-screen md:max-h-screen rounded-none',
+          chatInput && 'min-h-[80vh] md:min-h-[550px]'
         )}
         >
           {
@@ -82,6 +88,7 @@ export const ChatSidePanel = ({
                   nexaiApiKey={nexaiApiKey}
                   nexaiApiUrl={nexaiApiUrl}
                   onClickBack={() => setOpen(false)}
+                  onChatInput={onChatInput}
                 />
               </>
             )

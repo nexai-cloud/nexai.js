@@ -24,7 +24,8 @@ type Props = {
   nexaiApiUrl?: string;
   nexaiAssetsUrl?: string;
   nexaiIoUrl?: string;
-  teamMembers?: TeamMemberModel[]
+  teamMembers?: TeamMemberModel[];
+  onChatInput?: (input: string) => void;
 }
 
 export const ChatSidebar = observer(({
@@ -33,6 +34,7 @@ export const ChatSidebar = observer(({
   nexaiApiUrl = 'https://nexai.site/api',
   nexaiAssetsUrl = 'https://nexai.site/assets',
   nexaiIoUrl = 'https://io.nexai.site',
+  onChatInput
 }: Props) => {
 
   const [chatInput, setChatInput] = useState('')
@@ -120,7 +122,10 @@ export const ChatSidebar = observer(({
   
   const chatAssistants = teamMembers.items as TeamMemberModel[]
   
-  const onChatInput = (input: string) => setChatInput(input)
+  const _onChatInput = (input: string) => {
+    setChatInput(input)
+    onChatInput && onChatInput(input)
+  }
   
   return (
     <>
@@ -155,7 +160,7 @@ export const ChatSidebar = observer(({
           <ChatInput
             chatInput={chatInput}
             nexaiApiKey={nexaiApiKey}
-            onChatInput={onChatInput}
+            onChatInput={_onChatInput}
             onSendChatMsg={onSendChatMsg}
             onSpeechTranscript={onSpeechTranscript}
           />
