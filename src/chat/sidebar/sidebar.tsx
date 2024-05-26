@@ -9,7 +9,7 @@ import { IoChatMsg } from "../../../server";
 import { getSessionSocket } from "~/lib/socket";
 import { useChatSessionModel } from "~/models/chat-session";
 import { observer } from "mobx-react-lite";
-import { ChatMessagesModel } from "~/models/chat-messages";
+import { useChatMessagesModel } from "~/models/chat-messages";
 import { ChatMessageModel } from "~/models/chat-message";
 import { NexaiChatMessage } from "~/chat-types";
 import { ChatHeader } from "./header";
@@ -36,7 +36,7 @@ export const ChatSidebar = observer(({
 }: Props) => {
 
   const [chatInput, setChatInput] = useState('')
-  const messagesModel = useRef(ChatMessagesModel.create()).current
+  const messagesModel = useChatMessagesModel()
   let suggest: NavItem|null
   const setSuggest = (value: NavItem|null) => suggest = value
   const messagesRef = useRef<HTMLDivElement>()
@@ -73,9 +73,13 @@ export const ChatSidebar = observer(({
     // @ts-expect-error window
     window.teamMembers = teamMembers
     socket.on('chat', onChatMessage)
-    mockChatMessages.forEach((msg, i) => {
-      setTimeout(() => onChatMessage(msg as NexaiChatMessage), i * 2000)
-    })
+
+    if (!messagesModel.items.length) {
+      mockChatMessages.forEach((msg, i) => {
+        setTimeout(() => onChatMessage(msg as NexaiChatMessage), i * 2000)
+      })
+    }
+    
     // mockMsgs.forEach(msg => onChatMessage(msg as NexaiChatMessage))
   })
 

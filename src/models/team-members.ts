@@ -34,7 +34,7 @@ export class TeamMembersModel extends ListModel {
       const json = await res.json()
       if (json.data) {
         const members = json.data.teamMembers
-        this.addItems(members)
+        this.setItems(members)
       }
     })
   }

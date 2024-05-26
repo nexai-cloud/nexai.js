@@ -3,8 +3,6 @@ import { type NexaiChatMessage } from '../chat-types'
 import { ListModel } from './list'
 import { ChatMessageModel } from './chat-message'
 
-const chatMessages: NexaiChatMessage[] = observable([])
-
 export class ChatMessagesModel extends ListModel {
 
   getModelType(): typeof ChatMessageModel {
@@ -12,5 +10,11 @@ export class ChatMessagesModel extends ListModel {
   }
 
 }
+
+const model = ChatMessagesModel.create()
+export const useChatMessagesModel = () => model
+
+// @deprecated
+const chatMessages: NexaiChatMessage[] = observable([])
 
 export const useChatMessages = () => chatMessages

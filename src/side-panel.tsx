@@ -28,11 +28,15 @@ export const ChatSidePanel = ({ nexaiApiKey, nexaiApiUrl }: ChatSidePanelProps) 
           'transition-all duration-300',
           open && 'opacity-100 pointer-events-auto'
         )}>
-          <ChatSidebar
-            nexaiApiKey={nexaiApiKey}
-            nexaiApiUrl={nexaiApiUrl}
-            onClickBack={() => setOpen(false)}
-          />
+          {
+            open && (
+              <ChatSidebar
+                nexaiApiKey={nexaiApiKey}
+                nexaiApiUrl={nexaiApiUrl}
+                onClickBack={() => setOpen(false)}
+              />
+            )
+          }
         </ResizablePanel>
       </ResizablePanelGroup>
       <button
