@@ -1,11 +1,10 @@
 export const mockChatMessages = [
   {
-    "message": "Hello there! I hope you're having a great day!",
+    "message": "Hello! I'm Nexai. Your AI ⚡ assistant. I can assist you with any questions.",
     "fromName": "Nexai",
     "toName": "Team"
-  },
-  {
-    "message": "I'm Nexai. I can assist you with any questions.",
+  }, {
+    "message": "I can help you explore our website, documentation and knowledgebase.",
     "fromName": "Nexai",
     "toName": "Team"
   }]
