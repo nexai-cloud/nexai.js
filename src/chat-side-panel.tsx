@@ -99,8 +99,9 @@ export const ChatSidePanel = ({
       <button
         onClick={() => setOpen(!open)}
         className={cn(
+          // <md uses sidepanel so hide
           open && 'hidden md:flex',
-          isSidePanel && 'md:hidden',
+          (isSidePanel && open) && 'md:hidden',
           "fixed z-20 bottom-0 right-0 pb-4 pr-10",
         )}
       >
