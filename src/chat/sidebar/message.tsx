@@ -1,6 +1,7 @@
 import { NexaiChatMessage } from "~/chat-types"
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
 import { cn } from "~/lib/utils"
+import { MessageMarkdown } from "./markdown"
 
 type Props = {
   msg: NexaiChatMessage
@@ -24,7 +25,7 @@ export const ChatMessage = ({ msg }: Props) => {
         "p-2 border border-slate-300 text-slate-900 bg-slate-100 rounded-lg",
         !isAi && "ml-auto bg-slate-900 text-slate-300 text-right max-w-[95%]"
       )}>
-        {msg.message}
+        <MessageMarkdown chatMessage={msg} />
       </span>
     </div>
   )
