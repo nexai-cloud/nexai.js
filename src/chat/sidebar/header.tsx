@@ -1,9 +1,10 @@
-import { ChevronLeftIcon, PanelRightCloseIcon, SidebarCloseIcon, XCircleIcon } from "lucide-react"
+import { ChevronLeftIcon } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar"
 import { cn } from "~/lib/utils"
+import { TeamMemberModel } from "~/models/team-member";
 
 type Props = {
-  users: { avatarUrl: string, name: string }[],
+  teamMembers: TeamMemberModel[],
   onClickBack: () => void;
 }
 
@@ -11,7 +12,7 @@ const getInitials = (name: string) => (
   name.split(' ').map(w => w[0]).join('').toUpperCase()
 )
 
-export const ChatHeader = ({ users, onClickBack }: Props) => {
+export const ChatHeader = ({ teamMembers, onClickBack }: Props) => {
 
   return (
     <div className="flex flex-col space-y-2 m-2 border-b pb-2">
@@ -26,8 +27,8 @@ export const ChatHeader = ({ users, onClickBack }: Props) => {
         <div className="flex-grow"></div>
         <div className="ml-auto flex relative">
           {
-            users.map((user, i) => {
-              const initials = user.name && getInitials(user.name)
+            teamMembers.map((user, i) => {
+              const initials = user.name && getInitials(user.name || user.email)
               return (
                 <Avatar key={i} className={cn(
                   "mr-auto h-10 w-10 border border-white"

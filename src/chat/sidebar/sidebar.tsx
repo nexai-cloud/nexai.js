@@ -16,19 +16,24 @@ import { mockChatAssistants } from "./data/mockChatAssistants";
 import { ChatHeader } from "./header";
 import { mockChatMessages } from "./data/mockChatMessages";
 import { mockMsgs } from "~/data/mock-msgs";
+import { useTeamMembers } from "~/models/team-members";
+import { type TeamMemberModel } from "~/models/team-member";
 
 type Props = {
   nexaiApiKey: string;
   onClickBack: () => void;
+  nexaiApiUrl?: string;
   nexaiAssetsUrl?: string;
   nexaiIoUrl?: string;
+  teamMembers?: TeamMemberModel[]
 }
 
 export const ChatSidebar = observer(({
   nexaiApiKey,
-  nexaiAssetsUrl = '',
+  onClickBack,
+  nexaiApiUrl = 'https://nexai.site/api',
+  nexaiAssetsUrl = 'https://nexai.site/assets',
   nexaiIoUrl = 'https://io.nexai.site',
-  onClickBack
 }: Props) => {
 
   const [chatInput, setChatInput] = useState('')
@@ -36,6 +41,7 @@ export const ChatSidebar = observer(({
   let suggest: NavItem|null
   const setSuggest = (value: NavItem|null) => suggest = value
   const messagesRef = useRef<HTMLDivElement>()
+  const teamMembers = useTeamMembers({ projectId: nexaiApiKey, nexaiApiUrl })
 
   const onSpeechTranscript = (transcript: string) => {
     console.log('onSpeech', transcript)
@@ -63,6 +69,9 @@ export const ChatSidebar = observer(({
   useEffect(() => {
     if (loaded.current) return
     loaded.current = true
+    teamMembers.fetch()
+    // @ts-expect-error window
+    window.teamMembers = teamMembers
     socket.on('chat', onChatMessage)
     mockChatMessages.forEach((msg, i) => {
       setTimeout(() => onChatMessage(msg as NexaiChatMessage), i * 2000)
@@ -105,14 +114,14 @@ export const ChatSidebar = observer(({
     setSuggest(navItem)
   }
   
-  const chatAssistants = mockChatAssistants
+  const chatAssistants = mockChatAssistants as TeamMemberModel[]
   
   const onChatInput = (input: string) => setChatInput(input)
   
   return (
     <>
       <ChatHeader
-        users={chatAssistants}
+        teamMembers={chatAssistants}
         onClickBack={onClickBack}
       />
       <Messages
@@ -131,6 +140,7 @@ export const ChatSidebar = observer(({
                   <SearchSuggest
                     className="bg-slate-100"
                     input={chatInput}
+                    nexaiApiUrl={nexaiApiUrl}
                     nexaiApiKey={nexaiApiKey}
                     onMenuItemSelect={onSendSuggest}
                   />

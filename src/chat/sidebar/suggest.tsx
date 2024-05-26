@@ -23,6 +23,7 @@ import { ScrollArea } from "~/components/ui/scroll-area"
 
 export type AISearchProps = DialogProps & ButtonProps & {
   nexaiApiKey: string;
+  nexaiApiUrl: string;
   input: string;
   onMenuItemSelect: (navItem: NavItem, group: NavItem) => void;
   className?: string;
@@ -31,12 +32,13 @@ export type AISearchProps = DialogProps & ButtonProps & {
 
 export const SearchSuggest = observer(({
   nexaiApiKey,
+  nexaiApiUrl,
   input,
   onMenuItemSelect,
   showInput = true
   }: AISearchProps) => {
 
-  const searchModel = useFlexsearchModel({ nexaiApiKey })
+  const searchModel = useFlexsearchModel({ nexaiApiKey, nexaiApiUrl })
   const docsNav = searchModel.documents
 
   React.useEffect(() => {

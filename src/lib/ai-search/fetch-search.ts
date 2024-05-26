@@ -1,8 +1,11 @@
-import { NavItem } from "~/ai-search"
+import { type NavItem } from "~/models/flexsearch-model"
 import { NexaiDocumentExtract } from "~/types/ai-search"
 
-export const fetchSearchDocs = async (nexaiApiKey: string): Promise<NavItem[]> => {
-  const res = await fetch('https://nexai.site/api/doc/search/?projectId=' + nexaiApiKey, {
+export const fetchSearchDocs = async ({ nexaiApiKey, nexaiApiUrl }: {
+  nexaiApiKey: string;
+  nexaiApiUrl: string;
+}): Promise<NavItem[]> => {
+  const res = await fetch(nexaiApiUrl + '/doc/search/?projectId=' + nexaiApiKey, {
     mode: 'cors'
   })
   const data = (await res.json()).data

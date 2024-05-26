@@ -6,9 +6,10 @@ import { cn } from './lib/utils';
 
 type ChatSidePanelProps = {
   nexaiApiKey: string;
+  nexaiApiUrl: string;
 }
 
-export const ChatSidePanel = ({ nexaiApiKey }: ChatSidePanelProps) => {
+export const ChatSidePanel = ({ nexaiApiKey, nexaiApiUrl }: ChatSidePanelProps) => {
   const [open, setOpen] = useState(false)
 
   return (
@@ -28,6 +29,7 @@ export const ChatSidePanel = ({ nexaiApiKey }: ChatSidePanelProps) => {
         )}>
           <ChatSidebar
             nexaiApiKey={nexaiApiKey}
+            nexaiApiUrl={nexaiApiUrl}
             onClickBack={() => setOpen(false)}
           />
         </ResizablePanel>

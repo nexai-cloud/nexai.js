@@ -32,6 +32,7 @@ export class FlexsearchModel extends Model  {
     super()
     makeObservable(this, {
       nexaiApiKey: observable,
+      nexaiApiUrl: observable,
       documents: observable,
       setDocuments: action,
       searchState: observable,
@@ -44,6 +45,8 @@ export class FlexsearchModel extends Model  {
   }
 
   nexaiApiKey = ''
+
+  nexaiApiUrl = ''
 
   documents: NavItem[] = []
 
@@ -79,8 +82,12 @@ export class FlexsearchModel extends Model  {
   fetchDocumentsState = FetchModel.create()
 
   async fetchDocuments() {
+    const { nexaiApiKey, nexaiApiUrl } = this
     return this.fetchDocumentsState.fetch(async () => {
-      const docs = await fetchSearchDocs(this.nexaiApiKey)
+      const docs = await fetchSearchDocs({
+        nexaiApiKey,
+        nexaiApiUrl
+      })
       await this.setDocuments(docs)
     })
   }
@@ -130,12 +137,13 @@ export class FlexsearchModel extends Model  {
 }
 
 const map = new Map<string, FlexsearchModel>()
-export const useFlexsearchModel = ({ nexaiApiKey }: {
+export const useFlexsearchModel = ({ nexaiApiKey, nexaiApiUrl }: {
   nexaiApiKey: string;
+  nexaiApiUrl: string;
 }): FlexsearchModel => {
   if (!map.has(nexaiApiKey)) {
     // console.log('create new flexsearch', nexaiApiKey)
-    const chatSession = FlexsearchModel.create({ nexaiApiKey })
+    const chatSession = FlexsearchModel.create({ nexaiApiKey, nexaiApiUrl })
     map.set(nexaiApiKey, chatSession)
   }
   return map.get(nexaiApiKey) as FlexsearchModel

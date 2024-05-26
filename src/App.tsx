@@ -25,8 +25,11 @@ const addProjectMsg = action((msg: NexaiChatMessage) => {
   projectMsgs.push(msg)
 })
 
-const nexaiApiKey = 'clu8h3eg60000haaadp65lyeb' // 'clu8hm40800004vzfocfds9xa'
+const nexaiApiKey = 'clttxpx0w000whlerwrt9toge' // Local - Nexai Development
+// 'clu8h3eg60000haaadp65lyeb' // Nexai Team
+// 'clu8hm40800004vzfocfds9xa'
 const nexaiAssetsUrl = 'https://nexai.site/ai/assets'
+const nexaiApiUrl = 'http://localhost:3001/api'
 
 export const App = observer(() => {
 
@@ -103,7 +106,7 @@ export const App = observer(() => {
   }
 
   return (
-    <div className='h-screen w-screen flex-col align-middle items-center'>
+    <div className='flex-col align-middle items-center'>
     
         <Tabs defaultValue='screenshot' className='relative gap-1'>
           <TabsList>
@@ -128,7 +131,10 @@ export const App = observer(() => {
           </TabsContent>
         </Tabs>
     
-      <ChatSidePanel nexaiApiKey={nexaiApiKey} />
+      <ChatSidePanel
+        nexaiApiKey={nexaiApiKey}
+        nexaiApiUrl={nexaiApiUrl}
+      />
     
     </div>
   )
