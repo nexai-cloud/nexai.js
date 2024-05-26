@@ -23,9 +23,10 @@ export const ChatSidePanel = ({ nexaiApiKey, nexaiApiUrl }: ChatSidePanelProps) 
           open && <ResizableHandle withHandle />
         }
         <ResizablePanel className={cn(
-          'flex flex-col bg-white shadow-xl pointer-events-auto',
+          'flex flex-col bg-white shadow-xl',
+          'opacity-0',
           'transition-all duration-300',
-          open ? 'opacity-100' : 'opacity-0'
+          open && 'opacity-100 pointer-events-auto'
         )}>
           <ChatSidebar
             nexaiApiKey={nexaiApiKey}
