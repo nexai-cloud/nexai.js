@@ -4,7 +4,7 @@ import { Avatar, AvatarFallback, AvatarImage } from './components/ui/avatar'
 import { useState } from 'react';
 import { cn } from './lib/utils';
 import "./chat/sidebar/style/sidebar.css"
-import { ArrowUpRight, ChevronsLeftRight, Scaling } from 'lucide-react';
+import { ChevronsLeftRight } from 'lucide-react';
 
 type ChatSidePanelProps = {
   nexaiApiKey: string;
