@@ -14,7 +14,7 @@ import { ChatMessageModel } from "~/models/chat-message";
 import { NexaiChatMessage } from "~/chat-types";
 import { ChatHeader } from "./header";
 import { mockChatMessages } from "./data/mockChatMessages";
-import { mockMsgs } from "~/data/mock-msgs";
+// import { mockMsgs } from "~/data/mock-msgs";
 import { useTeamMembers } from "~/models/team-members";
 import { type TeamMemberModel } from "~/models/team-member";
 
@@ -76,7 +76,7 @@ export const ChatSidebar = observer(({
     mockChatMessages.forEach((msg, i) => {
       setTimeout(() => onChatMessage(msg as NexaiChatMessage), i * 2000)
     })
-    mockMsgs.forEach(msg => onChatMessage(msg as NexaiChatMessage))
+    // mockMsgs.forEach(msg => onChatMessage(msg as NexaiChatMessage))
   })
 
   const sendChatViaSoketIo = useCallback((chatMsg: IoChatMsg) => {
