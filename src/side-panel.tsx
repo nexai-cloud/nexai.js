@@ -14,8 +14,17 @@ export const ChatSidePanel = ({
   nexaiApiKey,
   nexaiApiUrl,
 }: ChatSidePanelProps) => {
-  const [open, setOpen] = useState(false)
+  const [open, _setOpen] = useState(
+    localStorage.getItem('nexai:panel') === null
+      ? true
+      : Boolean(localStorage.getItem('nexai:panel'))
+  )
   const [isSidePanel, setIsSidePanel] = useState(false)
+
+  const setOpen = (open: boolean) => {
+    localStorage.setItem('nexai:panel', open ? '1' : '')
+    _setOpen(open)
+  }
 
   return (
     <>
