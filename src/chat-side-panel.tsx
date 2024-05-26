@@ -9,11 +9,13 @@ import { ChevronsLeftRight } from 'lucide-react';
 export type ChatSidePanelProps = {
   nexaiApiKey: string;
   nexaiApiUrl?: string;
+  defaultSize?: number;
 }
 
 export const ChatSidePanel = ({
   nexaiApiKey,
   nexaiApiUrl = 'https://nexai.site/api',
+  defaultSize = 25
 }: ChatSidePanelProps) => {
   const [open, _setOpen] = useState(
     localStorage.getItem('nexai:open') === null
@@ -50,7 +52,7 @@ export const ChatSidePanel = ({
             'flex flex-col space-y-2 space-x-2 p-3',
             'hidden lg:flex',
           )}
-          defaultSize={70}
+          defaultSize={100 - defaultSize}
         />
         {
           open && (
