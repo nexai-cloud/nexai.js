@@ -77,7 +77,7 @@ export const ChatSidePanel = ({
         )}
         >
           {
-            open && (
+            (
               <>
                 <button
                   className='absolute right-1 top-1'
