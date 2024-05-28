@@ -9,6 +9,6 @@ export type AISearchProps = DialogProps & ButtonProps & {
     className?: string;
     showInput?: boolean;
 };
-export declare const SearchSuggest: (({ nexaiApiKey, nexaiApiUrl, input, onMenuItemSelect, showInput }: AISearchProps) => import("react/jsx-runtime").JSX.Element) & {
+export declare const SearchSuggest: (({ nexaiApiKey, nexaiApiUrl, input, onMenuItemSelect, showInput }: AISearchProps) => import("react/jsx-runtime").JSX.Element | null) & {
     displayName: string;
 };
