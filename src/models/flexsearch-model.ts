@@ -112,6 +112,10 @@ export class FlexsearchModel extends Model  {
   }
 
   async search(query: string) {
+    if (!query) {
+      this.setResults([])
+      return // optimize no query
+    }
     const keywords = this.queryToKeywords(query)
     this.currentQuery = query
     await this.documentsReady()
@@ -128,6 +132,7 @@ export class FlexsearchModel extends Model  {
         return // newer query exists
       }
       // console.log('search results', { query, results })
+      // @todo fix only update results if exist so UI does not stutter 
       if (results.length) {
         this.setResults(results as IndexSearchResult[])
       }

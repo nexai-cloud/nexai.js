@@ -2,9 +2,6 @@
 
 import * as React from "react"
 import { DialogProps } from "@radix-ui/react-alert-dialog"
-import {
-  CircleIcon
-} from "@radix-ui/react-icons"
 
 import { cn } from "@/lib/utils"
 import { ButtonProps } from "@/components/ui/button"
@@ -15,7 +12,7 @@ import {
   CommandList,
   // CommandSeparator,
 } from "@/components/ui/command"
-import { ChevronRight, PlusIcon, ZapIcon } from "lucide-react"
+import { ChevronRight, LucideMessageCircleQuestion, SparklesIcon, ZapIcon } from "lucide-react"
 import { type NavItem, useFlexsearchModel } from "../../models/flexsearch-model"
 import { filterFlexsearchResults } from "../../lib/ai-search/flexsearch"
 import { observer } from "mobx-react-lite"
@@ -42,7 +39,12 @@ export const SearchSuggest = observer(({
   const docsNav = searchModel.documents
 
   React.useEffect(() => {
-    searchModel.search(input)
+    if (input) {
+      searchModel.search(input)
+    } else {
+      // clear results - remove prev selection not working??
+      searchModel.setResults([])
+    }
   }, [input, searchModel])
   
   React.useEffect(() => {
@@ -62,8 +64,8 @@ export const SearchSuggest = observer(({
   const searches = keywords.map(keyword => new RegExp(keyword, 'ig'))
 
   // use flexsearch index
-  const visibleNav = !searches.length 
-    ? uniqueNav 
+  const visibleNav = (searches.length === 0)
+    ? [] 
     : filterFlexsearchResults(uniqueNav, searchModel.results)
 
   const runCommand = React.useCallback((command: () => unknown) => {
@@ -75,6 +77,8 @@ export const SearchSuggest = observer(({
     const group = docsNav.find(nav => nav.items?.includes(navItem))
       runCommand(() => onMenuItemSelect(navItem, group!))
   }, [runCommand, onMenuItemSelect, docsNav])
+
+  if (!input) return null
 
   return (
     <>
@@ -99,13 +103,13 @@ export const SearchSuggest = observer(({
                   }
                 >
                   <div className="mr-2 ml-2 flex h-4 w-4 items-center justify-center">
-                    <ZapIcon className="text-yellow-500 h-3 w-3" />
+                    <SparklesIcon className="text-yellow-500 h-3 w-3" />
                   </div>
-                  <span className="flex items-center">
+                  <span className="flex items-center text-muted-foreground">
                     {input}...
                   </span>
                   <span className="opacity-0 item-arrow ml-auto mr-2 h-6 w-6 items-center justify-center group group-aria-selected:opacity-100">
-                    <PlusIcon className="text-blue-500 h-6 w-6 mb-2" />
+                    <SparklesIcon className="text-blue-500 h-6 w-6 mb-2" />
                   </span>
                 </CommandItem>
             </CommandGroup>
@@ -133,7 +137,7 @@ export const SearchSuggest = observer(({
                         group.icon ? (
                           <span className="text-blue-500">{group.icon}</span>
                         ) : (
-                          <CircleIcon className="text-blue-500 h-3 w-3" />
+                          <LucideMessageCircleQuestion className="text-blue-500 h-5" />
                         )
                       }
                     </div>
