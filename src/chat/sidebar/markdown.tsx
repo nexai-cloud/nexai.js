@@ -50,17 +50,19 @@ export const MessageMarkdown = observer(({
               {
                 sources?.length ? (
                   <div className='mt-2'>
-                    <h4 className='font-semibold'>Sources</h4>
+                    <h4 className='text-sm font-semibold text-muted-foreground pb-1'>{sources.length} source{sources.length > 1 ? 's' : ''}</h4>
+                    <div className="flex flex-col space-y-1">
                     {
                       sources.map((source: string) => (
-                        <p className='flex align-middle gap-1  text-sm' key={source}>
-                          <Link2Icon size={20} />
+                        <p className='group flex align-middle gap-1  text-sm' key={source}>
+                          <Link2Icon className='text-muted-foreground' size={20} />
                           <a className='flex items-center align-middle' href={source} target='_blank'>
-                            {source}<ExternalLinkIcon className='ml-1' size={12} />
+                            {source}<ExternalLinkIcon className='ml-1 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity duration-300' size={12} />
                           </a>
                         </p>
                       ))
                     }
+                    </div>
                   </div>
                 ) : null
               }

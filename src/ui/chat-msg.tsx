@@ -55,7 +55,7 @@ export const NexaiChatMsg = observer(({
               {
                 sources?.length ? (
                   <div className='mt-2'>
-                    <h4 className='font-semibold'>Sources:</h4>
+                    <h4 className='font-semibold'>{sources.length} source found</h4>
                     {
                       sources.map((source: string) => (
                         <p key={source}>
