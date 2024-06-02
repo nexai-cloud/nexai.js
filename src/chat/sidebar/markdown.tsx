@@ -1,6 +1,6 @@
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ExternalLinkIcon, Link2Icon, LucideArrowRight, LucideChevronRight} from "lucide-react"
+import { ExternalLinkIcon, Link2Icon, LucideChevronRight} from "lucide-react"
 import { CodeBlock } from "~/components/shared/prism/code-block"
 import { observer } from "mobx-react-lite"
 import { NexaiChatMessage } from '~/chat-types'

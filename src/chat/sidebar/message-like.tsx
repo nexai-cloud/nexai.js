@@ -1,8 +1,6 @@
 import { NexaiChatMessage } from "~/chat-types"
 import { cn } from "~/lib/utils"
 import { observer } from "mobx-react-lite"
-import { Button } from "~/components/ui/button"
-import { Heart, HeartCrack, LucideThumbsDown, LucideThumbsUp } from "lucide-react"
 import { useState } from "react"
 import { TooltipWrap } from "./shared/tooltip"
 
