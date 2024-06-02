@@ -20,7 +20,11 @@ export const Messages = observer(forwardRef<HTMLDivElement, Props>(({ msgs }, re
     >
       {
         msgs.map((msg, index) => (
-          <ChatMessage key={index} msg={msg} />
+          <ChatMessage
+            key={index}
+            msg={msg}
+            isLatest={index === msgs.length-1}
+          />
         ))
       }
       <ScrollBar className="bg-muted text-black rounded-full" />

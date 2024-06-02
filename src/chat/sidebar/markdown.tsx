@@ -57,9 +57,9 @@ export const MessageMarkdown = observer(({
               {
                 sources?.length ? (
                   <div className='mt-2'>
-                    <h4 onClick={toggleViewSources} className='flex text-sm cursor-pointer font-semibold text-muted-foreground pb-1'>
+                    <h4 onClick={toggleViewSources} className='flex items-center text-sm cursor-pointer font-semibold text-muted-foreground pb-1'>
                       <span>{sources.length} source{sources.length > 1 ? 's' : ''}</span>
-                      <LucideChevronRight size={20} className={cn('transition-all duration-300', viewSources && 'rotate-90')} />
+                      <LucideChevronRight size={16} className={cn('transition-all duration-300', viewSources && 'rotate-90')} />
                     </h4>
                     <div className={cn(
                       "hidden flex-col space-y-1",
