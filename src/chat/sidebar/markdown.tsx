@@ -1,9 +1,11 @@
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { ExternalLinkIcon, Link2Icon} from "lucide-react"
+import { ExternalLinkIcon, Link2Icon, LucideArrowRight, LucideChevronRight} from "lucide-react"
 import { CodeBlock } from "~/components/shared/prism/code-block"
 import { observer } from "mobx-react-lite"
 import { NexaiChatMessage } from '~/chat-types'
+import { useState } from 'react'
+import { cn } from '~/lib/utils'
 
 export const MessageMarkdown = observer(({
   chatMessage
@@ -14,6 +16,11 @@ export const MessageMarkdown = observer(({
   if (!chatMessage) return null
   const { message, sources } = chatMessage
   // const isAi = thread.userUid === 'nexai'
+  const [viewSources, setViewSources] = useState(false)
+
+  const toggleViewSources = () => {
+    setViewSources(!viewSources)
+  }
 
   return (
     <div className="message-markdown">
@@ -50,8 +57,14 @@ export const MessageMarkdown = observer(({
               {
                 sources?.length ? (
                   <div className='mt-2'>
-                    <h4 className='text-sm font-semibold text-muted-foreground pb-1'>{sources.length} source{sources.length > 1 ? 's' : ''}</h4>
-                    <div className="flex flex-col space-y-1">
+                    <h4 onClick={toggleViewSources} className='flex text-sm cursor-pointer font-semibold text-muted-foreground pb-1'>
+                      <span>{sources.length} source{sources.length > 1 ? 's' : ''}</span>
+                      <LucideChevronRight size={20} className={cn('transition-all duration-300', viewSources && 'rotate-90')} />
+                    </h4>
+                    <div className={cn(
+                      "hidden flex-col space-y-1",
+                      viewSources && 'flex'
+                    )}>
                     {
                       sources.map((source: string) => (
                         <p className='group flex align-middle gap-1  text-sm' key={source}>
