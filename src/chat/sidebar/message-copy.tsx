@@ -28,9 +28,17 @@ export const MessageCopy = observer(({ chatMessage, className }: Props) => {
 
   const [isCopied, setIsCopied] = useState(false)
 
-  const onCopy = () => {
+  const onCopy = async () => {
     console.log('onCopy', { chatMessage })
-    setIsCopied(!isCopied)
+    try {
+      await navigator.clipboard.writeText(chatMessage.message);
+      console.log('Text copied to clipboard');
+      setIsCopied(true)
+      setTimeout(() => setIsCopied(false), 5000)
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+      alert('Could not copy message')
+    }
   }
 
   return (
@@ -38,8 +46,8 @@ export const MessageCopy = observer(({ chatMessage, className }: Props) => {
       "chat-message-like flex gap-2 m-2",
       className
     )}>
-      <TooltipWrap className="bg-white" tooltip={'Copy Message'}>
-        <button className="bg-muted bg-red" onClick={() => onCopy()}>
+      <TooltipWrap className="bg-white" tooltip={isCopied ? 'Message Copied' : 'Copy Message'}>
+        <button onClick={() => onCopy()}>
           {
             isCopied ? <CopyFilled /> : <CopyOutline />
           }
