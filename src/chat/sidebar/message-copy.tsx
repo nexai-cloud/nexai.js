@@ -2,6 +2,7 @@ import { NexaiChatMessage } from "~/chat-types"
 import { cn } from "~/lib/utils"
 import { observer } from "mobx-react-lite"
 import { useState } from "react"
+import { TooltipWrap } from "./shared/tooltip"
 
 type Props = {
   chatMessage: NexaiChatMessage;
@@ -37,11 +38,13 @@ export const MessageCopy = observer(({ chatMessage, className }: Props) => {
       "chat-message-like flex gap-2 m-2",
       className
     )}>
-      <button className="bg-muted bg-red" onClick={() => onCopy()}>
-        {
-          isCopied ? <CopyFilled /> : <CopyOutline />
-        }
-      </button>
+      <TooltipWrap className="bg-white" tooltip={'Copy Message'}>
+        <button className="bg-muted bg-red" onClick={() => onCopy()}>
+          {
+            isCopied ? <CopyFilled /> : <CopyOutline />
+          }
+        </button>
+      </TooltipWrap>
     </div>
   )
 })

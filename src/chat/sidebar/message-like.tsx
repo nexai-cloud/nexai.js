@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite"
 import { Button } from "~/components/ui/button"
 import { Heart, HeartCrack, LucideThumbsDown, LucideThumbsUp } from "lucide-react"
 import { useState } from "react"
+import { TooltipWrap } from "./shared/tooltip"
 
 type Props = {
   chatMessage: NexaiChatMessage;
@@ -54,16 +55,21 @@ export const MessageLike = observer(({ chatMessage, className }: Props) => {
       "chat-message-like flex gap-2 m-2",
       className
     )}>
-      <button className="bg-muted bg-red" onClick={() => onThumb(1)}>
-        {
-          liked > 0 ? <ThumbUpFilled /> : <ThumbUpOutline />
-        }
-      </button>
-      <button onClick={() => onThumb(-1)}>
-        {
-          liked < 0 ? <ThumbDownFilled /> : <ThumbDownOutline />
-        }
-      </button>
+      <TooltipWrap className="bg-white" tooltip={'Like'}>
+        <button className="bg-muted bg-red" onClick={() => onThumb(1)}>
+          {
+            liked > 0 ? <ThumbUpFilled /> : <ThumbUpOutline />
+          }
+        </button>
+      </TooltipWrap>
+      <TooltipWrap className="bg-white" tooltip={'Unlike'}>
+        <button onClick={() => onThumb(-1)}>
+          {
+            liked < 0 ? <ThumbDownFilled /> : <ThumbDownOutline />
+          }
+        </button>
+      </TooltipWrap>
+      
     </div>
   )
 })
