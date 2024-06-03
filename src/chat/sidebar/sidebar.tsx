@@ -2,7 +2,7 @@ import { ChatInput } from "./input";
 import { Messages } from "./messages"
 import { SearchSuggest } from "./suggest";
 import { cn } from "~/lib/utils";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { Command } from "~/components/ui/command";
 import { NavItem } from "~/models/flexsearch-model";
 import { IoChatMsg } from "../../../server";
@@ -44,6 +44,7 @@ export const ChatSidebar = observer(({
   const setSuggest = (value: NavItem|null) => suggest = value
   const messagesRef = useRef<HTMLDivElement>(null)
   const teamMembers = useTeamMembers({ projectId: nexaiApiKey, nexaiApiUrl })
+  const [mountCmdk, setMountCmdk] = useState(true)
 
   const onSpeechTranscript = (transcript: string) => {
     console.log('onSpeech', transcript)
@@ -118,13 +119,25 @@ export const ChatSidebar = observer(({
     }, 50)
   }
 
+  // we need to unmount CMDK to remove prev selection
+  // @todo fix within CMDK api?
+  const resetCmdk = () => {
+    setMountCmdk(false)
+    setTimeout(() => {
+      setMountCmdk(true)
+      chatInputRef.current?.focus()
+      setTimeout(() => chatInputRef.current?.focus(), 50)
+    }, 0)
+  }
+
   const onSendSuggest = (navItem: NavItem, group: NavItem) => {
     console.log('onSuggest', { navItem, group })
     setTimeout(() => setSuggest(null), 200)
     sendSessionChatMsg(navItem.title)
     setSuggest(navItem)
     setChatInput('')
-    chatInputRef.current && chatInputRef.current.focus()
+    resetCmdk()
+    chatInputRef.current?.focus()
   }
   
   const chatAssistants = teamMembers.items as TeamMemberModel[]
@@ -133,6 +146,11 @@ export const ChatSidebar = observer(({
     setChatInput(input)
     onChatInput && onChatInput(input)
   }, [onChatInput])
+
+  const DivCom = ({ children }: { children: ReactNode }) => (
+    <div className={cn("h-full w-full overflow-visible")}>{children}</div>
+  )
+  const CommandCom = mountCmdk ? Command : DivCom
   
   return (
     <>
@@ -145,7 +163,7 @@ export const ChatSidebar = observer(({
         msgs={[...messagesModel.items] as ChatMessageModel[]}
       />
       <div className="mt-auto p-2">
-        <Command className={cn("h-full w-full overflow-visible")} shouldFilter={false}>
+        <CommandCom className={cn("h-full w-full overflow-visible")} shouldFilter={false}>
           <div className="relative">
             {
               chatInput && (
@@ -172,7 +190,7 @@ export const ChatSidebar = observer(({
             onSendChatMsg={onSendChatMsg}
             onSpeechTranscript={onSpeechTranscript}
           />
-        </Command>
+        </CommandCom>
       </div>
     </>
   )

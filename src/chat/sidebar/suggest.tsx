@@ -94,6 +94,7 @@ export const SearchSuggest = observer(({
                 )}
               >
                 <CommandItem
+                  value={input}
                   className={
                     cn(
                       !showInput && "hidden",
@@ -113,16 +114,16 @@ export const SearchSuggest = observer(({
                   </span>
                 </CommandItem>
             </CommandGroup>
-            {visibleNav.map((group) => group && (
+            {visibleNav.map((group, i) => group && (
               <CommandGroup
-                key={group.title}
+                key={i}
                 heading={(
                   <p className="text-blue-500">{group.title}</p>
                 )}
               >
-                {group.items?.map((navItem) => (
+                {group.items?.map((navItem, i) => (
                   <CommandItem
-                    key={navItem.href}
+                    key={i}
                     value={navItem.title}
                     onSelect={() => onSelect(navItem)}
                     className={

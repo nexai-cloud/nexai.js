@@ -60,7 +60,7 @@ export const ChatInput = observer(forwardRef<HTMLInputElement, Props>(({
             <input
               ref={chatInputRef}
               className={cn(
-                "flex-grow bg-white border-0 p-3 font-medium size-12", 
+                "chat-input flex-grow bg-white border-0 p-3 font-medium size-12", 
                 "focus:border-none focus:outline-none"
               )}
               placeholder={inputPlaceholder || 'Ask a question...'}
