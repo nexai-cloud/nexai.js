@@ -25,7 +25,7 @@ const addProjectMsg = action((msg: NexaiChatMessage) => {
   projectMsgs.push(msg)
 })
 
-const nexaiApiKey = 'clu8hm40800004vzfocfds9xa'
+const nexaiApiKey = 'clttxpx0w000whlerwrt9toge' 
 
 // 'clttxpx0w000whlerwrt9toge' // Local - Nexai Development
 // 'clu8h3eg60000haaadp65lyeb' // Nexai Team
@@ -41,10 +41,12 @@ export const App = observer(() => {
   const loaded = useRef(false)
   const clientSession = getClientSession(nexaiApiKey, nexaiAssetsUrl)
   const sessionIo = getSessionSocket({
-    sessionKey: clientSession.sessionId
+    sessionKey: clientSession.sessionId,
+    ioUrl: nexaiIoUrl
   })
   const projectIo = getProjectSocket({
-    projectId: nexaiApiKey
+    projectId: nexaiApiKey,
+    ioUrl: nexaiIoUrl
   })
 
   const sendSupportChatMsg = (message: string) => {

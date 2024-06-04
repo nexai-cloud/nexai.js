@@ -3,14 +3,12 @@ import io from 'socket.io-client'
 let sessionSocket: ReturnType<typeof io>
 let projectSocket: ReturnType<typeof io>
 
-const defaultIoUrl = 'https://ai-chat-server-production.up.railway.app'
-
 export const getSessionSocket = ({
   sessionKey,
-  ioUrl = defaultIoUrl
+  ioUrl
 }:{ 
   sessionKey: string;
-  ioUrl?: string;
+  ioUrl: string;
 }): ReturnType<typeof io> => {
   if (!sessionKey) {
     throw new TypeError('getSessionSocket(sessionKey) is required')
@@ -23,7 +21,7 @@ export const getSessionSocket = ({
 
 export const getProjectSocket = ({
   projectId,
-  ioUrl = defaultIoUrl
+  ioUrl
 }:{ 
   projectId: string;
   ioUrl?: string;
