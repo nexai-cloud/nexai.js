@@ -1,5 +1,5 @@
 import { type TeamMemberModel } from "../../models/team-member";
-type Props = {
+export type ChatSidebarProps = {
     nexaiApiKey: string;
     onClickBack: () => void;
     nexaiApiUrl?: string;
@@ -8,7 +8,6 @@ type Props = {
     teamMembers?: TeamMemberModel[];
     onChatInput?: (input: string) => void;
 };
-export declare const ChatSidebar: (({ nexaiApiKey, onClickBack, nexaiApiUrl, nexaiAssetsUrl, nexaiIoUrl, onChatInput }: Props) => import("react/jsx-runtime").JSX.Element) & {
+export declare const ChatSidebar: (({ nexaiApiKey, onClickBack, nexaiApiUrl, nexaiAssetsUrl, nexaiIoUrl, onChatInput }: ChatSidebarProps) => import("react/jsx-runtime").JSX.Element) & {
     displayName: string;
 };
-export {};
