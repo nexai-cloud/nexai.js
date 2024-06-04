@@ -1,5 +1,5 @@
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './components/ui/resizable'
-import { ChatSidebar } from './chat/sidebar/sidebar'
+import { ChatSidebar, ChatSidebarProps } from './chat/sidebar/sidebar'
 import { Avatar, AvatarFallback, AvatarImage } from './components/ui/avatar'
 import { useState } from 'react';
 import { cn } from './lib/utils';
@@ -7,15 +7,12 @@ import { cn } from './lib/utils';
 import { ChevronsLeftRight } from 'lucide-react';
 
 export type ChatSidePanelProps = {
-  nexaiApiKey: string;
-  nexaiApiUrl?: string;
   defaultSize?: number;
-}
+} & Omit<ChatSidebarProps, 'onClickBack'>
 
 export const ChatSidePanel = ({
-  nexaiApiKey,
-  nexaiApiUrl = 'https://nexai.site/api',
-  defaultSize = 25
+  defaultSize = 25,
+  ...chatSidebarProps
 }: ChatSidePanelProps) => {
   const [open, _setOpen] = useState(
     localStorage.getItem('nexai:open') === null
@@ -86,8 +83,7 @@ export const ChatSidePanel = ({
                   <ChevronsLeftRight size={18} className='text-slate-300 -rotate-45' />
                 </button>
                 <ChatSidebar
-                  nexaiApiKey={nexaiApiKey}
-                  nexaiApiUrl={nexaiApiUrl}
+                  {...chatSidebarProps}
                   onClickBack={() => setOpen(false)}
                   onChatInput={onChatInput}
                 />

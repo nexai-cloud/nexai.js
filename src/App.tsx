@@ -31,8 +31,10 @@ const nexaiApiKey = 'clu8hm40800004vzfocfds9xa'
 // 'clu8h3eg60000haaadp65lyeb' // Nexai Team
 // 'clu8hm40800004vzfocfds9xa' // Nexai Dev
 const nexaiAssetsUrl = 'https://nexai.site/ai/assets'
-const nexaiApiUrl = 'https://nexai.site/api'
-//'https://nexai.site/api' // 'http://localhost:3001/api'
+// const nexaiApiUrl = 'https://nexai.site/api'
+const nexaiApiUrl = 'http://localhost:3000/api'
+// const nexaiIoUrl = 'https://io.nexai.site'
+const nexaiIoUrl = 'http://localhost:8080'
 
 export const App = observer(() => {
 
@@ -115,6 +117,7 @@ export const App = observer(() => {
       <ChatSidePanel
         nexaiApiKey={nexaiApiKey}
         nexaiApiUrl={nexaiApiUrl}
+        nexaiIoUrl={nexaiIoUrl}
       />
     
     </div>

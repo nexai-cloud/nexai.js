@@ -1,6 +1,6 @@
 {
   "name": "nexai.js",
-  "version": "0.0.2",
+  "version": "0.0.2-01",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "files": [
@@ -156,6 +156,7 @@
     "prettier-plugin-tailwindcss": "^0.5.12",
     "tailwindcss": "^3.4.1",
     "tsc-alias": "^1.8.8",
+    "tsx": "^4.11.2",
     "typescript": "^5.2.2",
     "vite": "^5.1.6",
     "vite-plugin-dts": "^3.8.0",

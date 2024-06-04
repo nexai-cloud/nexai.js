@@ -167,5 +167,6 @@ projects.on("connection", socket => {
 });
 
 server.listen(PORT, () => {
-  console.log(`⛵ Nexai Chat Server at http://localhost:${PORT}`);
+  console.log(`⚡⚡⚡ Nexai socket.io Chat Server ⚡⚡⚡`);
+  console.log(`⛵ http://localhost:${PORT} ⚛`);
 });

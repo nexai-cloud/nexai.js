@@ -18,7 +18,7 @@ import { mockChatMessages } from "./data/mockChatMessages";
 import { useTeamMembers } from "~/models/team-members";
 import { type TeamMemberModel } from "~/models/team-member";
 
-type Props = {
+export type ChatSidebarProps = {
   nexaiApiKey: string;
   onClickBack: () => void;
   nexaiApiUrl?: string;
@@ -35,7 +35,7 @@ export const ChatSidebar = observer(({
   nexaiAssetsUrl = 'https://nexai.site/assets',
   nexaiIoUrl = 'https://io.nexai.site',
   onChatInput
-}: Props) => {
+}: ChatSidebarProps) => {
 
   const [chatInput, setChatInput] = useState('')
   const chatInputRef = useRef<HTMLInputElement>(null)
