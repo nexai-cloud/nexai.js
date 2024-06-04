@@ -31,7 +31,7 @@ const io = new SocketIOServer(server, {
   },
 });
 
-const apiUrl = config.nexaiLocalApiUrl
+const apiUrl = process.env.NEXAI_API_URL || config.nexaiLocalApiUrl
 
 // app.get('/', (_: Request, res: Response) => {
 //   res.sendFile(join(process.cwd(), 'index.html'));
