@@ -1,4 +1,4 @@
-import { getSpeechRecognition, hasSpeechRecognition } from "~/lib/speech/recognition";
+import { getSpeechRecognition } from "~/lib/speech/recognition";
 import { Model } from "./model";
 import { action, makeObservable, observable } from "mobx";
 
@@ -39,7 +39,7 @@ export class SpeechRecognitionModel extends Model {
   }
 
   startSpeechRecognition = (onTranscript: OnTranscript) => {
-    if (hasSpeechRecognition()) {
+    if (this.recognition) {
       const recognition = this.recognition
   
       // recognition.continuous = true // @todo
@@ -81,7 +81,7 @@ export class SpeechRecognitionModel extends Model {
   stopSpeechRecognition() {
     this.setTalking(false)
     this.setIsSpeechInput(false)
-    this.recognition.stop()
+    this.recognition && this.recognition.stop()
   }
 
 }

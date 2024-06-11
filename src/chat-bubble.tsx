@@ -277,8 +277,9 @@ export const NexaiChatBubble = observer(({
   }, [sendUserChat])
 
   const startSpeechRecognition = () => {
-    if (hasSpeechRecognition()) {
-      const recognition = getSpeechRecognition()
+    const recognition = getSpeechRecognition()
+    if (recognition) {
+      
 
       // recognition.continuous = true // @todo
 

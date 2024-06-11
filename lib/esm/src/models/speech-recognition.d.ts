@@ -3,7 +3,7 @@ import { Model } from "./model";
 export type OnTranscript = (transcript: string) => void;
 export declare class SpeechRecognitionModel extends Model {
     constructor();
-    recognition: SpeechRecognition;
+    recognition: SpeechRecognition | undefined;
     talking: boolean;
     isSpeechInput: boolean;
     transcript: string;
