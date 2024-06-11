@@ -6,7 +6,7 @@ import "construct-style-sheets-polyfill";
 // mention right path for twind.config.js
 import config from "../../../twind.config";
 
-export const addTwStyles = (shadowRoot: ShadowRoot, styles: string) => {
+export const addTwStyles = async (shadowRoot: ShadowRoot, styles: string) => {
 
   if (typeof CSSStyleSheet === 'undefined') {
     return 
@@ -16,7 +16,7 @@ export const addTwStyles = (shadowRoot: ShadowRoot, styles: string) => {
   const stylesheet = new CSSStyleSheet()
 
   // add chat styles
-  stylesheet.replace(styles)
+  await stylesheet.replace(styles)
 
   const sheet = cssom(stylesheet);
 
