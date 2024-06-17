@@ -1,6 +1,6 @@
 {
   "name": "nexai.js",
-  "version": "0.0.3-03",
+  "version": "0.0.3-04",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "files": [
