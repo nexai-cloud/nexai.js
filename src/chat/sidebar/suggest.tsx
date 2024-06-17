@@ -142,7 +142,7 @@ export const SearchSuggest = observer(({
                         )
                       }
                     </div>
-                    <span className="">
+                    <span className="text-slate-700">
                       {navItem.title}
                     </span>
                     <span className="opacity-0 item-arrow ml-auto mr-2 h-6 w-6 items-center justify-center group group-aria-selected:opacity-100">

@@ -163,7 +163,7 @@ export const ChatSidebar = observer(({
         msgs={[...messagesModel.items] as ChatMessageModel[]}
       />
       <div className="mt-auto p-2">
-        <CommandCom className={cn("h-full w-full overflow-visible")} shouldFilter={false}>
+        <CommandCom className={cn("h-full w-full rounded-lg overflow-visible")} shouldFilter={false}>
           <div className="relative">
             {
               chatInput && (

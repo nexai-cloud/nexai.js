@@ -53,14 +53,14 @@ export const MessageLike = observer(({ chatMessage, className }: Props) => {
       "chat-message-like flex gap-2 m-2",
       className
     )}>
-      <TooltipWrap className="bg-white" tooltip={'Like'}>
+      <TooltipWrap className="bg-white text-slate-700" tooltip={'Like'}>
         <div onClick={() => onThumb(1)}>
           {
             liked > 0 ? <ThumbUpFilled /> : <ThumbUpOutline />
           }
         </div>
       </TooltipWrap>
-      <TooltipWrap className="bg-white" tooltip={'Unlike'}>
+      <TooltipWrap className="bg-white text-slate-700" tooltip={'Unlike'}>
         <div onClick={() => onThumb(-1)}>
           {
             liked < 0 ? <ThumbDownFilled /> : <ThumbDownOutline />

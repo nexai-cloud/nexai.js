@@ -46,7 +46,7 @@ export const MessageCopy = observer(({ chatMessage, className }: Props) => {
       "chat-message-like flex gap-2 m-2",
       className
     )}>
-      <TooltipWrap className="bg-white" tooltip={isCopied ? 'Message Copied' : 'Copy Message'}>
+      <TooltipWrap className="bg-white text-slate-700" tooltip={isCopied ? 'Message Copied' : 'Copy Message'}>
         <div onClick={() => onCopy()}>
           {
             isCopied ? <CopyFilled /> : <CopyOutline />
