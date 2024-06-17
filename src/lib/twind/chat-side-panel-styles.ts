@@ -1,5 +1,16 @@
 // no need for namespaces. this goes in shadow dom
 export const chatSidePanelStyles = `
+/* Reset all inheritable styles */
+
+:host {
+  all: initial;
+}
+
+/* Selectively re-apply desired styles */
+:host {
+  font-family: inherit;
+}
+
 code {
   padding: 5px 8px 5px 8px;
   border: 1px solid #e2e8f0;
